@@ -1,0 +1,5 @@
+{
+  "avisos": [
+    { "id": "boas-vindas", "texto": "Painel da cozinha instalado! Os avisos do Claude aparecem aqui.", "quando": "2026-11-25T01:00" }
+  ]
+}
