@@ -1,0 +1,23 @@
+name: Atualizar clima
+on:
+  schedule:
+    - cron: "23 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  clima:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Baixar previsão (Open-Meteo)
+        run: |
+          curl -sf "https://api.open-meteo.com/v1/forecast?latitude=-19.92&longitude=-43.94&current=temperature_2m,apparent_temperature,weather_code&hourly=temperature_2m,weather_code,precipitation_probability&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=America%2FSao_Paulo&forecast_days=2" -o novo.json
+          python3 -c "import json; json.load(open('novo.json'))['current']"
+          mv novo.json clima.json
+      - name: Salvar
+        run: |
+          git config user.name "clima-bot"
+          git config user.email "clima-bot@users.noreply.github.com"
+          git add clima.json
+          git diff --cached --quiet || (git commit -m "Clima atualizado" && git push)

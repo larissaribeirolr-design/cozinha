@@ -9,115 +9,181 @@
 <link rel="apple-touch-icon" href="icone.png">
 <title>Painel da Cozinha</title>
 <style>
-  /* Feito para Safari do iOS 9 (iPad 2): sem CSS moderno, flexbox com prefixo */
+  /* Feito para o Safari do iOS 9 (iPad 2): flexbox com prefixo, animações -webkit- */
   * { box-sizing: border-box; -webkit-box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   body {
-    background: #14110f; color: #f3ece4;
+    background: #15110f; color: #f5eee6;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-user-select: none; -webkit-tap-highlight-color: rgba(0,0,0,0);
     overflow: hidden;
   }
-  body.noite { background: #000; color: #8a7f74; }
-  .wrap { display: -webkit-flex; display: flex; height: 100%; padding: 28px; }
-  .col-esq { -webkit-flex: 1.25; flex: 1.25; display: -webkit-flex; display: flex;
-             -webkit-flex-direction: column; flex-direction: column; padding-right: 28px; }
-  .col-dir { -webkit-flex: 1; flex: 1; display: -webkit-flex; display: flex;
-             -webkit-flex-direction: column; flex-direction: column; }
+  .wrap { display: -webkit-flex; display: flex; height: 100%; padding: 26px 26px 22px; }
+  .col { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; }
+  .col-esq { -webkit-flex: 1.15; flex: 1.15; padding-right: 24px; overflow: hidden; }
+  .col-dir { -webkit-flex: 1; flex: 1; }
 
-  .hora { font-size: 150px; font-weight: 200; letter-spacing: -4px; line-height: 1; }
-  .hora .seg { font-size: 44px; color: #8d7f72; letter-spacing: 0; margin-left: 6px; }
-  .data { font-size: 30px; font-weight: 300; color: #d9a46a; margin-top: 8px; }
+  /* relógio */
+  .hora { font-size: 124px; font-weight: 200; letter-spacing: -3px; line-height: 1; }
+  .hora .seg { font-size: 38px; color: #8d7f72; letter-spacing: 0; margin-left: 6px; }
+  .data { font-size: 26px; font-weight: 300; margin-top: 6px; color: #e3a96b; }
+  .oi { font-size: 19px; color: #b9aea3; margin-top: 6px; }
 
-  .clima { margin-top: 34px; }
+  /* clima */
+  .clima { margin-top: 20px; }
   .clima-agora { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
-  .clima-icone { font-size: 76px; margin-right: 18px; }
-  .clima-temp { font-size: 76px; font-weight: 200; }
-  .clima-desc { font-size: 22px; color: #b9aea3; margin-top: 2px; }
-  .clima-extra { font-size: 19px; color: #8d7f72; margin-top: 6px; }
-  .horas { display: -webkit-flex; display: flex; margin-top: 22px; }
-  .h { -webkit-flex: 1; flex: 1; text-align: center; padding: 10px 0; border-radius: 14px; background: #201b18; margin-right: 8px; }
+  .clima-icone { font-size: 58px; margin-right: 14px; display: inline-block; -webkit-animation: flutua 4s ease-in-out infinite; }
+  .clima-temp { font-size: 64px; font-weight: 200; margin-right: 16px; }
+  .clima-desc { font-size: 19px; color: #d8cec4; }
+  .clima-extra { font-size: 15px; color: #8d7f72; margin-top: 3px; }
+  .clima-dica { font-size: 16px; color: #e3a96b; margin-top: 3px; }
+  .horas { display: -webkit-flex; display: flex; margin-top: 12px; }
+  .h { -webkit-flex: 1; flex: 1; text-align: center; padding: 7px 0; border-radius: 14px; background: #211b18; margin-right: 7px; }
   .h:last-child { margin-right: 0; }
-  .h .hh { font-size: 15px; color: #8d7f72; }
-  .h .hi { font-size: 26px; margin: 4px 0; }
-  .h .ht { font-size: 19px; }
-  .h .hc { font-size: 13px; color: #6fa8d6; }
-  .atualizado { font-size: 13px; color: #5e554d; margin-top: 10px; }
+  .h .hh { font-size: 13px; color: #8d7f72; }
+  .h .hi { font-size: 21px; margin: 2px 0; }
+  .h .ht { font-size: 17px; }
+  .h .hc { font-size: 12px; color: #74aee0; }
 
-  .card { background: #201b18; border-radius: 20px; padding: 18px 20px; margin-bottom: 18px; }
-  .titulo { font-size: 15px; letter-spacing: 2px; text-transform: uppercase; color: #8d7f72; margin-bottom: 12px; }
+  /* cards */
+  .card { background: #211b18; border-radius: 20px; padding: 14px 18px; margin-bottom: 14px; }
+  .titulo { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #8d7f72; margin-bottom: 8px; }
 
-  .timer { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 8px 0; }
-  .timer + .timer { border-top: 1px solid #2e2723; }
-  .t-tempo { font-size: 42px; font-weight: 200; width: 130px; }
-  .t-btns { -webkit-flex: 1; flex: 1; text-align: right; white-space: nowrap; }
-  .btn { display: inline-block; background: #2e2723; color: #f3ece4; border-radius: 12px;
-         font-size: 17px; padding: 12px 8px; margin-left: 5px; min-width: 42px; text-align: center; }
+  /* gracinha do dia */
+  .alegria { margin-top: 16px; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center;
+             border: 2px solid #3a2f29; }
+  .mascote { font-size: 58px; margin-right: 14px; display: inline-block; -webkit-animation: pula 2.6s ease-in-out infinite; }
+  .frase { font-size: 19px; line-height: 1.35; }
+  .frase-sub { font-size: 13px; color: #8d7f72; margin-top: 4px; }
+  .niver { background: #3a2230; border-color: #b45b8c; }
+  .niver .mascote { -webkit-animation: festa 1.2s ease-in-out infinite; }
+
+  /* avisos */
+  .aviso { padding: 7px 0; border-top: 1px solid #2f2723; display: -webkit-flex; display: flex; }
+  .aviso:first-child { border-top: none; }
+  .aviso .ponto { width: 9px; height: 9px; border-radius: 5px; background: #e3a96b; margin: 7px 10px 0 0;
+                  -webkit-flex-shrink: 0; flex-shrink: 0; -webkit-animation: pisca 2s ease-in-out infinite; }
+  .aviso .at { font-size: 17px; line-height: 1.3; }
+  .aviso .aq { font-size: 12px; color: #8d7f72; margin-top: 1px; }
+
+  /* timer */
+  .timer { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+  .t-icone { font-size: 30px; margin-right: 10px; }
+  .t-tempo { font-size: 40px; font-weight: 200; -webkit-flex: 1; flex: 1; }
+  .btn { display: inline-block; background: #2f2723; color: #f5eee6; border-radius: 12px;
+         font-size: 17px; padding: 11px 8px; margin-left: 5px; min-width: 42px; text-align: center; }
   .btn:active { background: #4a3f38; }
-  .btn.play { background: #d9a46a; color: #14110f; font-weight: bold; }
-  .timer.rodando .t-tempo { color: #d9a46a; }
-  .timer.fim .t-tempo { color: #ff6b5a; }
+  .btn.play { background: #e3a96b; color: #15110f; font-weight: bold; }
+  .timer.rodando .t-tempo { color: #e3a96b; }
+  .timer.rodando .t-icone { -webkit-animation: balanca 1s ease-in-out infinite; }
 
+  /* k-pop */
+  .kpop-topo { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; margin-bottom: 8px; }
+  .kpop-topo .titulo { margin-bottom: 0; -webkit-flex: 1; flex: 1; }
+  .coracao { font-size: 18px; display: inline-block; -webkit-animation: bate 1.4s ease-in-out infinite; }
+  .ev { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 5px 0; }
+  .ev-quando { font-size: 13px; font-weight: bold; color: #15110f; background: #e3a96b; border-radius: 9px;
+               padding: 3px 8px; margin-right: 10px; min-width: 74px; text-align: center; -webkit-flex-shrink: 0; flex-shrink: 0; }
+  .ev-quando.hoje { background: #ff7aa8; -webkit-animation: pisca 1.5s ease-in-out infinite; }
+  .ev-txt { font-size: 16px; line-height: 1.25; }
+  .sep { height: 1px; background: #2f2723; margin: 8px 0 6px; }
+  .nt { padding: 5px 0; font-size: 16px; line-height: 1.3; }
+  .tag { display: inline-block; font-size: 11px; font-weight: bold; letter-spacing: 1px; border-radius: 6px;
+         padding: 2px 6px; margin-right: 6px; color: #15110f; vertical-align: 2px; }
+  .tag-ateez { background: #f08a4b; } .tag-skz { background: #ef5a5f; } .tag-bts { background: #a982e6; }
+  .kpop-atual { font-size: 11px; color: #5e554d; margin-top: 6px; text-align: right; }
+
+  /* lista */
   .lista-card { -webkit-flex: 1; flex: 1; display: -webkit-flex; display: flex;
-                -webkit-flex-direction: column; flex-direction: column; margin-bottom: 0; }
-  .add { display: -webkit-flex; display: flex; margin-bottom: 10px; }
-  .add input { -webkit-flex: 1; flex: 1; font-size: 20px; padding: 10px 14px; border-radius: 12px;
-               border: none; background: #2e2723; color: #f3ece4; -webkit-appearance: none; outline: none; }
+                -webkit-flex-direction: column; flex-direction: column; margin-bottom: 0; min-height: 150px; }
+  .add { display: -webkit-flex; display: flex; margin-bottom: 6px; }
+  .add input { -webkit-flex: 1; flex: 1; font-size: 18px; padding: 9px 12px; border-radius: 12px;
+               border: none; background: #2f2723; color: #f5eee6; -webkit-appearance: none; outline: none; }
   .add .btn { margin-left: 8px; }
   .itens { -webkit-flex: 1; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-  .item { font-size: 21px; padding: 10px 4px; border-bottom: 1px solid #2e2723; }
+  .item { font-size: 19px; padding: 8px 4px; border-bottom: 1px solid #2f2723; }
   .item.feito { color: #5e554d; text-decoration: line-through; }
-  .vazio { color: #5e554d; font-size: 17px; padding: 8px 4px; }
-  .limpar { font-size: 15px; color: #8d7f72; text-align: right; padding-top: 10px; }
+  .vazio { color: #5e554d; font-size: 16px; padding: 6px 4px; }
+  .limpar { font-size: 13px; color: #8d7f72; text-align: right; padding-top: 6px; }
 
+  /* noite */
+  body.noite { background: #000; color: #8a7f74; }
+  body.noite .card, body.noite .h { background: #0d0b0a; border-color: #1c1714; }
+  body.noite .data, body.noite .clima-dica { color: #7a5c3d; }
+  body.noite .mascote, body.noite .clima-icone { -webkit-animation: none; }
 
-  .avisos-card { margin-top: 22px; margin-bottom: 0; padding: 14px 18px; }
-  .aviso { padding: 9px 0; border-top: 1px solid #2e2723; display: -webkit-flex; display: flex; }
-  .aviso:first-of-type { border-top: none; }
-  .aviso .ponto { width: 10px; height: 10px; border-radius: 5px; background: #d9a46a; margin: 8px 12px 0 0; -webkit-flex-shrink: 0; flex-shrink: 0; }
-  .aviso .at { font-size: 19px; line-height: 1.3; }
-  .aviso .aq { font-size: 13px; color: #8d7f72; margin-top: 2px; }
-  .avisos-dica { font-size: 12px; color: #5e554d; margin-top: 6px; }
-  body.noite .card, body.noite .h { background: #0d0b0a; }
-  body.noite .data { color: #7a5c3d; }
-
+  /* telas cheias */
   #apagado { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 9; }
   #alarme { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: #b8432f; color: #fff; text-align: center; z-index: 10; padding-top: 220px; }
-  #alarme .a1 { font-size: 64px; font-weight: 300; }
-  #alarme .a2 { font-size: 24px; margin-top: 20px; opacity: .85; }
+            background: #c4503a; color: #fff; text-align: center; z-index: 10; padding-top: 200px; }
+  #alarme .a0 { font-size: 90px; display: inline-block; -webkit-animation: balanca .5s ease-in-out infinite; }
+  #alarme .a1 { font-size: 60px; font-weight: 300; margin-top: 10px; }
+  #alarme .a2 { font-size: 22px; margin-top: 16px; opacity: .85; }
+
+  /* confete dos aniversários */
+  .confete { position: fixed; top: -30px; font-size: 22px; z-index: 5; pointer-events: none;
+             -webkit-animation: cai 9s linear infinite; }
+
+  @-webkit-keyframes flutua { 0%,100% { -webkit-transform: translateY(0); } 50% { -webkit-transform: translateY(-6px); } }
+  @-webkit-keyframes pula { 0%,100% { -webkit-transform: translateY(0) rotate(0); } 20% { -webkit-transform: translateY(-12px) rotate(-6deg); }
+                            40% { -webkit-transform: translateY(0) rotate(0); } 55% { -webkit-transform: translateY(-5px) rotate(4deg); } 70% { -webkit-transform: translateY(0); } }
+  @-webkit-keyframes festa { 0%,100% { -webkit-transform: scale(1) rotate(-8deg); } 50% { -webkit-transform: scale(1.15) rotate(8deg); } }
+  @-webkit-keyframes bate { 0%,100% { -webkit-transform: scale(1); } 15% { -webkit-transform: scale(1.25); } 30% { -webkit-transform: scale(1); } 45% { -webkit-transform: scale(1.18); } }
+  @-webkit-keyframes balanca { 0%,100% { -webkit-transform: rotate(-12deg); } 50% { -webkit-transform: rotate(12deg); } }
+  @-webkit-keyframes pisca { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+  @-webkit-keyframes cai { 0% { -webkit-transform: translateY(0) rotate(0); } 100% { -webkit-transform: translateY(820px) rotate(360deg); } }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="col-esq">
+  <div class="col col-esq">
     <div class="hora" id="hora">--:--</div>
     <div class="data" id="data"></div>
+    <div class="oi" id="oi"></div>
 
     <div class="clima">
       <div class="clima-agora">
-        <div class="clima-icone" id="cIcone">·</div>
+        <div class="clima-icone" id="cIcone">⛅️</div>
+        <div class="clima-temp" id="cTemp">--°</div>
         <div>
-          <div class="clima-temp" id="cTemp">--°</div>
+          <div class="clima-desc" id="cDesc">Carregando o clima…</div>
+          <div class="clima-extra" id="cExtra"></div>
+          <div class="clima-dica" id="cDica"></div>
         </div>
       </div>
-      <div class="clima-desc" id="cDesc">Carregando o clima…</div>
-      <div class="clima-extra" id="cExtra"></div>
       <div class="horas" id="horas"></div>
-      <div class="atualizado" id="cAtual"></div>
     </div>
 
-    <div class="card avisos-card" id="avisosCard" style="display:none">
+    <div class="card alegria" id="alegria">
+      <div class="mascote" id="mascote">🐸</div>
+      <div>
+        <div class="frase" id="frase"></div>
+        <div class="frase-sub" id="fraseSub"></div>
+      </div>
+    </div>
+
+    <div class="card" id="avisosCard" style="display:none">
       <div class="titulo">Avisos</div>
       <div id="avisos"></div>
-      <div class="avisos-dica">Toque num aviso para marcar como visto</div>
     </div>
   </div>
 
-  <div class="col-dir">
+  <div class="col col-dir">
     <div class="card">
-      <div class="titulo">Timers</div>
-      <div id="timers"></div>
+      <div class="timer" id="timer">
+        <div class="t-icone">⏲</div>
+        <div class="t-tempo" id="tTempo">00:00</div>
+        <div class="btn" data-a="1">+1</div><div class="btn" data-a="5">+5</div><div class="btn" data-a="10">+10</div>
+        <div class="btn play" id="tPlay" data-a="play">▶︎</div><div class="btn" data-a="zero">✕</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="kpop-topo"><div class="titulo">K-pop</div><div class="coracao">💜</div></div>
+      <div id="eventos"></div>
+      <div class="sep" id="kSep"></div>
+      <div id="noticias"><div class="vazio">As notícias chegam todo dia de manhã.</div></div>
+      <div class="kpop-atual" id="kAtual"></div>
     </div>
 
     <div class="card lista-card">
@@ -132,53 +198,119 @@
   </div>
 </div>
 
+<div id="confetes"></div>
 <div id="apagado"></div>
-<div id="alarme"><div class="a1" id="alarmeTxt">Timer acabou!</div><div class="a2">Toque para parar</div></div>
+<div id="alarme"><div class="a0">⏰</div><div class="a1">O timer acabou!</div><div class="a2">Toque para parar</div></div>
 
 <script>
 /* ======== CONFIGURAÇÃO ======== */
 var CONFIG = {
+  nome: "Lari",
   cidade: "Belo Horizonte",
   latitude: -19.92,
   longitude: -43.94,
-  noiteDe: 22,   // a partir desta hora a tela fica mais escura
-  noiteAte: 6,   // até esta hora
-  desligaDe: 1,  // tela totalmente preta a partir desta hora
-  desligaAte: 7  // até esta hora (um toque acende por 1 minuto)
+  noiteDe: 22, noiteAte: 6,     // tela mais escura
+  desligaDe: 1, desligaAte: 7   // tela preta (um toque acende por 1 minuto)
 };
 
-/* JavaScript em ES5 puro (sem let/const/arrow/fetch) para rodar no iOS 9 */
+/* Aniversários fixos (mês-dia) */
+var ANIVERSARIOS = [
+  ["02-18","J-Hope","bts"],["03-09","Suga","bts"],["09-01","Jungkook","bts"],["09-12","RM","bts"],
+  ["10-13","Jimin","bts"],["12-04","Jin","bts"],["12-30","V","bts"],
+  ["10-03","Bang Chan","skz"],["10-25","Lee Know","skz"],["08-11","Changbin","skz"],["03-20","Hyunjin","skz"],
+  ["09-14","Han","skz"],["09-15","Felix","skz"],["09-22","Seungmin","skz"],["02-08","I.N","skz"],
+  ["11-07","Hongjoong","ateez"],["04-03","Seonghwa","ateez"],["03-23","Yunho","ateez"],["06-15","Yeosang","ateez"],
+  ["07-10","San","ateez"],["08-09","Mingi","ateez"],["11-26","Wooyoung","ateez"],["10-12","Jongho","ateez"]
+];
+var DEBUTS = [["06-13","BTS","bts",2013],["03-25","Stray Kids","skz",2018],["10-24","ATEEZ","ateez",2018]];
+var GRUPOS = { bts: "BTS", skz: "SKZ", ateez: "ATEEZ" };
+
+/* Frases reserva (o Claude manda uma nova todo dia; estas entram se faltar) */
+var FRASES = [
+  "Hoje é um ótimo dia pra ser a protagonista. 🌟",
+  "Água, comidinha boa e um K-pop no talo. Receita de felicidade. 🎶",
+  "Você não está atrasada, está no seu tempo. 🐢",
+  "Se a vida der limão, faz uma limonada e coloca um comeback pra tocar. 🍋",
+  "Lembrete oficial: você é incrível. Assinado: a cozinha. 💛",
+  "Pequenos passos ainda são passos. 👣",
+  "O café não resolve tudo, mas ajuda bastante. ☕️",
+  "Respira fundo. Você dá conta. 🌈",
+  "Hoje vale dançar enquanto a água ferve. 💃",
+  "Bom humor é o melhor tempero. 🍅",
+  "Pausa pro lanchinho é autocuidado, sim. 🍪",
+  "Você + uma playlist boa = imbatível. 🎧",
+  "Já agradeceu a si mesma hoje? Tá esperando o quê? 🌻",
+  "Plot twist: o dia vai ser bom. 🎬",
+  "Nem toda receita sai perfeita, e tudo bem. 🍳",
+  "Hidrata, alonga e segue brilhando. ✨",
+  "O universo tá torcendo por você (e a gente também). 🌙",
+  "Coragem! Até o pão de queijo precisa do forno pra crescer. 🧀",
+  "Hoje é dia de fazer algo só porque você gosta. 🎨",
+  "Sorriso no rosto e lista de compras em dia. 🛒",
+  "Sabe aquela coisa difícil? Você já passou por piores. 💪",
+  "Se ninguém te disse hoje: você tá mandando bem. 👏",
+  "Devagar também é velocidade. 🐌",
+  "Desliga o modo crítica e liga o modo carinho. 💗",
+  "A melhor hora pra recomeçar é agora. 🌅",
+  "Um dia de cada vez, uma música de cada vez. 🎵",
+  "Dica do dia: menos pressa, mais presença. 🍃",
+  "Você merece o mesmo cuidado que dá pros outros. ☕️",
+  "Seja a energia de um fancam em 4K. 📸",
+  "Hoje tem tudo pra ser leve. 🎈"
+];
+var MASCOTES = ["🐸","🐧","🐱","🐶","🐰","🐼","🐹","🐨","🐢","🐙","🐳","🐝","🐞","🐥","🦄","🐷","🐻","🐯","🐵","🐬"];
+
+/* JavaScript ES5 puro (sem let/const/arrow/fetch) para rodar no iOS 9 */
 var DIAS = ["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
 var MESES = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
 
 function $(id) { return document.getElementById(id); }
 function dois(n) { return (n < 10 ? "0" : "") + n; }
+function esc(t) { return String(t == null ? "" : t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function hojeISO(d) { d = d || new Date(); return d.getFullYear() + "-" + dois(d.getMonth() + 1) + "-" + dois(d.getDate()); }
+function diaDoAno(d) { var ini = new Date(d.getFullYear(), 0, 1); return Math.floor((d - ini) / 86400000); }
+function dataDe(iso) { var p = iso.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
 function toque(el, fn) {
-  // resposta rápida ao toque no Safari antigo (evita o atraso de 300ms do click)
   var mexeu = false;
   el.addEventListener("touchstart", function () { mexeu = false; }, false);
   el.addEventListener("touchmove", function () { mexeu = true; }, false);
   el.addEventListener("touchend", function (e) { if (!mexeu) { e.preventDefault(); fn(e); } }, false);
   el.addEventListener("click", fn, false);
 }
+function pegarJSON(url, ok, erro) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url + (url.indexOf("?") < 0 ? "?" : "&") + "t=" + Date.now(), true);
+  xhr.timeout = 15000;
+  var feito = false;
+  function falha() { if (!feito) { feito = true; if (erro) erro(); } }
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState !== 4) return;
+    if (xhr.status === 200) { try { var j = JSON.parse(xhr.responseText); feito = true; ok(j); return; } catch (e) {} }
+    falha();
+  };
+  xhr.ontimeout = falha;
+  try { xhr.send(); } catch (e) { falha(); }
+}
 
 /* ======== RELÓGIO ======== */
+var acordadoAte = 0, ultimoDia = "";
 function relogio() {
-  var d = new Date();
-  $("hora").innerHTML = dois(d.getHours()) + ":" + dois(d.getMinutes()) + '<span class="seg">' + dois(d.getSeconds()) + "</span>";
+  var d = new Date(), h = d.getHours();
+  $("hora").innerHTML = dois(h) + ":" + dois(d.getMinutes()) + '<span class="seg">' + dois(d.getSeconds()) + "</span>";
   var dia = DIAS[d.getDay()];
   $("data").innerHTML = dia.charAt(0).toUpperCase() + dia.slice(1) + ", " + d.getDate() + " de " + MESES[d.getMonth()];
-  var h = d.getHours();
-  var noite = (h >= CONFIG.noiteDe || h < CONFIG.noiteAte);
-  document.body.className = noite ? "noite" : "";
-  var desligado = (h >= CONFIG.desligaDe && h < CONFIG.desligaAte);
-  var algumRodando = false;
-  for (var i = 0; i < timers.length; i++) if (timers[i].rodando || timers[i].fim) algumRodando = true;
-  $("apagado").style.display = (desligado && !algumRodando && Date.now() > acordadoAte) ? "block" : "none";
-}
-var acordadoAte = 0;
+  var oi = h < 5 ? "Boa madrugada" : h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite";
+  var emo = h < 5 ? "🌙" : h < 12 ? "☀️" : h < 18 ? "🌤" : "🌙";
+  $("oi").innerHTML = oi + ", " + CONFIG.nome + "! " + emo;
 
-/* ======== CLIMA (Open-Meteo, sem chave) ======== */
+  document.body.className = (h >= CONFIG.noiteDe || h < CONFIG.noiteAte) ? "noite" : "";
+  var desligado = (h >= CONFIG.desligaDe && h < CONFIG.desligaAte);
+  $("apagado").style.display = (desligado && !timer.rodando && !timer.fim && Date.now() > acordadoAte) ? "block" : "none";
+
+  if (hojeISO(d) !== ultimoDia) { ultimoDia = hojeISO(d); desenharAlegria(); desenharKpop(); }
+}
+
+/* ======== CLIMA ======== */
 function climaInfo(cod) {
   if (cod === 0) return ["☀️", "Céu limpo"];
   if (cod === 1) return ["🌤", "Quase sem nuvens"];
@@ -190,77 +322,181 @@ function climaInfo(cod) {
   if (cod >= 71 && cod <= 77) return ["❄️", "Neve"];
   if (cod >= 80 && cod <= 82) return ["🌧", "Pancadas de chuva"];
   if (cod >= 95) return ["⛈", "Trovoadas"];
-  return ["·", ""];
+  return ["🌡", ""];
 }
-
-function urlClima(protocolo) {
-  return protocolo + "//api.open-meteo.com/v1/forecast?latitude=" + CONFIG.latitude +
-    "&longitude=" + CONFIG.longitude +
+function urlOpenMeteo() {
+  return "https://api.open-meteo.com/v1/forecast?latitude=" + CONFIG.latitude + "&longitude=" + CONFIG.longitude +
     "&current=temperature_2m,apparent_temperature,weather_code" +
     "&hourly=temperature_2m,weather_code,precipitation_probability" +
     "&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max" +
     "&timezone=America%2FSao_Paulo&forecast_days=2";
 }
-
-function pedirClima(protocolo, tentouOutro) {
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", urlClima(protocolo), true);
-  xhr.timeout = 15000;
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState !== 4) return;
-    if (xhr.status === 200) {
-      try { mostrarClima(JSON.parse(xhr.responseText)); return; } catch (e) {}
-    }
-    falhou();
-  };
-  xhr.ontimeout = falhou;
-  var jaFalhou = false;
-  function falhou() {
-    if (jaFalhou) return; jaFalhou = true;
-    // iOS 9 às vezes recusa certificados novos: tenta o outro protocolo uma vez
-    if (!tentouOutro && location.protocol !== "https:") {
-      pedirClima(protocolo === "https:" ? "http:" : "https:", true);
-    } else if ($("cTemp").innerHTML === "--°") {
-      $("cDesc").innerHTML = "Clima indisponível agora";
-    }
-  }
-  try { xhr.send(); } catch (e) { falhou(); }
-}
-
 function atualizarClima() {
-  pedirClima(location.protocol === "http:" ? "http:" : "https:", false);
+  // 1º: arquivo no próprio site (atualizado de hora em hora pelo GitHub). 2º: direto na Open-Meteo.
+  pegarJSON("clima.json", mostrarClima, function () {
+    pegarJSON(urlOpenMeteo(), mostrarClima, function () {
+      if ($("cTemp").innerHTML === "--°") $("cDesc").innerHTML = "Clima indisponível agora";
+    });
+  });
 }
-
 function mostrarClima(j) {
-  var c = j.current, info = climaInfo(c.weather_code);
+  var c = j.current, info = climaInfo(c.weather_code), dd = j.daily;
   $("cIcone").innerHTML = info[0];
   $("cTemp").innerHTML = Math.round(c.temperature_2m) + "°";
-  $("cDesc").innerHTML = info[1] + " em " + CONFIG.cidade;
-  var dd = j.daily;
-  $("cExtra").innerHTML = "Máx " + Math.round(dd.temperature_2m_max[0]) + "° · Mín " +
-    Math.round(dd.temperature_2m_min[0]) + "° · Sensação " + Math.round(c.apparent_temperature) + "°" +
-    " · Chuva " + (dd.precipitation_probability_max[0] || 0) + "%";
+  $("cDesc").innerHTML = info[1];
+  var max = Math.round(dd.temperature_2m_max[0]), min = Math.round(dd.temperature_2m_min[0]);
+  var chuva = dd.precipitation_probability_max[0] || 0;
+  $("cExtra").innerHTML = "Máx " + max + "° · Mín " + min + "° · Chuva " + chuva + "%";
+  var dica = chuva >= 60 ? "Leva o guarda-chuva! ☔️" : chuva >= 35 ? "Pode pingar, fica de olho. 🌂" :
+             max >= 31 ? "Calorão! Dia de picolé. 🍦" : min <= 13 ? "Friozinho: casaquinho e chá. ☕️" :
+             info[0] === "☀️" ? "Sol lindo lá fora! 😎" : "";
+  $("cDica").innerHTML = dica;
 
-  // próximas horas, de 3 em 3
-  var agora = new Date(), html = "", achadas = 0, hr = j.hourly, i;
-  for (i = 0; i < hr.time.length && achadas < 5; i++) {
-    var p = hr.time[i].split("T"), dp = p[0].split("-"), hp = p[1].split(":");
-    var t = new Date(+dp[0], +dp[1] - 1, +dp[2], +hp[0], 0, 0);
-    if (t.getTime() <= agora.getTime()) continue;
-    if (+hp[0] % 3 !== 0) continue;
-    var ii = climaInfo(hr.weather_code[i]);
-    var chuva = hr.precipitation_probability[i];
-    html += '<div class="h"><div class="hh">' + dois(+hp[0]) + 'h</div><div class="hi">' + ii[0] +
-      '</div><div class="ht">' + Math.round(hr.temperature_2m[i]) + '°</div><div class="hc">' +
-      (chuva >= 20 ? chuva + "%" : "&nbsp;") + "</div></div>";
-    achadas++;
+  var agora = new Date(), html = "", n = 0, hr = j.hourly, i;
+  for (i = 0; i < hr.time.length && n < 5; i++) {
+    var p = hr.time[i].split("T"), dp = p[0].split("-"), hp = +p[1].split(":")[0];
+    var t = new Date(+dp[0], +dp[1] - 1, +dp[2], hp, 0, 0);
+    if (t.getTime() <= agora.getTime() || hp % 3 !== 0) continue;
+    var ii = climaInfo(hr.weather_code[i]), pc = hr.precipitation_probability[i];
+    html += '<div class="h"><div class="hh">' + dois(hp) + 'h</div><div class="hi">' + ii[0] + '</div><div class="ht">' +
+      Math.round(hr.temperature_2m[i]) + '°</div><div class="hc">' + (pc >= 20 ? pc + "%" : "&nbsp;") + "</div></div>";
+    n++;
   }
   $("horas").innerHTML = html;
-  var d = new Date();
-  $("cAtual").innerHTML = "Atualizado às " + dois(d.getHours()) + ":" + dois(d.getMinutes());
 }
 
-/* ======== SOM (precisa ser liberado por um toque no iOS) ======== */
+/* ======== DADOS DO DIA (dia.json, atualizado pelo Claude toda manhã) ======== */
+var DIA = null;
+function atualizarDia() { pegarJSON("dia.json", function (j) { DIA = j; desenharAlegria(); desenharKpop(); }); }
+
+/* ======== GRACINHA DO DIA ======== */
+function aniversariantesHoje() {
+  var d = new Date(), md = dois(d.getMonth() + 1) + "-" + dois(d.getDate()), r = [], i;
+  for (i = 0; i < ANIVERSARIOS.length; i++) if (ANIVERSARIOS[i][0] === md) r.push(ANIVERSARIOS[i][1] + " (" + GRUPOS[ANIVERSARIOS[i][2]] + ")");
+  for (i = 0; i < DEBUTS.length; i++) if (DEBUTS[i][0] === md) r.push((d.getFullYear() - DEBUTS[i][3]) + " anos de debut do " + DEBUTS[i][1]);
+  return r;
+}
+function desenharAlegria() {
+  var d = new Date(), n = diaDoAno(d);
+  var frase = FRASES[n % FRASES.length], mascote = MASCOTES[n % MASCOTES.length];
+  if (DIA && DIA.data === hojeISO(d)) {
+    if (DIA.frase) frase = DIA.frase;
+    if (DIA.mascote) mascote = DIA.mascote;
+  }
+  var niver = aniversariantesHoje(), card = $("alegria");
+  if (niver.length) {
+    $("mascote").innerHTML = "🎂";
+    $("frase").innerHTML = "Hoje é dia de festa: " + esc(niver.join(" e ")) + "! 🎉";
+    $("fraseSub").innerHTML = esc(frase);
+    card.className = "card alegria niver";
+    soltarConfete(true);
+  } else {
+    $("mascote").innerHTML = mascote;
+    $("frase").innerHTML = esc(frase);
+    $("fraseSub").innerHTML = "Frase do dia";
+    card.className = "card alegria";
+    soltarConfete(false);
+  }
+}
+function soltarConfete(sim) {
+  var box = $("confetes"), i, pecas = ["🎉","✨","💜","🎈","⭐️","🎊"];
+  box.innerHTML = "";
+  if (!sim) return;
+  for (i = 0; i < 10; i++) {
+    var c = document.createElement("div");
+    c.className = "confete";
+    c.innerHTML = pecas[i % pecas.length];
+    c.style.left = (5 + i * 9.5) + "%";
+    c.style.webkitAnimationDelay = (i * 0.9) + "s";
+    c.style.webkitAnimationDuration = (8 + (i % 4)) + "s";
+    box.appendChild(c);
+  }
+}
+
+/* ======== K-POP ======== */
+function quandoFalta(dias) { return dias === 0 ? "hoje!" : dias === 1 ? "amanhã" : "em " + dias + " dias"; }
+function desenharKpop() {
+  var hoje = dataDe(hojeISO()), lista = [], i, ano = hoje.getFullYear();
+  // aniversários e debuts nos próximos 21 dias
+  function addFixo(md, txt, tipo) {
+    var dt = dataDe(ano + "-" + md);
+    if (dt < hoje) dt = dataDe((ano + 1) + "-" + md);
+    var dias = Math.round((dt - hoje) / 86400000);
+    if (dias <= 21) lista.push({ dias: dias, txt: txt, tipo: tipo });
+  }
+  for (i = 0; i < ANIVERSARIOS.length; i++) addFixo(ANIVERSARIOS[i][0], "Aniversário do " + ANIVERSARIOS[i][1] + " 🎂", ANIVERSARIOS[i][2]);
+  for (i = 0; i < DEBUTS.length; i++) addFixo(DEBUTS[i][0], "Aniversário de debut do " + DEBUTS[i][1] + " 🎉", DEBUTS[i][2]);
+  // eventos enviados pelo Claude (comebacks, shows, lançamentos)
+  var evs = (DIA && DIA.eventos) || [];
+  for (i = 0; i < evs.length; i++) {
+    if (!evs[i].data) continue;
+    var dias = Math.round((dataDe(evs[i].data) - hoje) / 86400000);
+    if (dias >= 0) lista.push({ dias: dias, txt: evs[i].texto, tipo: evs[i].grupo });
+  }
+  lista.sort(function (a, b) { return a.dias - b.dias; });
+  var html = "";
+  for (i = 0; i < lista.length && i < 3; i++) {
+    var e = lista[i];
+    html += '<div class="ev"><div class="ev-quando' + (e.dias === 0 ? " hoje" : "") + '">' + quandoFalta(e.dias) + '</div>' +
+      '<div class="ev-txt">' + (GRUPOS[e.tipo] ? '<span class="tag tag-' + e.tipo + '">' + GRUPOS[e.tipo] + "</span>" : "") + esc(e.txt) + "</div></div>";
+  }
+  $("eventos").innerHTML = html;
+
+  var nts = (DIA && DIA.noticias) || [];
+  if (nts.length) {
+    html = "";
+    for (i = 0; i < nts.length && i < 3; i++) {
+      var g = nts[i].grupo;
+      html += '<div class="nt">' + (GRUPOS[g] ? '<span class="tag tag-' + g + '">' + GRUPOS[g] + "</span>" : "") + esc(nts[i].texto) + "</div>";
+    }
+    $("noticias").innerHTML = html;
+  }
+  $("kSep").style.display = (lista.length && nts.length) ? "block" : "none";
+  if (DIA && DIA.data) {
+    var dd = DIA.data.split("-");
+    $("kAtual").innerHTML = "Notícias de " + dd[2] + "/" + dd[1];
+  }
+}
+
+/* ======== AVISOS (avisos.json) ======== */
+var vistos = {};
+try { vistos = JSON.parse(localStorage.getItem("avisosVistos") || "{}"); } catch (e) { vistos = {}; }
+var ultimosAvisos = [];
+function quandoTxt(iso) {
+  if (!iso) return "";
+  var p = iso.split("T"), dp = p[0].split("-"), hp = (p[1] || "00:00").split(":");
+  var d = new Date(+dp[0], +dp[1] - 1, +dp[2], +hp[0], +hp[1]);
+  var hoje = new Date(), ontem = new Date(); ontem.setDate(hoje.getDate() - 1);
+  var dia = d.toDateString() === hoje.toDateString() ? "hoje" :
+            d.toDateString() === ontem.toDateString() ? "ontem" : d.getDate() + "/" + dois(d.getMonth() + 1);
+  return dia + " às " + dois(d.getHours()) + ":" + dois(d.getMinutes());
+}
+function desenharAvisos() {
+  var box = $("avisos"), n = 0, i;
+  box.innerHTML = "";
+  var l = ultimosAvisos.slice().sort(function (a, b) { return (b.quando || "") > (a.quando || "") ? 1 : -1; });
+  for (i = 0; i < l.length && n < 2; i++) {
+    var a = l[i];
+    if (!a || !a.id || vistos[a.id]) continue;
+    (function (av) {
+      var d = document.createElement("div");
+      d.className = "aviso";
+      d.innerHTML = '<div class="ponto"></div><div><div class="at">' + esc(av.texto) + '</div><div class="aq">' +
+        esc(quandoTxt(av.quando)) + " · toque para marcar como visto</div></div>";
+      toque(d, function () {
+        vistos[av.id] = 1;
+        try { localStorage.setItem("avisosVistos", JSON.stringify(vistos)); } catch (e) {}
+        desenharAvisos();
+      });
+      box.appendChild(d);
+    })(a);
+    n++;
+  }
+  $("avisosCard").style.display = n ? "block" : "none";
+}
+function atualizarAvisos() { pegarJSON("avisos.json", function (j) { ultimosAvisos = j.avisos || []; desenharAvisos(); }); }
+
+/* ======== SOM ======== */
 var audioCtx = null, bipando = null;
 function liberarSom() {
   if (audioCtx) return;
@@ -269,99 +505,65 @@ function liberarSom() {
   audioCtx = new AC();
   var o = audioCtx.createOscillator(), g = audioCtx.createGain();
   g.gain.value = 0; o.connect(g); g.connect(audioCtx.destination);
-  o.start ? o.start(0) : o.noteOn(0);
-  o.stop ? o.stop(audioCtx.currentTime + 0.05) : o.noteOff(audioCtx.currentTime + 0.05);
+  if (o.start) o.start(0); else o.noteOn(0);
+  if (o.stop) o.stop(audioCtx.currentTime + 0.05); else o.noteOff(audioCtx.currentTime + 0.05);
 }
 function bip() {
   if (!audioCtx) return;
-  var agora = audioCtx.currentTime, k;
+  var agora = audioCtx.currentTime, k, notas = [784, 988, 1175];
   for (k = 0; k < 3; k++) {
     var o = audioCtx.createOscillator(), g = audioCtx.createGain();
-    o.frequency.value = 880; g.gain.value = 0.5;
+    o.frequency.value = notas[k]; g.gain.value = 0.45;
     o.connect(g); g.connect(audioCtx.destination);
-    var ini = agora + k * 0.3;
-    o.start ? o.start(ini) : o.noteOn(ini);
-    o.stop ? o.stop(ini + 0.18) : o.noteOff(ini + 0.18);
+    var ini = agora + k * 0.22;
+    if (o.start) o.start(ini); else o.noteOn(ini);
+    if (o.stop) o.stop(ini + 0.16); else o.noteOff(ini + 0.16);
   }
 }
-function tocarAlarme(nome) {
-  $("alarmeTxt").innerHTML = nome + " acabou!";
-  $("alarme").style.display = "block";
-  bip();
-  if (!bipando) bipando = setInterval(bip, 1500);
+
+/* ======== TIMER ======== */
+var timer = { resta: 0, rodando: false, alvo: 0, fim: false };
+function acaoTimer(a) {
+  if (a === "play") {
+    if (timer.rodando) { timer.resta = Math.max(0, timer.alvo - Date.now()); timer.rodando = false; }
+    else if (timer.resta > 0) { timer.alvo = Date.now() + timer.resta; timer.rodando = true; }
+  } else if (a === "zero") {
+    timer.rodando = false; timer.resta = 0; timer.fim = false;
+  } else {
+    var mais = parseInt(a, 10) * 60000;
+    if (timer.rodando) timer.alvo += mais; else timer.resta += mais;
+  }
+  desenharTimer();
+}
+function desenharTimer() {
+  var ms = timer.rodando ? Math.max(0, timer.alvo - Date.now()) : timer.resta;
+  var s = Math.ceil(ms / 1000), m = Math.floor(s / 60);
+  $("tTempo").innerHTML = m >= 60 ? Math.floor(m / 60) + ":" + dois(m % 60) + ":" + dois(s % 60) : dois(m) + ":" + dois(s % 60);
+  $("timer").className = "timer" + (timer.rodando ? " rodando" : "");
+  $("tPlay").innerHTML = timer.rodando ? "❚❚" : "▶︎";
+}
+function tickTimer() {
+  if (timer.rodando && Date.now() >= timer.alvo) {
+    timer.rodando = false; timer.resta = 0; timer.fim = true;
+    $("alarme").style.display = "block";
+    bip(); if (!bipando) bipando = setInterval(bip, 1400);
+  }
+  desenharTimer();
 }
 function pararAlarme() {
   $("alarme").style.display = "none";
   if (bipando) { clearInterval(bipando); bipando = null; }
-  for (var i = 0; i < timers.length; i++) {
-    if (timers[i].fim) { timers[i].fim = false; timers[i].resta = 0; desenharTimer(timers[i]); }
-  }
+  timer.fim = false; desenharTimer();
 }
 
-/* ======== TIMERS ======== */
-var timers = [];
-function criarTimer(nome) {
-  var t = { nome: nome, resta: 0, rodando: false, alvo: 0, fim: false };
-  var el = document.createElement("div");
-  el.className = "timer";
-  el.innerHTML = '<div class="t-tempo">00:00</div><div class="t-btns">' +
-    '<div class="btn" data-a="1">+1</div><div class="btn" data-a="5">+5</div>' +
-    '<div class="btn" data-a="10">+10</div><div class="btn play" data-a="play">▶︎</div>' +
-    '<div class="btn" data-a="zero">✕</div></div>';
-  t.el = el;
-  var btns = el.getElementsByClassName("btn"), i;
-  for (i = 0; i < btns.length; i++) {
-    (function (b) {
-      toque(b, function () { liberarSom(); acaoTimer(t, b.getAttribute("data-a")); });
-    })(btns[i]);
-  }
-  $("timers").appendChild(el);
-  timers.push(t);
-  desenharTimer(t);
-}
-function acaoTimer(t, a) {
-  if (a === "play") {
-    if (t.rodando) { t.resta = Math.max(0, t.alvo - Date.now()); t.rodando = false; }
-    else if (t.resta > 0) { t.alvo = Date.now() + t.resta; t.rodando = true; }
-  } else if (a === "zero") {
-    t.rodando = false; t.resta = 0; t.fim = false;
-  } else {
-    var mais = parseInt(a, 10) * 60000;
-    if (t.rodando) t.alvo += mais; else t.resta += mais;
-  }
-  desenharTimer(t);
-}
-function desenharTimer(t) {
-  var ms = t.rodando ? Math.max(0, t.alvo - Date.now()) : t.resta;
-  var s = Math.ceil(ms / 1000), m = Math.floor(s / 60);
-  var txt = m >= 60 ? Math.floor(m / 60) + ":" + dois(m % 60) + ":" + dois(s % 60) : dois(m) + ":" + dois(s % 60);
-  t.el.children[0].innerHTML = txt;
-  t.el.className = "timer" + (t.rodando ? " rodando" : "") + (t.fim ? " fim" : "");
-  t.el.getElementsByClassName("play")[0].innerHTML = t.rodando ? "❚❚" : "▶︎";
-}
-function tickTimers() {
-  for (var i = 0; i < timers.length; i++) {
-    var t = timers[i];
-    if (t.rodando && Date.now() >= t.alvo) {
-      t.rodando = false; t.resta = 0; t.fim = true;
-      tocarAlarme(t.nome);
-    }
-    desenharTimer(t);
-  }
-}
-
-/* ======== LISTA DE COMPRAS (fica salva no próprio iPad) ======== */
+/* ======== LISTA DE COMPRAS ======== */
 var lista = [];
-function carregarLista() {
-  try { lista = JSON.parse(localStorage.getItem("listaCompras") || "[]"); } catch (e) { lista = []; }
-}
-function salvarLista() {
-  try { localStorage.setItem("listaCompras", JSON.stringify(lista)); } catch (e) {}
-}
+try { lista = JSON.parse(localStorage.getItem("listaCompras") || "[]"); } catch (e) { lista = []; }
+function salvarLista() { try { localStorage.setItem("listaCompras", JSON.stringify(lista)); } catch (e) {} }
 function desenharLista() {
   var box = $("itens"), i;
   box.innerHTML = "";
-  if (!lista.length) { box.innerHTML = '<div class="vazio">Nada na lista por enquanto.</div>'; return; }
+  if (!lista.length) { box.innerHTML = '<div class="vazio">Nada na lista por enquanto. 🛒</div>'; return; }
   for (i = 0; i < lista.length; i++) {
     (function (idx) {
       var d = document.createElement("div");
@@ -379,80 +581,38 @@ function adicionarItem() {
   inp.value = ""; salvarLista(); desenharLista();
 }
 
-
-/* ======== AVISOS (arquivo avisos.json no mesmo site, atualizado pelo Claude) ======== */
-var vistos = {};
-try { vistos = JSON.parse(localStorage.getItem("avisosVistos") || "{}"); } catch (e) { vistos = {}; }
-var ultimosAvisos = [];
-function quandoTxt(iso) {
-  if (!iso) return "";
-  var p = iso.split("T"), dp = p[0].split("-"), hp = (p[1] || "00:00").split(":");
-  var d = new Date(+dp[0], +dp[1] - 1, +dp[2], +hp[0], +hp[1]);
-  var hoje = new Date(), ontem = new Date(); ontem.setDate(hoje.getDate() - 1);
-  var dia = d.toDateString() === hoje.toDateString() ? "hoje" :
-            d.toDateString() === ontem.toDateString() ? "ontem" : d.getDate() + "/" + dois(d.getMonth() + 1);
-  return dia + " às " + dois(d.getHours()) + ":" + dois(d.getMinutes());
-}
-function desenharAvisos() {
-  var box = $("avisos"), html = [], n = 0, i;
-  box.innerHTML = "";
-  var lista2 = ultimosAvisos.slice().sort(function (a, b) { return (b.quando || "") > (a.quando || "") ? 1 : -1; });
-  for (i = 0; i < lista2.length && n < 3; i++) {
-    var a = lista2[i];
-    if (!a || !a.id || vistos[a.id]) continue;
-    (function (av) {
-      var d = document.createElement("div");
-      d.className = "aviso";
-      d.innerHTML = '<div class="ponto"></div><div><div class="at"></div><div class="aq"></div></div>';
-      d.getElementsByClassName("at")[0].appendChild(document.createTextNode(av.texto || ""));
-      d.getElementsByClassName("aq")[0].appendChild(document.createTextNode(quandoTxt(av.quando)));
-      toque(d, function () {
-        vistos[av.id] = 1;
-        try { localStorage.setItem("avisosVistos", JSON.stringify(vistos)); } catch (e) {}
-        desenharAvisos();
-      });
-      box.appendChild(d);
-    })(a);
-    n++;
-  }
-  $("avisosCard").style.display = n ? "block" : "none";
-}
-function atualizarAvisos() {
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "avisos.json?t=" + Date.now(), true);
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState !== 4 || xhr.status !== 200) return;
-    try { ultimosAvisos = JSON.parse(xhr.responseText).avisos || []; desenharAvisos(); } catch (e) {}
-  };
-  try { xhr.send(); } catch (e) {}
-}
-
 /* ======== INÍCIO ======== */
+(function () {
+  var btns = $("timer").getElementsByClassName("btn"), i;
+  for (i = 0; i < btns.length; i++) (function (b) { toque(b, function () { liberarSom(); acaoTimer(b.getAttribute("data-a")); }); })(btns[i]);
+})();
 toque($("btnAdd"), adicionarItem);
 $("novoItem").addEventListener("keyup", function (e) { if (e.keyCode === 13) { adicionarItem(); this.blur(); } }, false);
 toque($("btnLimpar"), function () {
-  var nova = [];
-  for (var i = 0; i < lista.length; i++) if (!lista[i].feito) nova.push(lista[i]);
+  var nova = [], i;
+  for (i = 0; i < lista.length; i++) if (!lista[i].feito) nova.push(lista[i]);
   lista = nova; salvarLista(); desenharLista();
 });
 toque($("alarme"), pararAlarme);
 toque($("apagado"), function () { acordadoAte = Date.now() + 60000; relogio(); });
+toque($("mascote"), function () {
+  // toque no bichinho = ele dá um pulinho extra
+  var m = $("mascote"); m.style.webkitAnimation = "festa .5s ease-in-out 3";
+  setTimeout(function () { m.style.webkitAnimation = ""; }, 1600);
+});
 document.addEventListener("touchstart", liberarSom, false);
 
-criarTimer("Timer 1");
-criarTimer("Timer 2");
-carregarLista(); desenharLista();
+desenharLista(); desenharTimer();
 relogio(); setInterval(relogio, 1000);
-setInterval(tickTimers, 250);
+setInterval(tickTimer, 250);
 atualizarClima(); setInterval(atualizarClima, 15 * 60 * 1000);
+atualizarDia(); setInterval(atualizarDia, 30 * 60 * 1000);
 atualizarAvisos(); setInterval(atualizarAvisos, 5 * 60 * 1000);
 
-// recarrega a página de madrugada para o iPad antigo não acumular memória
+// recarrega às 4h para o iPad antigo não acumular memória (e pegar versões novas do painel)
 setInterval(function () {
   var d = new Date();
-  var algumRodando = false;
-  for (var i = 0; i < timers.length; i++) if (timers[i].rodando) algumRodando = true;
-  if (d.getHours() === 4 && d.getMinutes() === 0 && !algumRodando) location.reload();
+  if (d.getHours() === 4 && d.getMinutes() === 0 && !timer.rodando) location.reload();
 }, 60000);
 </script>
 </body>
