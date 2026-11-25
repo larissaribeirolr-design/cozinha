@@ -182,7 +182,7 @@
       <div class="kpop-topo"><div class="titulo">K-pop</div><div class="coracao">💜</div></div>
       <div id="eventos"></div>
       <div class="sep" id="kSep"></div>
-      <div id="noticias"><div class="vazio">As notícias chegam todo dia de manhã.</div></div>
+      <div id="noticias"></div>
       <div class="kpop-atual" id="kAtual"></div>
     </div>
 
@@ -450,9 +450,12 @@ function desenharKpop() {
       html += '<div class="nt">' + (GRUPOS[g] ? '<span class="tag tag-' + g + '">' + GRUPOS[g] + "</span>" : "") + esc(nts[i].texto) + "</div>";
     }
     $("noticias").innerHTML = html;
+  } else {
+    $("noticias").innerHTML = "";
+    if (!lista.length) $("eventos").innerHTML = '<div class="vazio">Nenhum aniversário nas próximas semanas.</div>';
   }
   $("kSep").style.display = (lista.length && nts.length) ? "block" : "none";
-  if (DIA && DIA.data) {
+  if (DIA && DIA.data && nts.length) {
     var dd = DIA.data.split("-");
     $("kAtual").innerHTML = "Notícias de " + dd[2] + "/" + dd[1];
   }
