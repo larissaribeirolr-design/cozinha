@@ -80,6 +80,7 @@
   body.noite .card, body.noite .h { background: #0d0b0a; }
   body.noite .data { color: #7a5c3d; }
 
+  #apagado { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 9; }
   #alarme { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: #b8432f; color: #fff; text-align: center; z-index: 10; padding-top: 220px; }
   #alarme .a1 { font-size: 64px; font-weight: 300; }
@@ -130,6 +131,7 @@
   </div>
 </div>
 
+<div id="apagado"></div>
 <div id="alarme"><div class="a1" id="alarmeTxt">Timer acabou!</div><div class="a2">Toque para parar</div></div>
 
 <script>
@@ -139,7 +141,9 @@ var CONFIG = {
   latitude: -19.92,
   longitude: -43.94,
   noiteDe: 22,   // a partir desta hora a tela fica mais escura
-  noiteAte: 6    // até esta hora
+  noiteAte: 6,   // até esta hora
+  desligaDe: 1,  // tela totalmente preta a partir desta hora
+  desligaAte: 7  // até esta hora (um toque acende por 1 minuto)
 };
 
 /* JavaScript em ES5 puro (sem let/const/arrow/fetch) para rodar no iOS 9 */
@@ -166,7 +170,12 @@ function relogio() {
   var h = d.getHours();
   var noite = (h >= CONFIG.noiteDe || h < CONFIG.noiteAte);
   document.body.className = noite ? "noite" : "";
+  var desligado = (h >= CONFIG.desligaDe && h < CONFIG.desligaAte);
+  var algumRodando = false;
+  for (var i = 0; i < timers.length; i++) if (timers[i].rodando || timers[i].fim) algumRodando = true;
+  $("apagado").style.display = (desligado && !algumRodando && Date.now() > acordadoAte) ? "block" : "none";
 }
+var acordadoAte = 0;
 
 /* ======== CLIMA (Open-Meteo, sem chave) ======== */
 function climaInfo(cod) {
@@ -426,6 +435,7 @@ toque($("btnLimpar"), function () {
   lista = nova; salvarLista(); desenharLista();
 });
 toque($("alarme"), pararAlarme);
+toque($("apagado"), function () { acordadoAte = Date.now() + 60000; relogio(); });
 document.addEventListener("touchstart", liberarSom, false);
 
 criarTimer("Timer 1");
