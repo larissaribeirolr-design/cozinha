@@ -599,6 +599,8 @@ function pill(ic, txt, escura, fn) {
 }
 function desenharTarefa() {
   if (!tf || tf.dia !== hojeISO()) tf = { dia: hojeISO(), estado: "inicio", vistas: [] };
+  // todo dia já começa com uma tarefinha sorteada (assim os três botões aparecem)
+  if (tf.estado === "inicio" && TAREFAS.length) { sortear(); return; }
   var e = tf.estado, box = $("tfPills"), txt = "", msg = "";
   box.innerHTML = "";
   if (e === "inicio") {
