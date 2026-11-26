@@ -9,204 +9,203 @@
 <link rel="apple-touch-icon" href="icone.png">
 <title>Painel da Cozinha</title>
 <style>
-  /* Feito para o Safari do iOS 9 (iPad 2): flexbox com prefixo, animações -webkit- */
+  /* Feito para o Safari do iOS 9 (iPad 2): flexbox com prefixo, animações e transições -webkit- */
   * { box-sizing: border-box; -webkit-box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   body {
-    background: #efebe5; color: #1d1b19;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    -webkit-user-select: none; -webkit-tap-highlight-color: rgba(0,0,0,0);
-    overflow: hidden;
+    background: #dcdcdf; background: -webkit-linear-gradient(top, #e6e6e8, #cfd0d3);
+    color: #121520; font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-user-select: none; -webkit-tap-highlight-color: rgba(0,0,0,0); overflow: hidden; padding: 14px;
   }
-  .wrap { display: -webkit-flex; display: flex; height: 100%; padding: 22px 22px 20px; }
-  .col { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; }
-  .col-esq { width: 566px; padding-right: 16px; }
-  .col-dir { -webkit-flex: 1; flex: 1; min-width: 0; }
+  .flex { display: -webkit-flex; display: flex; }
+  .col { -webkit-flex-direction: column; flex-direction: column; }
+  .centro { -webkit-align-items: center; align-items: center; }
+  .cresce { -webkit-flex: 1; flex: 1; min-width: 0; }
+  .moldura { height: 100%; background: #fff; border-radius: 34px; padding: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+  .linha-topo { height: 404px; }
+  .linha-baixo { height: 286px; margin-top: 12px; }
+  .card { border-radius: 26px; background: #e9e9ec; padding: 18px 20px; position: relative; overflow: hidden; }
+  .gap { margin-left: 12px; }
+  .t1 { font-size: 18px; font-weight: 600; }
+  .t2 { font-size: 13px; color: #7c7f88; margin-top: 1px; }
+  .branco .t2 { color: rgba(255,255,255,.75); }
 
-  .card { background: #fff; border-radius: 26px; padding: 14px 18px; margin-bottom: 12px;
-          box-shadow: 0 6px 20px rgba(60,40,20,.06); }
-  .titulo { font-size: 15px; font-weight: bold; color: #1d1b19; margin-bottom: 8px; }
+  /* ===== porta-retrato ===== */
+  .hero { border-radius: 26px; position: relative; overflow: hidden; background: #d9cfc2;
+          background: -webkit-linear-gradient(-30deg, #e8e1d6, #d8cbbb 60%, #cdbfae); }
+  .foto { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-size: cover; background-position: center 30%;
+          opacity: 0; -webkit-transition: opacity 1.6s ease-in-out; }
+  .foto.vis { opacity: 1; }
+  .sombra { position: absolute; left: 0; right: 0; bottom: 0; height: 190px;
+            background: -webkit-linear-gradient(top, rgba(0,0,0,0), rgba(0,0,0,.5)); }
+  .hero.sem-foto .sombra { display: none; }
+  .chips { position: absolute; top: 16px; left: 16px; right: 16px; }
+  .chip { display: inline-block; border-radius: 22px; padding: 9px 16px; font-size: 16px; font-weight: 600;
+          background: rgba(240,236,230,.82); -webkit-backdrop-filter: blur(10px); margin-left: 8px; white-space: nowrap; }
+  .chip.vivo { background: #fff; margin-left: 0; }
+  .ponto { display: inline-block; width: 9px; height: 9px; border-radius: 5px; background: #e5484d; margin-right: 8px; vertical-align: 1px;
+           -webkit-animation: pisca 2s ease-in-out infinite; }
+  .hero-txt { position: absolute; left: 24px; right: 24px; bottom: 20px; color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.35); }
+  .hero.sem-foto .hero-txt { color: #121520; text-shadow: none; bottom: 26px; }
+  .h-oi { font-size: 34px; font-weight: 600; letter-spacing: -.5px; }
+  .h-frase { font-size: 18px; line-height: 1.35; margin-top: 4px; max-width: 520px; }
+  .h-frase.niver { display: inline-block; background: rgba(255,255,255,.9); color: #121520; text-shadow: none; border-radius: 14px; padding: 6px 12px; }
 
-  /* ===== herói com a Lari ===== */
-  .hero { position: relative; height: 438px; margin-top: 30px; border-radius: 32px; padding: 30px 30px 0;
-          background: #e6e8dd;
-          background: -webkit-linear-gradient(-30deg, #e3e7dc 0%, #ece2d3 45%, #f6d6b8 80%, #e9cfe0 100%);
-          box-shadow: 0 8px 26px rgba(60,40,20,.08); }
-  .hero-oi { font-size: 54px; font-weight: bold; letter-spacing: -2px; line-height: 1.02; width: 280px; }
-  .hero-data { font-size: 18px; color: #5f5850; margin-top: 10px; }
-  .hero-frase { font-size: 17px; line-height: 1.35; margin-top: 12px; width: 300px; color: #3a352f; }
-  .hero-frase.niver { background: #1d1b19; color: #fff; border-radius: 16px; padding: 8px 12px; }
-  .avatar { position: absolute; right: -4px; top: -34px; width: 256px; height: 315px;
-            -webkit-animation: respira 4.5s ease-in-out infinite; -webkit-transform-origin: 50% 100%; }
-  .avatar.pula { -webkit-animation: pulinho .9s ease-out 1; }
-  .stats { position: absolute; left: 12px; right: 12px; bottom: 12px; background: #fff; border-radius: 24px;
-           padding: 14px 20px 12px; display: -webkit-flex; display: flex; box-shadow: 0 4px 16px rgba(60,40,20,.06); }
-  .st { -webkit-flex: 1; flex: 1; }
-  .st + .st { padding-left: 16px; }
-  .st-rot { font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; }
-  .st-num { font-size: 50px; font-weight: bold; letter-spacing: -2px; line-height: 1.1; white-space: nowrap; }
-  .st-num small { font-size: 17px; letter-spacing: 0; font-weight: bold; vertical-align: 24px; margin-left: 4px; }
-  .rosa { color: #e2566b; } .azul { color: #4d8fd6; }
-  .st-sub { font-size: 13px; color: #8b847c; white-space: nowrap; overflow: hidden; }
+  /* ===== próximos + lista ===== */
+  .lado { width: 290px; padding: 18px 16px 16px; background: #e3e5ef;
+          background: -webkit-linear-gradient(top, #dfe2ee 0%, #e9e8ea 55%, #f4ecd8 100%); }
+  .lado-topo { padding: 0 4px 12px; border-bottom: 1px solid rgba(18,21,32,.1); margin-bottom: 8px; }
+  .row { padding: 8px 8px; border-radius: 30px; margin-bottom: 4px; }
+  .row.ativo { background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.05); }
+  .ic { width: 44px; height: 44px; border-radius: 22px; background: rgba(255,255,255,.75); text-align: center; line-height: 44px;
+        font-size: 20px; margin-right: 12px; -webkit-flex-shrink: 0; flex-shrink: 0; }
+  .row.ativo .ic { background: #f0f0f3; }
+  .r1 { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .r2 { font-size: 12px; color: #7c7f88; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .seta { font-size: 18px; color: #121520; margin-left: 6px; }
+  .botao-lista { position: absolute; left: 16px; right: 16px; bottom: 16px; background: #0f1424; color: #fff; border-radius: 26px;
+                 text-align: center; font-size: 14px; font-weight: 600; letter-spacing: .6px; padding: 15px 0; }
+  .botao-lista:active { opacity: .8; }
+  #painelProx, #painelLista { position: absolute; top: 18px; left: 16px; right: 16px; bottom: 76px; }
+  #painelLista { display: none; }
+  .add { margin: 4px 0 6px; }
+  .add input { -webkit-flex: 1; flex: 1; min-width: 0; font-size: 16px; padding: 10px 14px; border-radius: 20px; border: none;
+               background: #fff; color: #121520; -webkit-appearance: none; outline: none; font-family: inherit; }
+  .mais { width: 40px; height: 40px; border-radius: 20px; background: #0f1424; color: #fff; text-align: center; line-height: 40px;
+          font-size: 22px; margin-left: 8px; }
+  .itens { -webkit-flex: 1; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .item { font-size: 16px; padding: 9px 6px; border-bottom: 1px solid rgba(18,21,32,.08); }
+  .item.feito { color: #a3a6ae; text-decoration: line-through; }
+  .vazio { color: #8f929a; font-size: 14px; padding: 8px 6px; }
+  .limpar { font-size: 12px; color: #7c7f88; text-align: right; padding-top: 6px; }
 
-  /* ===== tarefa sorteada ===== */
-  .tarefa { -webkit-flex: 1; flex: 1; margin-top: 12px; margin-bottom: 0; padding: 16px 20px; }
-  .tf-topo { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
-  .tf-topo .titulo { -webkit-flex: 1; flex: 1; margin-bottom: 0; }
-  .dado { font-size: 26px; display: inline-block; }
+  /* ===== tarefinha ===== */
+  .tarefa { -webkit-flex: 1.45; flex: 1.45; }
+  .dado { width: 46px; height: 46px; border-radius: 23px; background: #fff; text-align: center; line-height: 46px; font-size: 24px; }
   .dado.rola { -webkit-animation: rola .7s ease-out 1; }
-  .tf-txt { font-size: 24px; font-weight: bold; letter-spacing: -.5px; line-height: 1.2; margin: 10px 0 10px; }
-  .tf-txt .emo { margin-right: 8px; }
-  .tf-msg { font-size: 15px; color: #8b847c; margin: -4px 0 12px; }
-  .pill { display: inline-block; border-radius: 14px; font-size: 16px; font-weight: bold; padding: 12px 18px; margin-right: 8px;
-          background: #f1ede8; color: #1d1b19; }
-  .pill.preta { background: #1d1b19; color: #fff; }
-  .pill.verdinha { background: #2f9b6a; color: #fff; }
+  .tf-txt { font-size: 25px; font-weight: 600; letter-spacing: -.4px; line-height: 1.2; margin-top: 22px; }
+  .tf-msg { font-size: 14px; color: #7c7f88; margin-top: 6px; }
+  .pills { position: absolute; left: 16px; right: 10px; bottom: 16px; white-space: nowrap; }
+  .pill { display: inline-block; background: #d9d9de; border-radius: 30px; padding: 5px 13px 5px 5px; margin-right: 6px; }
   .pill:active { opacity: .7; }
+  .pill .pi { display: inline-block; width: 32px; height: 32px; border-radius: 16px; background: #fff; text-align: center; line-height: 32px;
+              font-size: 15px; margin-right: 7px; vertical-align: middle; color: #121520; }
+  .pill .pl { display: inline-block; font-size: 14px; font-weight: 600; vertical-align: middle; }
+  .pill.escura { background: #0f1424; color: #fff; }
 
   /* ===== timer ===== */
-  .timer { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 10px 14px; }
-  .t-icone { font-size: 24px; margin-right: 8px; }
-  .t-tempo { font-size: 34px; font-weight: bold; letter-spacing: -1px; -webkit-flex: 1; flex: 1; }
-  .btn { display: inline-block; background: #f1ede8; color: #1d1b19; border-radius: 12px;
-         font-size: 15px; font-weight: bold; padding: 10px 7px; margin-left: 5px; min-width: 38px; text-align: center; }
-  .btn:active { opacity: .7; }
-  .btn.play { background: #1d1b19; color: #fff; }
-  .timer.rodando .t-tempo { color: #e2566b; }
-  .timer.rodando .t-icone { -webkit-animation: balanca 1s ease-in-out infinite; }
+  .timer { -webkit-flex: .95; flex: .95; background: #aab0bd; color: #fff; }
+  .bola { width: 136px; height: 136px; border-radius: 68px; margin: 10px auto 0; text-align: center; line-height: 136px;
+          font-size: 34px; font-weight: 600; color: #121520; letter-spacing: -.5px;
+          background: #fbfaf7; background: -webkit-radial-gradient(40% 35%, circle, #ffffff 0%, #f4f1ea 60%, #dcd8d0 100%);
+          box-shadow: 0 0 30px rgba(255,255,255,.6); }
+  .timer.rodando .bola { color: #e5484d; }
+  .timer.fim .bola { -webkit-animation: pulsa .6s ease-in-out infinite; }
+  .ctrl { position: absolute; left: 14px; right: 14px; bottom: 14px; background: #fff; border-radius: 26px; padding: 5px; color: #121520; }
+  .cb { -webkit-flex: 1; flex: 1; text-align: center; font-size: 15px; font-weight: 600; padding: 10px 0; border-radius: 20px; }
+  .cb:active { background: #eee; }
+  .cb.play { background: #0f1424; color: #fff; -webkit-flex: 1.1; flex: 1.1; }
 
-  /* ===== horas ===== */
-  .horas { display: -webkit-flex; display: flex; padding: 10px 10px; }
-  .h { -webkit-flex: 1; flex: 1; text-align: center; }
-  .h .hh { font-size: 12px; color: #8b847c; }
-  .h .hi { font-size: 20px; margin: 2px 0; }
-  .h .ht { font-size: 16px; font-weight: bold; }
-  .h .hc { font-size: 11px; color: #4d8fd6; }
+  /* ===== clima ===== */
+  .clima { -webkit-flex: 1; flex: 1; }
+  .anel { position: relative; width: 150px; height: 150px; margin: 2px auto 0; }
+  .anel svg { position: absolute; top: 0; left: 0; }
+  .anel-dentro { position: absolute; top: 14px; left: 14px; width: 122px; height: 122px; border-radius: 61px; background: #fff;
+                 text-align: center; padding-top: 24px; }
+  .a-emo { font-size: 30px; line-height: 1; }
+  .a-temp { font-size: 30px; font-weight: 600; margin-top: 4px; }
+  .horas { position: absolute; left: 14px; right: 14px; bottom: 14px; }
+  .hx { -webkit-flex: 1; flex: 1; text-align: center; font-size: 12px; color: #7c7f88; }
+  .hx b { display: block; font-size: 15px; color: #121520; margin-top: 1px; }
+  .hx.agora { background: #d9d9de; border-radius: 18px; padding: 4px 0; }
 
-  /* ===== k-pop ===== */
-  .kpop-topo { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; margin-bottom: 4px; }
-  .kpop-topo .titulo { margin-bottom: 0; -webkit-flex: 1; flex: 1; }
-  .coracao { font-size: 18px; display: inline-block; -webkit-animation: bate 1.4s ease-in-out infinite; }
-  .ev { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 4px 0; }
-  .ev-quando { font-size: 12px; font-weight: bold; color: #fff; background: #1d1b19; border-radius: 9px;
-               padding: 3px 7px; margin-right: 8px; min-width: 66px; text-align: center; -webkit-flex-shrink: 0; flex-shrink: 0; }
-  .ev-quando.hoje { background: #ff6f9a; -webkit-animation: pisca 1.5s ease-in-out infinite; }
-  .ev-txt { font-size: 14px; line-height: 1.25; }
-  .sep { height: 1px; background: #eee8e1; margin: 6px 0 4px; }
-  .nt { padding: 4px 0; font-size: 14px; line-height: 1.3; }
-  .tag { display: inline-block; font-size: 10px; font-weight: bold; letter-spacing: 1px; border-radius: 6px;
-         padding: 2px 5px; margin-right: 5px; color: #fff; vertical-align: 1px; }
-  .tag-ateez { background: #f08a4b; } .tag-skz { background: #e2566b; } .tag-bts { background: #8f6ad6; }
-  .kpop-atual { font-size: 10px; color: #b3aca4; margin-top: 2px; text-align: right; }
-
-  /* ===== avisos ===== */
-  .avisos { background: #1d1b19; color: #fff; }
-  .avisos .titulo { color: #fff; }
-  .aviso { padding: 5px 0; display: -webkit-flex; display: flex; }
-  .aviso .ponto { width: 8px; height: 8px; border-radius: 4px; background: #ffb86b; margin: 6px 9px 0 0;
-                  -webkit-flex-shrink: 0; flex-shrink: 0; -webkit-animation: pisca 2s ease-in-out infinite; }
-  .aviso .at { font-size: 15px; line-height: 1.3; }
-  .aviso .aq { font-size: 11px; color: #a49d95; margin-top: 1px; }
-
-  /* ===== lista ===== */
-  .lista-card { -webkit-flex: 1; flex: 1; display: -webkit-flex; display: flex;
-                -webkit-flex-direction: column; flex-direction: column; margin-bottom: 0; min-height: 120px; }
-  .add { display: -webkit-flex; display: flex; margin-bottom: 4px; }
-  .add input { -webkit-flex: 1; flex: 1; min-width: 0; font-size: 16px; padding: 9px 12px; border-radius: 12px;
-               border: none; background: #f1ede8; color: #1d1b19; -webkit-appearance: none; outline: none; }
-  .itens { -webkit-flex: 1; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-  .item { font-size: 17px; padding: 7px 2px; border-bottom: 1px solid #f1ede8; }
-  .item.feito { color: #b3aca4; text-decoration: line-through; }
-  .vazio { color: #b3aca4; font-size: 14px; padding: 6px 2px; }
-  .limpar { font-size: 12px; color: #8b847c; text-align: right; padding-top: 4px; }
-
-  /* ===== noite, apagado, alarme ===== */
-  #noite { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; opacity: .55;
-           z-index: 8; pointer-events: none; }
+  /* ===== noite, apagado, alarme, confete ===== */
+  #noite { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; opacity: .55; z-index: 8; pointer-events: none; }
   #apagado { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 9; }
-  #alarme { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: #e2566b; color: #fff; text-align: center; z-index: 10; padding-top: 190px; }
-  #alarme .a0 { font-size: 90px; display: inline-block; -webkit-animation: balanca .5s ease-in-out infinite; }
-  #alarme .a1 { font-size: 58px; font-weight: bold; letter-spacing: -1px; margin-top: 10px; }
-  #alarme .a2 { font-size: 22px; margin-top: 14px; opacity: .85; }
-
+  #alarme { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #0f1424; color: #fff;
+            text-align: center; z-index: 10; padding-top: 200px; }
+  #alarme .a0 { font-size: 84px; display: inline-block; -webkit-animation: balanca .5s ease-in-out infinite; }
+  #alarme .a1 { font-size: 52px; font-weight: 600; margin-top: 10px; }
+  #alarme .a2 { font-size: 20px; margin-top: 12px; opacity: .7; }
   .confete { position: fixed; top: -30px; font-size: 22px; z-index: 6; pointer-events: none; -webkit-animation: cai 9s linear infinite; }
-  .neve { position: fixed; top: -30px; font-size: 16px; z-index: 5; pointer-events: none; opacity: .6; -webkit-animation: cai 16s linear infinite; }
+  .neve { position: fixed; top: -30px; font-size: 15px; z-index: 5; pointer-events: none; opacity: .6; -webkit-animation: cai 16s linear infinite; }
 
-  @-webkit-keyframes respira { 0%,100% { -webkit-transform: translateY(0) rotate(0); } 50% { -webkit-transform: translateY(-6px) rotate(-1.5deg); } }
-  @-webkit-keyframes pulinho { 0% { -webkit-transform: translateY(0) scale(1); } 25% { -webkit-transform: translateY(-26px) scale(1.04) rotate(-4deg); }
-                               50% { -webkit-transform: translateY(0) scale(.98); } 70% { -webkit-transform: translateY(-9px) rotate(3deg); } 100% { -webkit-transform: translateY(0); } }
-  @-webkit-keyframes rola { 0% { -webkit-transform: rotate(0) scale(1); } 60% { -webkit-transform: rotate(540deg) scale(1.3); } 100% { -webkit-transform: rotate(720deg) scale(1); } }
-  @-webkit-keyframes bate { 0%,100% { -webkit-transform: scale(1); } 15% { -webkit-transform: scale(1.25); } 30% { -webkit-transform: scale(1); } 45% { -webkit-transform: scale(1.18); } }
+  @-webkit-keyframes pisca { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+  @-webkit-keyframes rola { 0% { -webkit-transform: rotate(0) scale(1); } 60% { -webkit-transform: rotate(540deg) scale(1.25); } 100% { -webkit-transform: rotate(720deg) scale(1); } }
   @-webkit-keyframes balanca { 0%,100% { -webkit-transform: rotate(-12deg); } 50% { -webkit-transform: rotate(12deg); } }
-  @-webkit-keyframes pisca { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+  @-webkit-keyframes pulsa { 0%,100% { -webkit-transform: scale(1); } 50% { -webkit-transform: scale(1.06); } }
   @-webkit-keyframes cai { 0% { -webkit-transform: translateY(0) rotate(0); } 100% { -webkit-transform: translateY(820px) rotate(360deg); } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="col col-esq">
-    <div class="hero">
-      <div class="hero-oi" id="oi">Bom dia, Lari!</div>
-      <div class="hero-data" id="data"></div>
-      <div class="hero-frase" id="frase"></div>
-      <img class="avatar" id="avatar" src="lari.png" alt="">
-      <div class="stats">
-        <div class="st">
-          <div class="st-rot">Agora</div>
-          <div class="st-num" id="hora">--:--</div>
-          <div class="st-sub" id="extraHora"></div>
-        </div>
-        <div class="st">
-          <div class="st-rot" id="cDesc">Clima</div>
-          <div class="st-num"><span id="cTemp">--°</span><small id="cIcone"></small></div>
-          <div class="st-sub" id="cExtra"></div>
-        </div>
-        <div class="st">
-          <div class="st-rot">Chuva</div>
-          <div class="st-num"><span id="cChuva">--</span><small class="azul">%</small></div>
-          <div class="st-sub" id="cDica"></div>
-        </div>
+<div class="moldura flex col">
+  <div class="flex linha-topo">
+    <div class="hero cresce sem-foto" id="hero">
+      <div class="foto" id="fotoA"></div>
+      <div class="foto" id="fotoB"></div>
+      <div class="sombra"></div>
+      <div class="chips flex">
+        <div class="chip vivo"><span class="ponto"></span><span id="hora">--:--</span></div>
+        <div class="cresce"></div>
+        <div class="chip" id="chTemp">🌡 --°</div>
+        <div class="chip" id="chChuva">☔️ --%</div>
+        <div class="chip" id="chMax">▲--° ▼--°</div>
+      </div>
+      <div class="hero-txt">
+        <div class="h-oi" id="oi">Bom dia, Lari</div>
+        <div class="h-frase" id="frase"></div>
       </div>
     </div>
 
-    <div class="card tarefa">
-      <div class="tf-topo"><div class="titulo">Tarefinha do dia</div><div class="dado" id="dado">🎲</div></div>
-      <div id="tfCorpo"></div>
+    <div class="card lado gap">
+      <div id="painelProx" class="flex col">
+        <div class="lado-topo flex centro"><div class="t1 cresce">Próximos</div><div class="t2" id="dataCurta"></div></div>
+        <div id="rows"></div>
+      </div>
+      <div id="painelLista" class="flex col">
+        <div class="lado-topo flex centro"><div class="t1 cresce">Lista de compras</div><div class="t2" id="contaLista"></div></div>
+        <div class="add flex centro">
+          <input id="novoItem" type="text" placeholder="Adicionar item…" autocomplete="off" autocorrect="on">
+          <div class="mais" id="btnAdd">+</div>
+        </div>
+        <div class="itens" id="itens"></div>
+        <div class="limpar" id="btnLimpar">Remover itens riscados</div>
+      </div>
+      <div class="botao-lista" id="botaoLista">🛒&nbsp; LISTA DE COMPRAS</div>
     </div>
   </div>
 
-  <div class="col col-dir">
-    <div class="card timer" id="timer">
-      <div class="t-icone">⏲</div>
-      <div class="t-tempo" id="tTempo">00:00</div>
-      <div class="btn" data-a="1">+1</div><div class="btn" data-a="5">+5</div><div class="btn" data-a="10">+10</div>
-      <div class="btn play" id="tPlay" data-a="play">▶︎</div><div class="btn" data-a="zero">✕</div>
-    </div>
-
-    <div class="card horas" id="horas"></div>
-
-    <div class="card">
-      <div class="kpop-topo"><div class="titulo">K-pop</div><div class="coracao">💜</div></div>
-      <div id="eventos"></div>
-      <div class="sep" id="kSep"></div>
-      <div id="noticias"></div>
-      <div class="kpop-atual" id="kAtual"></div>
-    </div>
-
-    <div class="card avisos" id="avisosCard" style="display:none">
-      <div class="titulo">Avisos</div>
-      <div id="avisos"></div>
-    </div>
-
-    <div class="card lista-card">
-      <div class="titulo">Lista de compras</div>
-      <div class="add">
-        <input id="novoItem" type="text" placeholder="Adicionar item…" autocomplete="off" autocorrect="on">
-        <div class="btn play" id="btnAdd">+</div>
+  <div class="flex linha-baixo">
+    <div class="card tarefa">
+      <div class="flex centro">
+        <div class="cresce"><div class="t1">Tarefinha do dia</div><div class="t2">Sorteada da sua lista</div></div>
+        <div class="dado" id="dado">🎲</div>
       </div>
-      <div class="itens" id="itens"></div>
-      <div class="limpar" id="btnLimpar">Remover itens riscados</div>
+      <div class="tf-txt" id="tfTxt"></div>
+      <div class="tf-msg" id="tfMsg"></div>
+      <div class="pills" id="tfPills"></div>
+    </div>
+
+    <div class="card timer gap branco" id="timer">
+      <div class="t1">Timer</div><div class="t2">Da cozinha</div>
+      <div class="bola" id="tTempo">00:00</div>
+      <div class="ctrl flex">
+        <div class="cb" data-a="1">+1</div><div class="cb" data-a="5">+5</div><div class="cb" data-a="10">+10</div>
+        <div class="cb play" id="tPlay" data-a="play">▶︎</div><div class="cb" data-a="zero">✕</div>
+      </div>
+    </div>
+
+    <div class="card clima gap">
+      <div class="t1">Clima</div><div class="t2" id="cDesc">Belo Horizonte</div>
+      <div class="anel">
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <circle cx="75" cy="75" r="70" fill="none" stroke="#d6d6db" stroke-width="3"/>
+          <circle id="arco" cx="75" cy="75" r="70" fill="none" stroke="#121520" stroke-width="3" stroke-linecap="round"
+                  stroke-dasharray="0 440" transform="rotate(-90 75 75)"/>
+        </svg>
+        <div class="anel-dentro"><div class="a-emo" id="cIcone">⛅️</div><div class="a-temp" id="cTemp">--°</div></div>
+      </div>
+      <div class="horas flex" id="horas"></div>
     </div>
   </div>
 </div>
@@ -221,10 +220,10 @@
 /* ======== CONFIGURAÇÃO ======== */
 var CONFIG = {
   nome: "Lari",
-  latitude: -19.92,
-  longitude: -43.94,
-  noiteDe: 22, noiteAte: 6,     // tela mais escura
-  desligaDe: 1, desligaAte: 7   // tela preta (um toque acende por 1 minuto)
+  latitude: -19.92, longitude: -43.94,
+  noiteDe: 22, noiteAte: 6,      // tela mais escura
+  desligaDe: 1, desligaAte: 7,   // tela preta (um toque acende por 1 minuto)
+  trocaFoto: 45                  // segundos entre fotos do porta-retrato
 };
 
 var ANIVERSARIOS = [
@@ -236,32 +235,26 @@ var ANIVERSARIOS = [
   ["07-10","San","ateez"],["08-09","Mingi","ateez"],["11-26","Wooyoung","ateez"],["10-12","Jongho","ateez"]
 ];
 var DEBUTS = [["06-13","BTS","bts",2013],["03-25","Stray Kids","skz",2018],["10-24","ATEEZ","ateez",2018]];
-var GRUPOS = { bts: "BTS", skz: "SKZ", ateez: "ATEEZ" };
+var GRUPOS = { bts: "BTS", skz: "Stray Kids", ateez: "ATEEZ" };
 
 var FRASES = [
   "Hoje é um ótimo dia pra ser a protagonista. 🌟",
-  "Água, comidinha boa e um K-pop no talo. Receita de felicidade. 🎶",
   "Você não está atrasada, está no seu tempo. 🐢",
   "Lembrete oficial: você é incrível. Assinado: a cozinha. 💛",
   "Pequenos passos ainda são passos. 👣",
   "O café não resolve tudo, mas ajuda bastante. ☕️",
   "Respira fundo. Você dá conta. 🌈",
   "Hoje vale dançar enquanto a água ferve. 💃",
-  "Pausa pro lanchinho é autocuidado, sim. 🍪",
   "Plot twist: o dia vai ser bom. 🎬",
-  "Hidrata, alonga e segue brilhando. ✨",
   "Coragem! Até o pão de queijo precisa do forno pra crescer. 🧀",
-  "Se ninguém te disse hoje: você tá mandando bem. 👏",
   "Devagar também é velocidade. 🐌",
-  "A melhor hora pra recomeçar é agora. 🌅",
-  "Seja a energia de um fancam em 4K. 📸",
   "Hoje tem tudo pra ser leve. 🎈"
 ];
 var TAREFAS_RESERVA = [{ tarefa: "Beber um copão de água", emoji: "💧" }, { tarefa: "Arrumar uma gaveta", emoji: "🗂" }];
 
 /* JavaScript ES5 puro (sem let/const/arrow/fetch) para rodar no iOS 9 */
 var DIAS = ["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
-var MESES = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+var MES3 = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
 
 function $(id) { return document.getElementById(id); }
 function dois(n) { return (n < 10 ? "0" : "") + n; }
@@ -298,18 +291,40 @@ var acordadoAte = 0, ultimoDia = "";
 function relogio() {
   var d = new Date(), h = d.getHours(), ds = d.getDay();
   $("hora").innerHTML = dois(h) + ":" + dois(d.getMinutes());
-  var dia = DIAS[ds];
-  $("data").innerHTML = dia.charAt(0).toUpperCase() + dia.slice(1) + ", " + d.getDate() + " de " + MESES[d.getMonth()];
   var oi = h < 5 ? "Boa madrugada" : h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite";
   if (ds === 5 && h >= 12) oi = "Sextou";
-  $("oi").innerHTML = oi + ", " + CONFIG.nome + "!";
-  $("extraHora").innerHTML = ds === 5 ? "Sextou! 🎉" : (ds === 0 || ds === 6) ? "Fim de semana 🛋" : ds === 1 ? "Bora, segunda! 💪" : ds === 4 ? "Amanhã é sexta! 🙌" : "Faltam " + (5 - ds) + " dias pra sexta";
+  $("oi").innerHTML = oi + ", " + CONFIG.nome;
+  var dia = DIAS[ds];
+  $("dataCurta").innerHTML = dia.charAt(0).toUpperCase() + dia.slice(1, 3) + ", " + d.getDate() + " " + MES3[d.getMonth()];
 
   $("noite").style.display = (h >= CONFIG.noiteDe || h < CONFIG.noiteAte) ? "block" : "none";
   var desligado = (h >= CONFIG.desligaDe && h < CONFIG.desligaAte);
   $("apagado").style.display = (desligado && !timer.rodando && !timer.fim && Date.now() > acordadoAte) ? "block" : "none";
 
-  if (hojeISO(d) !== ultimoDia) { ultimoDia = hojeISO(d); desenharFrase(); desenharKpop(); desenharEstacao(); desenharTarefa(); }
+  if (hojeISO(d) !== ultimoDia) { ultimoDia = hojeISO(d); desenharFrase(); desenharProximos(); desenharEstacao(); desenharTarefa(); }
+}
+
+/* ======== PORTA-RETRATO ======== */
+var FOTOS = [], fotoIdx = -1, fotoVez = 0, ultimaTroca = 0;
+function atualizarFotos() {
+  pegarJSON("fotos.json", function (j) {
+    var novas = j.fotos || [];
+    if (novas.join("|") !== FOTOS.join("|")) { FOTOS = novas; embaralhar(FOTOS); fotoIdx = -1; proximaFoto(); }
+  }, function () { if (!FOTOS.length) $("hero").className = "hero cresce sem-foto"; });
+}
+function embaralhar(a) { var i, j, t; for (i = a.length - 1; i > 0; i--) { j = Math.floor(Math.random() * (i + 1)); t = a[i]; a[i] = a[j]; a[j] = t; } }
+function proximaFoto() {
+  if (!FOTOS.length) { $("hero").className = "hero cresce sem-foto"; return; }
+  fotoIdx = (fotoIdx + 1) % FOTOS.length;
+  var url = FOTOS[fotoIdx], img = new Image();
+  img.onload = function () {
+    var entra = fotoVez ? $("fotoA") : $("fotoB"), sai = fotoVez ? $("fotoB") : $("fotoA");
+    entra.style.backgroundImage = "url('" + url + "')";
+    entra.className = "foto vis"; sai.className = "foto";
+    $("hero").className = "hero cresce";
+    fotoVez = 1 - fotoVez; ultimaTroca = Date.now();
+  };
+  img.src = url;
 }
 
 /* ======== CLIMA ======== */
@@ -340,33 +355,30 @@ function atualizarClima() {
 }
 function mostrarClima(j) {
   var c = j.current, info = climaInfo(c.weather_code), dd = j.daily;
-  $("cIcone").innerHTML = info[0];
-  $("cTemp").innerHTML = Math.round(c.temperature_2m) + "°";
-  $("cDesc").innerHTML = info[1];
-  var max = Math.round(dd.temperature_2m_max[0]), min = Math.round(dd.temperature_2m_min[0]);
+  var temp = Math.round(c.temperature_2m), max = Math.round(dd.temperature_2m_max[0]), min = Math.round(dd.temperature_2m_min[0]);
   var chuva = dd.precipitation_probability_max[0] || 0;
-  $("cExtra").innerHTML = '<span class="rosa">▲' + max + '°</span>  <span class="azul">▼' + min + "°</span>";
-  $("cChuva").innerHTML = chuva;
-  $("cDica").innerHTML = chuva >= 60 ? "Leva guarda-chuva ☔️" : chuva >= 35 ? "Pode pingar 🌂" :
-             max >= 31 ? "Dia de picolé 🍦" : min <= 13 ? "Casaquinho e chá ☕️" : "Tempo firme 😎";
+  $("cIcone").innerHTML = info[0];
+  $("cTemp").innerHTML = temp + "°";
+  $("cDesc").innerHTML = info[1] + " · chuva " + chuva + "%";
+  $("chTemp").innerHTML = "🌡 " + temp + "°C";
+  $("chChuva").innerHTML = (chuva >= 40 ? "☔️ " : "💧 ") + chuva + "%";
+  $("chMax").innerHTML = "▲" + max + "° ▼" + min + "°";
+  $("arco").setAttribute("stroke-dasharray", Math.round(440 * chuva / 100) + " 440");
 
-  var agora = new Date(), html = "", n = 0, hr = j.hourly, i;
-  for (i = 0; i < hr.time.length && n < 6; i++) {
+  var agora = new Date(), html = '<div class="hx agora">Agora<b>' + temp + "°</b></div>", n = 0, hr = j.hourly, i;
+  for (i = 0; i < hr.time.length && n < 3; i++) {
     var p = hr.time[i].split("T"), dp = p[0].split("-"), hp = +p[1].split(":")[0];
     var t = new Date(+dp[0], +dp[1] - 1, +dp[2], hp, 0, 0);
     if (t.getTime() <= agora.getTime() || hp % 3 !== 0) continue;
-    var ii = climaInfo(hr.weather_code[i]), pc = hr.precipitation_probability[i];
-    html += '<div class="h"><div class="hh">' + dois(hp) + 'h</div><div class="hi">' + ii[0] + '</div><div class="ht">' +
-      Math.round(hr.temperature_2m[i]) + '°</div><div class="hc">' + (pc >= 20 ? pc + "%" : "&nbsp;") + "</div></div>";
+    html += '<div class="hx">' + dois(hp) + "h<b>" + climaInfo(hr.weather_code[i])[0] + " " + Math.round(hr.temperature_2m[i]) + "°</b></div>";
     n++;
   }
   $("horas").innerHTML = html;
-  $("horas").style.display = html ? "" : "none";
 }
 
-/* ======== FRASE DO DIA E FESTAS ======== */
+/* ======== FRASE DO DIA, FESTAS E ESTAÇÃO ======== */
 var DIA = null;
-function atualizarDia() { pegarJSON("dia.json", function (j) { DIA = j; desenharFrase(); desenharKpop(); }); }
+function atualizarDia() { pegarJSON("dia.json", function (j) { DIA = j; desenharFrase(); desenharProximos(); }); }
 function aniversariantesHoje() {
   var d = new Date(), md = dois(d.getMonth() + 1) + "-" + dois(d.getDate()), r = [], i;
   for (i = 0; i < ANIVERSARIOS.length; i++) if (ANIVERSARIOS[i][0] === md) r.push(ANIVERSARIOS[i][1] + " (" + GRUPOS[ANIVERSARIOS[i][2]] + ")");
@@ -378,12 +390,12 @@ function desenharFrase() {
   if (DIA && DIA.data === hojeISO(d) && DIA.frase) frase = DIA.frase;
   var niver = aniversariantesHoje();
   if (niver.length) {
-    $("frase").innerHTML = "🎂 Hoje é dia de festa: " + esc(niver.join(" e ")) + "!";
-    $("frase").className = "hero-frase niver";
+    $("frase").innerHTML = "🎂 Hoje é aniversário: " + esc(niver.join(" e ")) + "!";
+    $("frase").className = "h-frase niver";
     chuvaDe(["🎉","✨","💜","🎈","⭐️","🎊"], 10, true);
   } else {
     $("frase").innerHTML = esc(frase);
-    $("frase").className = "hero-frase";
+    $("frase").className = "h-frase";
     $("confetes").innerHTML = "";
   }
 }
@@ -415,17 +427,88 @@ function desenharEstacao() {
   }
 }
 
-/* ======== TAREFINHA SORTEADA (lista vem da planilha do Google) ======== */
-var TAREFAS = [];
-var tf = ler("tarefaDoDia", null);
-function atualizarTarefas() {
-  pegarJSON("tarefas.json", function (j) { TAREFAS = j.tarefas || []; desenharTarefa(); });
+/* ======== PRÓXIMOS (avisos, K-pop, datas) ======== */
+var vistos = ler("avisosVistos", {}), ultimosAvisos = [];
+function quandoFalta(dias) { return dias === 0 ? "Hoje" : dias === 1 ? "Amanhã" : "Em " + dias + " dias"; }
+function desenharProximos() {
+  var hoje = dataDe(hojeISO()), linhas = [], datas = [], i, ano = hoje.getFullYear();
+  var av = ultimosAvisos.slice().sort(function (a, b) { return (b.quando || "") > (a.quando || "") ? 1 : -1; });
+  for (i = 0; i < av.length; i++) if (av[i] && av[i].id && !vistos[av[i].id]) linhas.push({ ic: "🔔", t: av[i].texto, s: "Aviso · toque pra marcar como visto", aviso: av[i].id });
+  function addFixo(md, txt, sub, ic) {
+    var dt = dataDe(ano + "-" + md);
+    if (dt < hoje) dt = dataDe((ano + 1) + "-" + md);
+    var dias = Math.round((dt - hoje) / 86400000);
+    if (dias <= 21) datas.push({ dias: dias, ic: ic, t: txt, s: sub });
+  }
+  for (i = 0; i < ANIVERSARIOS.length; i++) addFixo(ANIVERSARIOS[i][0], "Aniversário do " + ANIVERSARIOS[i][1], GRUPOS[ANIVERSARIOS[i][2]], "🎂");
+  for (i = 0; i < DEBUTS.length; i++) addFixo(DEBUTS[i][0], "Debut do " + DEBUTS[i][1], "Aniversário de debut", "🎉");
+  addFixo("12-25", "Natal", "Feliz Natal!", "🎄"); addFixo("01-01", "Ano-Novo", "Feliz ano novo!", "🎆");
+  var evs = (DIA && DIA.eventos) || [];
+  for (i = 0; i < evs.length; i++) {
+    if (!evs[i].data) continue;
+    var dias = Math.round((dataDe(evs[i].data) - hoje) / 86400000);
+    if (dias >= 0) datas.push({ dias: dias, ic: "💜", t: evs[i].texto, s: GRUPOS[evs[i].grupo] || "K-pop" });
+  }
+  datas.sort(function (a, b) { return a.dias - b.dias; });
+  for (i = 0; i < datas.length; i++) { datas[i].s = quandoFalta(datas[i].dias) + " · " + datas[i].s; linhas.push(datas[i]); }
+  var nts = (DIA && DIA.noticias) || [];
+  for (i = 0; i < nts.length; i++) linhas.push({ ic: "📰", t: nts[i].texto, s: "Notícia · " + (GRUPOS[nts[i].grupo] || "K-pop") });
+
+  var box = $("rows"); box.innerHTML = "";
+  for (i = 0; i < linhas.length && i < 4; i++) {
+    (function (l, idx) {
+      var r = document.createElement("div");
+      r.className = "row flex centro" + ((idx === 0 && (l.aviso || l.dias === 0)) ? " ativo" : "");
+      r.innerHTML = '<div class="ic">' + l.ic + '</div><div class="cresce"><div class="r1">' + esc(l.t) + '</div><div class="r2">' + esc(l.s) + '</div></div><div class="seta">›</div>';
+      if (l.aviso) toque(r, function () { vistos[l.aviso] = 1; guardar("avisosVistos", vistos); desenharProximos(); });
+      box.appendChild(r);
+    })(linhas[i], i);
+  }
+  if (!linhas.length) box.innerHTML = '<div class="vazio">Nada por aqui. Dia tranquilo! 🍃</div>';
 }
+function atualizarAvisos() { pegarJSON("avisos.json", function (j) { ultimosAvisos = j.avisos || []; desenharProximos(); }); }
+
+/* ======== LISTA DE COMPRAS (recolhível) ======== */
+var lista = ler("listaCompras", []), listaAberta = false;
+function mostrarFlex(el, sim) { if (!sim) { el.style.display = "none"; return; } el.style.display = "-webkit-flex"; el.style.display = "flex"; }
+function pendentes() { var n = 0, i; for (i = 0; i < lista.length; i++) if (!lista[i].feito) n++; return n; }
+function desenharBotaoLista() {
+  var n = pendentes();
+  $("botaoLista").innerHTML = listaAberta ? "FECHAR LISTA" : "🛒&nbsp; LISTA DE COMPRAS" + (n ? " · " + n : "");
+  mostrarFlex($("painelLista"), listaAberta);
+  mostrarFlex($("painelProx"), !listaAberta);
+  $("contaLista").innerHTML = n ? n + (n === 1 ? " item" : " itens") : "";
+}
+function desenharLista() {
+  var box = $("itens"), i;
+  box.innerHTML = "";
+  if (!lista.length) box.innerHTML = '<div class="vazio">Nada na lista por enquanto. 🛒</div>';
+  for (i = 0; i < lista.length; i++) {
+    (function (idx) {
+      var d = document.createElement("div");
+      d.className = "item" + (lista[idx].feito ? " feito" : "");
+      d.appendChild(document.createTextNode(lista[idx].txt));
+      toque(d, function () { lista[idx].feito = !lista[idx].feito; guardar("listaCompras", lista); desenharLista(); });
+      box.appendChild(d);
+    })(i);
+  }
+  desenharBotaoLista();
+}
+function adicionarItem() {
+  var inp = $("novoItem"), v = inp.value.replace(/^\s+|\s+$/g, "");
+  if (!v) return;
+  lista.push({ txt: v, feito: false });
+  inp.value = ""; guardar("listaCompras", lista); desenharLista();
+}
+
+/* ======== TAREFINHA SORTEADA (lista vem da planilha do Google) ======== */
+var TAREFAS = [], tf = ler("tarefaDoDia", null);
+function atualizarTarefas() { pegarJSON("tarefas.json", function (j) { TAREFAS = j.tarefas || []; desenharTarefa(); }); }
 function sortear() {
-  var lista = TAREFAS.length ? TAREFAS : TAREFAS_RESERVA, evitar = (tf && tf.dia === hojeISO() && tf.vistas) || [];
+  var lst = TAREFAS.length ? TAREFAS : TAREFAS_RESERVA, evitar = (tf && tf.dia === hojeISO() && tf.vistas) || [];
   var opcoes = [], i;
-  for (i = 0; i < lista.length; i++) if (evitar.indexOf(lista[i].tarefa) < 0) opcoes.push(lista[i]);
-  if (!opcoes.length) { opcoes = lista; evitar = []; }
+  for (i = 0; i < lst.length; i++) if (evitar.indexOf(lst[i].tarefa) < 0) opcoes.push(lst[i]);
+  if (!opcoes.length) { opcoes = lst; evitar = []; }
   var t = opcoes[Math.floor(Math.random() * opcoes.length)];
   evitar.push(t.tarefa);
   tf = { dia: hojeISO(), estado: "sorteada", tarefa: t.tarefa, emoji: t.emoji || "✨", vistas: evitar };
@@ -434,125 +517,37 @@ function sortear() {
   desenharTarefa();
 }
 function mudar(estado) { tf.estado = estado; guardar("tarefaDoDia", tf); desenharTarefa(); }
-function botao(txt, classe, fn) {
+function pill(ic, txt, escura, fn) {
   var b = document.createElement("div");
-  b.className = "pill " + (classe || ""); b.innerHTML = txt; toque(b, fn);
-  return b;
+  b.className = "pill" + (escura ? " escura" : "");
+  b.innerHTML = '<span class="pi">' + ic + '</span><span class="pl">' + txt + "</span>";
+  toque(b, fn); return b;
 }
 function desenharTarefa() {
-  var box = $("tfCorpo");
-  if (!box) return;
-  box.innerHTML = "";
   if (!tf || tf.dia !== hojeISO()) tf = { dia: hojeISO(), estado: "inicio", vistas: [] };
-  var txt = document.createElement("div"); txt.className = "tf-txt";
-  var msg = document.createElement("div"); msg.className = "tf-msg";
-  var linha = document.createElement("div");
-  var e = tf.estado, nome = '<span class="emo">' + esc(tf.emoji) + "</span>" + esc(tf.tarefa);
-  if (e === "inicio") {
-    txt.innerHTML = "Que tal uma tarefinha hoje?";
-    msg.innerHTML = "Eu sorteio, você decide. Sem pressão. 💛";
-    linha.appendChild(botao("Sortear 🎲", "preta", sortear));
-  } else if (e === "sorteada") {
-    txt.innerHTML = nome;
-    msg.innerHTML = "Vai encarar?";
-    linha.appendChild(botao("Bora! ✓", "preta", function () { mudar("aceita"); }));
-    linha.appendChild(botao("Outra 🎲", "", sortear));
-    linha.appendChild(botao("Hoje não", "", function () { mudar("folga"); }));
-  } else if (e === "aceita") {
-    txt.innerHTML = nome;
-    msg.innerHTML = "Combinado! Tô torcendo por você. 📣";
-    linha.appendChild(botao("Feito! 🎉", "verdinha", function () {
-      mudar("feita"); chuvaDe(["🎉","✨","💛","⭐️","🎊","👏"], 9, false); pularAvatar();
-    }));
-    linha.appendChild(botao("Trocar 🎲", "", sortear));
-  } else if (e === "feita") {
-    txt.innerHTML = "Arrasou! " + esc(tf.tarefa) + " ✓";
-    msg.innerHTML = "Tarefa concluída. Merece um cafezinho. ☕️";
-    linha.appendChild(botao("Mais uma? 🎲", "", sortear));
-  } else {
-    txt.innerHTML = "Tudo bem! Descansar também conta. 🛋";
-    msg.innerHTML = "Se mudar de ideia, é só sortear de novo.";
-    linha.appendChild(botao("Sortear 🎲", "", sortear));
-  }
-  box.appendChild(txt); box.appendChild(msg); box.appendChild(linha);
-}
-
-/* ======== AVATAR ======== */
-function pularAvatar() {
-  var a = $("avatar"); a.className = "avatar"; void a.offsetWidth; a.className = "avatar pula";
-  setTimeout(function () { a.className = "avatar"; }, 950);
-}
-
-/* ======== K-POP ======== */
-function quandoFalta(dias) { return dias === 0 ? "hoje!" : dias === 1 ? "amanhã" : "em " + dias + " dias"; }
-function desenharKpop() {
-  var hoje = dataDe(hojeISO()), lista = [], i, ano = hoje.getFullYear();
-  function addFixo(md, txt, tipo) {
-    var dt = dataDe(ano + "-" + md);
-    if (dt < hoje) dt = dataDe((ano + 1) + "-" + md);
-    var dias = Math.round((dt - hoje) / 86400000);
-    if (dias <= 21) lista.push({ dias: dias, txt: txt, tipo: tipo });
-  }
-  for (i = 0; i < ANIVERSARIOS.length; i++) addFixo(ANIVERSARIOS[i][0], "Aniversário do " + ANIVERSARIOS[i][1] + " 🎂", ANIVERSARIOS[i][2]);
-  for (i = 0; i < DEBUTS.length; i++) addFixo(DEBUTS[i][0], "Aniversário de debut do " + DEBUTS[i][1] + " 🎉", DEBUTS[i][2]);
-  addFixo("12-25", "Natal! 🎄", ""); addFixo("01-01", "Ano-Novo! 🎆", "");
-  var evs = (DIA && DIA.eventos) || [];
-  for (i = 0; i < evs.length; i++) {
-    if (!evs[i].data) continue;
-    var dias = Math.round((dataDe(evs[i].data) - hoje) / 86400000);
-    if (dias >= 0) lista.push({ dias: dias, txt: evs[i].texto, tipo: evs[i].grupo });
-  }
-  lista.sort(function (a, b) { return a.dias - b.dias; });
-  var html = "";
-  for (i = 0; i < lista.length && i < 3; i++) {
-    var e = lista[i];
-    html += '<div class="ev"><div class="ev-quando' + (e.dias === 0 ? " hoje" : "") + '">' + quandoFalta(e.dias) + '</div>' +
-      '<div class="ev-txt">' + (GRUPOS[e.tipo] ? '<span class="tag tag-' + e.tipo + '">' + GRUPOS[e.tipo] + "</span>" : "") + esc(e.txt) + "</div></div>";
-  }
-  $("eventos").innerHTML = html;
-  var nts = (DIA && DIA.noticias) || [];
-  html = "";
-  for (i = 0; i < nts.length && i < 3; i++) {
-    var g = nts[i].grupo;
-    html += '<div class="nt">' + (GRUPOS[g] ? '<span class="tag tag-' + g + '">' + GRUPOS[g] + "</span>" : "") + esc(nts[i].texto) + "</div>";
-  }
-  $("noticias").innerHTML = html;
-  $("kSep").style.display = (lista.length && nts.length) ? "block" : "none";
-  $("kAtual").innerHTML = "";
-  if (nts.length && DIA.noticiasData) { var nd = DIA.noticiasData.split("-"); $("kAtual").innerHTML = "Notícias de " + nd[2] + "/" + nd[1]; }
-}
-
-/* ======== AVISOS ======== */
-var vistos = ler("avisosVistos", {}), ultimosAvisos = [];
-function quandoTxt(iso) {
-  if (!iso) return "";
-  var p = iso.split("T"), dp = p[0].split("-"), hp = (p[1] || "00:00").split(":");
-  var d = new Date(+dp[0], +dp[1] - 1, +dp[2], +hp[0], +hp[1]);
-  var hoje = new Date(), ontem = new Date(); ontem.setDate(hoje.getDate() - 1);
-  var dia = d.toDateString() === hoje.toDateString() ? "hoje" :
-            d.toDateString() === ontem.toDateString() ? "ontem" : d.getDate() + "/" + dois(d.getMonth() + 1);
-  return dia + " às " + dois(d.getHours()) + ":" + dois(d.getMinutes());
-}
-function desenharAvisos() {
-  var box = $("avisos"), n = 0, i;
+  var e = tf.estado, box = $("tfPills"), txt = "", msg = "";
   box.innerHTML = "";
-  var l = ultimosAvisos.slice().sort(function (a, b) { return (b.quando || "") > (a.quando || "") ? 1 : -1; });
-  for (i = 0; i < l.length && n < 2; i++) {
-    var a = l[i];
-    if (!a || !a.id || vistos[a.id]) continue;
-    (function (av) {
-      var d = document.createElement("div");
-      d.className = "aviso";
-      d.innerHTML = '<div class="ponto"></div><div><div class="at">' + esc(av.texto) + '</div><div class="aq">' +
-        esc(quandoTxt(av.quando)) + " · toque pra marcar como visto</div></div>";
-      toque(d, function () { vistos[av.id] = 1; guardar("avisosVistos", vistos); desenharAvisos(); });
-      box.appendChild(d);
-    })(a);
-    n++;
+  if (e === "inicio") {
+    txt = "Que tal uma tarefinha?"; msg = "Eu sorteio, você decide. Sem pressão. 💛";
+    box.appendChild(pill("🎲", "Sortear", true, sortear));
+  } else if (e === "sorteada") {
+    txt = esc(tf.emoji) + " " + esc(tf.tarefa); msg = "Vai encarar?";
+    box.appendChild(pill("✓", "Bora", true, function () { mudar("aceita"); }));
+    box.appendChild(pill("🎲", "Outra", false, sortear));
+    box.appendChild(pill("🙈", "Hoje não", false, function () { mudar("folga"); }));
+  } else if (e === "aceita") {
+    txt = esc(tf.emoji) + " " + esc(tf.tarefa); msg = "Combinado! Tô torcendo por você. 📣";
+    box.appendChild(pill("🎉", "Feito!", true, function () { mudar("feita"); chuvaDe(["🎉","✨","💛","⭐️","🎊","👏"], 9, false); }));
+    box.appendChild(pill("🎲", "Trocar", false, sortear));
+  } else if (e === "feita") {
+    txt = "Arrasou! ✓"; msg = esc(tf.tarefa) + " · merece um cafezinho. ☕️";
+    box.appendChild(pill("🎲", "Mais uma?", false, sortear));
+  } else {
+    txt = "Descansar também conta. 🛋"; msg = "Se mudar de ideia, é só sortear.";
+    box.appendChild(pill("🎲", "Sortear", false, sortear));
   }
-  $("avisosCard").style.display = n ? "block" : "none";
+  $("tfTxt").innerHTML = txt; $("tfMsg").innerHTML = msg;
 }
-function atualizarAvisos() { pegarJSON("avisos.json", function (j) { ultimosAvisos = j.avisos || []; desenharAvisos(); }); }
 
 /* ======== SOM ======== */
 var audioCtx = null, bipando = null;
@@ -597,7 +592,7 @@ function desenharTimer() {
   var ms = timer.rodando ? Math.max(0, timer.alvo - Date.now()) : timer.resta;
   var s = Math.ceil(ms / 1000), m = Math.floor(s / 60);
   $("tTempo").innerHTML = m >= 60 ? Math.floor(m / 60) + ":" + dois(m % 60) + ":" + dois(s % 60) : dois(m) + ":" + dois(s % 60);
-  $("timer").className = "card timer" + (timer.rodando ? " rodando" : "");
+  $("timer").className = "card timer gap branco" + (timer.rodando ? " rodando" : "") + (timer.fim ? " fim" : "");
   $("tPlay").innerHTML = timer.rodando ? "❚❚" : "▶︎";
 }
 function tickTimer() {
@@ -614,49 +609,31 @@ function pararAlarme() {
   timer.fim = false; desenharTimer();
 }
 
-/* ======== LISTA DE COMPRAS ======== */
-var lista = ler("listaCompras", []);
-function desenharLista() {
-  var box = $("itens"), i;
-  box.innerHTML = "";
-  if (!lista.length) { box.innerHTML = '<div class="vazio">Nada na lista por enquanto. 🛒</div>'; return; }
-  for (i = 0; i < lista.length; i++) {
-    (function (idx) {
-      var d = document.createElement("div");
-      d.className = "item" + (lista[idx].feito ? " feito" : "");
-      d.appendChild(document.createTextNode(lista[idx].txt));
-      toque(d, function () { lista[idx].feito = !lista[idx].feito; guardar("listaCompras", lista); desenharLista(); });
-      box.appendChild(d);
-    })(i);
-  }
-}
-function adicionarItem() {
-  var inp = $("novoItem"), v = inp.value.replace(/^\s+|\s+$/g, "");
-  if (!v) return;
-  lista.push({ txt: v, feito: false });
-  inp.value = ""; guardar("listaCompras", lista); desenharLista();
-}
-
 /* ======== INÍCIO ======== */
 (function () {
-  var btns = $("timer").getElementsByClassName("btn"), i;
+  var btns = $("timer").getElementsByClassName("cb"), i;
   for (i = 0; i < btns.length; i++) (function (b) { toque(b, function () { liberarSom(); acaoTimer(b.getAttribute("data-a")); }); })(btns[i]);
 })();
+toque($("botaoLista"), function () { listaAberta = !listaAberta; desenharBotaoLista(); if (!listaAberta) $("novoItem").blur(); });
 toque($("btnAdd"), adicionarItem);
-$("novoItem").addEventListener("keyup", function (e) { if (e.keyCode === 13) { adicionarItem(); this.blur(); } }, false);
+$("novoItem").addEventListener("keyup", function (e) { if (e.keyCode === 13) { adicionarItem(); } }, false);
 toque($("btnLimpar"), function () {
   var nova = [], i;
   for (i = 0; i < lista.length; i++) if (!lista[i].feito) nova.push(lista[i]);
   lista = nova; guardar("listaCompras", lista); desenharLista();
 });
+toque($("dado"), sortear);
+toque($("hero"), proximaFoto);
 toque($("alarme"), pararAlarme);
 toque($("apagado"), function () { acordadoAte = Date.now() + 60000; relogio(); });
-toque($("avatar"), pularAvatar);
 document.addEventListener("touchstart", liberarSom, false);
 
 desenharLista(); desenharTimer();
 relogio(); setInterval(relogio, 1000);
 setInterval(tickTimer, 250);
+setInterval(function () { if (FOTOS.length > 1 && Date.now() - ultimaTroca > CONFIG.trocaFoto * 1000) proximaFoto(); }, 5000);
+setInterval(function () { if (listaAberta && document.activeElement !== $("novoItem")) { listaAberta = false; desenharBotaoLista(); } }, 180000);
+atualizarFotos(); setInterval(atualizarFotos, 60 * 60 * 1000);
 atualizarClima(); setInterval(atualizarClima, 15 * 60 * 1000);
 atualizarDia(); setInterval(atualizarDia, 30 * 60 * 1000);
 atualizarTarefas(); setInterval(atualizarTarefas, 30 * 60 * 1000);
