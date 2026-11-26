@@ -1,7 +1,6 @@
 {
-  "data": "2026-11-25",
-  "mascote": "🐹",
-  "frase": "Quarta-feira: metade da semana já foi, e você tá arrasando. 🌟",
+  "data": "2026-11-26",
+  "frase": "Quinta-feira, quase sexta! Amanhã tem Natal dos Flambinhos, aquece o coração. 🎄",
   "noticias": [
     {
       "grupo": "skz",
@@ -16,12 +15,8 @@
       "texto": "Turnê 'Arirang' segue pela Ásia: depois de Taiwan, vem Bangkok em dezembro."
     }
   ],
+  "noticiasData": "2026-11-25",
   "eventos": [
-    {
-      "data": "2026-11-25",
-      "grupo": "skz",
-      "texto": "Lançamento do mini japonês 'SUIATSU'"
-    },
     {
       "data": "2026-12-01",
       "grupo": "bts",
@@ -32,6 +27,5 @@
       "grupo": "bts",
       "texto": "Show da turnê 'Arirang' em Bangkok"
     }
-  ],
-  "noticiasData": "2026-11-25"
+  ]
 }

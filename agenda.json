@@ -1,5 +1,5 @@
 {
- "atualizado": "2026-11-26T00:15",
+ "atualizado": "2026-11-26T07:45",
  "eventos": [
   {
    "titulo": "Natal dos Flambinhos",
@@ -20,6 +20,11 @@
    "titulo": "Ficar com a Lilo",
    "inicio": "2026-12-02",
    "diaInteiro": true
+  },
+  {
+   "titulo": "Passagem de Infraestrutura",
+   "inicio": "2026-12-03T07:30",
+   "diaInteiro": false
   }
  ]
 }
