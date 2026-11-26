@@ -54,20 +54,21 @@
   /* ===== próximos + lista ===== */
   .lado { width: 290px; padding: 18px 16px 16px; background: #e3e5ef;
           background: -webkit-linear-gradient(top, #dfe2ee 0%, #e9e8ea 55%, #f4ecd8 100%); }
-  .lado-topo { padding: 0 4px 12px; border-bottom: 1px solid rgba(18,21,32,.1); margin-bottom: 8px; }
-  .row { padding: 8px 8px; border-radius: 30px; margin-bottom: 4px; }
+  .lado-topo { padding: 0 4px 10px; border-bottom: 1px solid rgba(18,21,32,.1); margin-bottom: 8px; }
+  .row { padding: 5px 6px; border-radius: 24px; margin-bottom: 2px; }
   .row.ativo { background: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.05); }
-  .ic { width: 44px; height: 44px; border-radius: 22px; background: rgba(255,255,255,.75); text-align: center; line-height: 44px;
-        font-size: 20px; margin-right: 12px; -webkit-flex-shrink: 0; flex-shrink: 0; }
+  .ic { width: 32px; height: 32px; border-radius: 16px; background: rgba(255,255,255,.75); text-align: center; line-height: 32px;
+        font-size: 15px; margin-right: 9px; -webkit-flex-shrink: 0; flex-shrink: 0; }
   .row.ativo .ic { background: #f0f0f3; }
-  .r1 { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .r2 { font-size: 12px; color: #7c7f88; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .seta { font-size: 18px; color: #121520; margin-left: 6px; }
+  .r1 { font-size: 13px; font-weight: 600; line-height: 1.25; }
+  .r2 { font-size: 11px; color: #7c7f88; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .seta { font-size: 15px; color: #9a9da5; margin-left: 4px; }
   .botao-lista { position: absolute; left: 16px; right: 16px; bottom: 16px; background: #0f1424; color: #fff; border-radius: 26px;
                  text-align: center; font-size: 14px; font-weight: 600; letter-spacing: .6px; padding: 15px 0; }
   .botao-lista:active { opacity: .8; }
   #painelProx, #painelLista { position: absolute; top: 18px; left: 16px; right: 16px; bottom: 76px; }
   #painelLista { display: none; }
+  #rows { -webkit-flex: 1; flex: 1; overflow: hidden; }
   .add { margin: 4px 0 6px; }
   .add input { -webkit-flex: 1; flex: 1; min-width: 0; font-size: 16px; padding: 10px 14px; border-radius: 20px; border: none;
                background: #fff; color: #121520; -webkit-appearance: none; outline: none; font-family: inherit; }
@@ -80,7 +81,7 @@
   .limpar { font-size: 12px; color: #7c7f88; text-align: right; padding-top: 6px; }
 
   /* ===== tarefinha ===== */
-  .tarefa { -webkit-flex: 1.45; flex: 1.45; }
+  .tarefa { -webkit-flex: 1.75; flex: 1.75; }
   .dado { width: 46px; height: 46px; border-radius: 23px; background: #fff; text-align: center; line-height: 46px; font-size: 24px; }
   .dado.rola { -webkit-animation: rola .7s ease-out 1; }
   .tf-txt { font-size: 25px; font-weight: 600; letter-spacing: -.4px; line-height: 1.2; margin-top: 22px; }
@@ -94,20 +95,20 @@
   .pill.escura { background: #0f1424; color: #fff; }
 
   /* ===== timer ===== */
-  .timer { -webkit-flex: .95; flex: .95; background: #aab0bd; color: #fff; }
-  .bola { width: 136px; height: 136px; border-radius: 68px; margin: 10px auto 0; text-align: center; line-height: 136px;
-          font-size: 34px; font-weight: 600; color: #121520; letter-spacing: -.5px;
+  .timer { -webkit-flex: .68; flex: .68; background: #aab0bd; color: #fff; }
+  .bola { width: 112px; height: 112px; border-radius: 56px; margin: 16px auto 0; text-align: center; line-height: 112px;
+          font-size: 28px; font-weight: 600; color: #121520; letter-spacing: -.5px;
           background: #fbfaf7; background: -webkit-radial-gradient(40% 35%, circle, #ffffff 0%, #f4f1ea 60%, #dcd8d0 100%);
           box-shadow: 0 0 30px rgba(255,255,255,.6); }
   .timer.rodando .bola { color: #e5484d; }
   .timer.fim .bola { -webkit-animation: pulsa .6s ease-in-out infinite; }
-  .ctrl { position: absolute; left: 14px; right: 14px; bottom: 14px; background: #fff; border-radius: 26px; padding: 5px; color: #121520; }
-  .cb { -webkit-flex: 1; flex: 1; text-align: center; font-size: 15px; font-weight: 600; padding: 10px 0; border-radius: 20px; }
+  .ctrl { position: absolute; left: 12px; right: 12px; bottom: 14px; background: #fff; border-radius: 26px; padding: 4px; color: #121520; }
+  .cb { -webkit-flex: 1; flex: 1; text-align: center; font-size: 13px; font-weight: 600; padding: 10px 0; border-radius: 20px; }
   .cb:active { background: #eee; }
   .cb.play { background: #0f1424; color: #fff; -webkit-flex: 1.1; flex: 1.1; }
 
   /* ===== clima ===== */
-  .clima { -webkit-flex: 1; flex: 1; }
+  .clima { -webkit-flex: .92; flex: .92; }
   .anel { position: relative; width: 150px; height: 150px; margin: 2px auto 0; }
   .anel svg { position: absolute; top: 0; left: 0; }
   .anel-dentro { position: absolute; top: 14px; left: 14px; width: 122px; height: 122px; border-radius: 61px; background: #fff;
@@ -178,7 +179,7 @@
   <div class="flex linha-baixo">
     <div class="card tarefa">
       <div class="flex centro">
-        <div class="cresce"><div class="t1">Tarefinha do dia</div><div class="t2">Sorteada da sua lista</div></div>
+        <div class="cresce"><div class="t1">Tarefinha do dia</div><div class="t2" id="tfConta">Sorteada da sua lista</div></div>
         <div class="dado" id="dado">🎲</div>
       </div>
       <div class="tf-txt" id="tfTxt"></div>
@@ -427,7 +428,11 @@ function desenharEstacao() {
   }
 }
 
-/* ======== PRÓXIMOS (avisos, K-pop, datas) ======== */
+/* ======== AGENDA (agenda.json, atualizada pelo Claude a partir do Google Agenda) ======== */
+var AGENDA = [];
+function atualizarAgenda() { pegarJSON("agenda.json", function (j) { AGENDA = j.eventos || []; desenharProximos(); }); }
+
+/* ======== PRÓXIMOS (avisos, agenda, K-pop, datas) ======== */
 var vistos = ler("avisosVistos", {}), ultimosAvisos = [];
 function quandoFalta(dias) { return dias === 0 ? "Hoje" : dias === 1 ? "Amanhã" : "Em " + dias + " dias"; }
 function desenharProximos() {
@@ -443,19 +448,27 @@ function desenharProximos() {
   for (i = 0; i < ANIVERSARIOS.length; i++) addFixo(ANIVERSARIOS[i][0], "Aniversário do " + ANIVERSARIOS[i][1], GRUPOS[ANIVERSARIOS[i][2]], "🎂");
   for (i = 0; i < DEBUTS.length; i++) addFixo(DEBUTS[i][0], "Debut do " + DEBUTS[i][1], "Aniversário de debut", "🎉");
   addFixo("12-25", "Natal", "Feliz Natal!", "🎄"); addFixo("01-01", "Ano-Novo", "Feliz ano novo!", "🎆");
+  var agora = new Date();
+  for (i = 0; i < AGENDA.length; i++) {
+    var ev = AGENDA[i], p = ev.inicio.split("T"), dj = Math.round((dataDe(p[0]) - hoje) / 86400000);
+    if (dj < 0 || dj > 14) continue;
+    var hm = p[1] ? p[1].substr(0, 5) : "";
+    if (!ev.diaInteiro && dj === 0 && hm) { var hh = hm.split(":"); var fim = new Date(hoje.getTime()); fim.setHours(+hh[0] + 2, +hh[1]); if (fim < agora) continue; }
+    datas.push({ dias: dj, ordem: hm || "00:00", ic: "📅", t: ev.titulo, s: ev.diaInteiro ? "Dia inteiro" : hm.replace(":00", "h").replace(":", "h") });
+  }
   var evs = (DIA && DIA.eventos) || [];
   for (i = 0; i < evs.length; i++) {
     if (!evs[i].data) continue;
     var dias = Math.round((dataDe(evs[i].data) - hoje) / 86400000);
     if (dias >= 0) datas.push({ dias: dias, ic: "💜", t: evs[i].texto, s: GRUPOS[evs[i].grupo] || "K-pop" });
   }
-  datas.sort(function (a, b) { return a.dias - b.dias; });
+  datas.sort(function (a, b) { return a.dias - b.dias || ((a.ordem || "99") > (b.ordem || "99") ? 1 : -1); });
   for (i = 0; i < datas.length; i++) { datas[i].s = quandoFalta(datas[i].dias) + " · " + datas[i].s; linhas.push(datas[i]); }
   var nts = (DIA && DIA.noticias) || [];
   for (i = 0; i < nts.length; i++) linhas.push({ ic: "📰", t: nts[i].texto, s: "Notícia · " + (GRUPOS[nts[i].grupo] || "K-pop") });
 
   var box = $("rows"); box.innerHTML = "";
-  for (i = 0; i < linhas.length && i < 4; i++) {
+  for (i = 0; i < linhas.length && i < 7; i++) {
     (function (l, idx) {
       var r = document.createElement("div");
       r.className = "row flex centro" + ((idx === 0 && (l.aviso || l.dias === 0)) ? " ativo" : "");
@@ -464,6 +477,7 @@ function desenharProximos() {
       box.appendChild(r);
     })(linhas[i], i);
   }
+  while (box.children.length > 1 && box.scrollHeight > box.clientHeight + 2) box.removeChild(box.lastChild);
   if (!linhas.length) box.innerHTML = '<div class="vazio">Nada por aqui. Dia tranquilo! 🍃</div>';
 }
 function atualizarAvisos() { pegarJSON("avisos.json", function (j) { ultimosAvisos = j.avisos || []; desenharProximos(); }); }
@@ -516,6 +530,15 @@ function sortear() {
   var dado = $("dado"); dado.className = "dado"; void dado.offsetWidth; dado.className = "dado rola";
   desenharTarefa();
 }
+function contarFeita() {
+  var m = hojeISO().substr(0, 7), c = ler("tarefasFeitas", { mes: m, n: 0 });
+  if (c.mes !== m) c = { mes: m, n: 0 };
+  c.n++; guardar("tarefasFeitas", c); desenharConta();
+}
+function desenharConta() {
+  var m = hojeISO().substr(0, 7), c = ler("tarefasFeitas", { mes: m, n: 0 }), n = c.mes === m ? c.n : 0;
+  $("tfConta").innerHTML = n ? "✨ " + n + (n === 1 ? " tarefinha feita" : " tarefinhas feitas") + " esse mês" : "Sorteada da sua lista";
+}
 function mudar(estado) { tf.estado = estado; guardar("tarefaDoDia", tf); desenharTarefa(); }
 function pill(ic, txt, escura, fn) {
   var b = document.createElement("div");
@@ -537,7 +560,7 @@ function desenharTarefa() {
     box.appendChild(pill("🙈", "Hoje não", false, function () { mudar("folga"); }));
   } else if (e === "aceita") {
     txt = esc(tf.emoji) + " " + esc(tf.tarefa); msg = "Combinado! Tô torcendo por você. 📣";
-    box.appendChild(pill("🎉", "Feito!", true, function () { mudar("feita"); chuvaDe(["🎉","✨","💛","⭐️","🎊","👏"], 9, false); }));
+    box.appendChild(pill("🎉", "Feito!", true, function () { mudar("feita"); contarFeita(); chuvaDe(["🎉","✨","💛","⭐️","🎊","👏"], 9, false); }));
     box.appendChild(pill("🎲", "Trocar", false, sortear));
   } else if (e === "feita") {
     txt = "Arrasou! ✓"; msg = esc(tf.tarefa) + " · merece um cafezinho. ☕️";
@@ -546,7 +569,7 @@ function desenharTarefa() {
     txt = "Descansar também conta. 🛋"; msg = "Se mudar de ideia, é só sortear.";
     box.appendChild(pill("🎲", "Sortear", false, sortear));
   }
-  $("tfTxt").innerHTML = txt; $("tfMsg").innerHTML = msg;
+  $("tfTxt").innerHTML = txt; $("tfMsg").innerHTML = msg; desenharConta();
 }
 
 /* ======== SOM ======== */
@@ -638,6 +661,7 @@ atualizarClima(); setInterval(atualizarClima, 15 * 60 * 1000);
 atualizarDia(); setInterval(atualizarDia, 30 * 60 * 1000);
 atualizarTarefas(); setInterval(atualizarTarefas, 30 * 60 * 1000);
 atualizarAvisos(); setInterval(atualizarAvisos, 5 * 60 * 1000);
+atualizarAgenda(); setInterval(atualizarAgenda, 30 * 60 * 1000);
 
 setInterval(function () {
   var d = new Date();

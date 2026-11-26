@@ -1,0 +1,25 @@
+{
+ "atualizado": "2026-11-26T00:15",
+ "eventos": [
+  {
+   "titulo": "Natal dos Flambinhos",
+   "inicio": "2026-11-27T19:00",
+   "diaInteiro": false
+  },
+  {
+   "titulo": "Corrida com Andy",
+   "inicio": "2026-11-29T15:00",
+   "diaInteiro": false
+  },
+  {
+   "titulo": "Festa de fim de ano",
+   "inicio": "2026-12-01",
+   "diaInteiro": true
+  },
+  {
+   "titulo": "Ficar com a Lilo",
+   "inicio": "2026-12-02",
+   "diaInteiro": true
+  }
+ ]
+}

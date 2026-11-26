@@ -1,4 +1,4 @@
-name: Atualizar clima e tarefas
+name: Atualizar clima, tarefas e fotos
 on:
   schedule:
     - cron: "23,53 * * * *"
@@ -32,9 +32,15 @@ jobs:
               json.dump({"tarefas": tarefas}, open('tarefas.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
           PY
           rm -f tarefas.csv
+      - name: Baixar fotos do porta-retrato
+        continue-on-error: true
+        run: |
+          pip install --quiet pillow pillow-heif
+          python3 scripts/fotos.py
       - name: Salvar
         run: |
           git config user.name "painel-bot"
           git config user.email "painel-bot@users.noreply.github.com"
-          git add clima.json tarefas.json
-          git diff --cached --quiet || (git commit -m "Clima e tarefas atualizados" && git push)
+          git add -A clima.json tarefas.json
+          if [ -d fotos ]; then git add -A fotos fotos.json; fi
+          git diff --cached --quiet || (git commit -m "Clima, tarefas e fotos atualizados" && git push)
