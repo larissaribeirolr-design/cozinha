@@ -3,13 +3,35 @@
   "mascote": "🐹",
   "frase": "Quarta-feira: metade da semana já foi, e você tá arrasando. 🌟",
   "noticias": [
-    { "grupo": "skz", "texto": "Mini japonês 'SUIATSU' sai hoje! E a turnê 'RUN IT' 2027 cresceu pra 46 shows." },
-    { "grupo": "ateez", "texto": "'GOLDEN HOUR : Part.6', com a faixa 'UP', segue forte nas paradas." },
-    { "grupo": "bts", "texto": "Turnê 'Arirang' segue pela Ásia: depois de Taiwan, vem Bangkok em dezembro." }
+    {
+      "grupo": "skz",
+      "texto": "Mini japonês 'SUIATSU' sai hoje! E a turnê 'RUN IT' 2027 cresceu pra 46 shows."
+    },
+    {
+      "grupo": "ateez",
+      "texto": "'GOLDEN HOUR : Part.6', com a faixa 'UP', segue forte nas paradas."
+    },
+    {
+      "grupo": "bts",
+      "texto": "Turnê 'Arirang' segue pela Ásia: depois de Taiwan, vem Bangkok em dezembro."
+    }
   ],
   "eventos": [
-    { "data": "2026-11-25", "grupo": "skz", "texto": "Lançamento do mini japonês 'SUIATSU'" },
-    { "data": "2026-12-01", "grupo": "bts", "texto": "Sai o show 'Arirang in London'" },
-    { "data": "2026-12-03", "grupo": "bts", "texto": "Show da turnê 'Arirang' em Bangkok" }
-  ]
+    {
+      "data": "2026-11-25",
+      "grupo": "skz",
+      "texto": "Lançamento do mini japonês 'SUIATSU'"
+    },
+    {
+      "data": "2026-12-01",
+      "grupo": "bts",
+      "texto": "Sai o show 'Arirang in London'"
+    },
+    {
+      "data": "2026-12-03",
+      "grupo": "bts",
+      "texto": "Show da turnê 'Arirang' em Bangkok"
+    }
+  ],
+  "noticiasData": "2026-11-25"
 }

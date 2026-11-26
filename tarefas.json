@@ -1,0 +1,52 @@
+{
+ "tarefas": [
+  {
+   "tarefa": "Regar as plantas",
+   "emoji": "🌱"
+  },
+  {
+   "tarefa": "Organizar a geladeira",
+   "emoji": "🧀"
+  },
+  {
+   "tarefa": "Lavar a louça",
+   "emoji": "🍽"
+  },
+  {
+   "tarefa": "Tirar o lixo e o reciclável",
+   "emoji": "♻️"
+  },
+  {
+   "tarefa": "Trocar a roupa de cama",
+   "emoji": "🛏"
+  },
+  {
+   "tarefa": "Passar um pano no fogão",
+   "emoji": "✨"
+  },
+  {
+   "tarefa": "Separar roupas pra doação",
+   "emoji": "👕"
+  },
+  {
+   "tarefa": "Praticar 15 minutos de ukulele",
+   "emoji": "🎶"
+  },
+  {
+   "tarefa": "Responder aquelas mensagens pendentes",
+   "emoji": "💌"
+  },
+  {
+   "tarefa": "Arrumar uma gaveta bagunçada",
+   "emoji": "🗂"
+  },
+  {
+   "tarefa": "Fazer a lista do mercado da semana",
+   "emoji": "🛒"
+  },
+  {
+   "tarefa": "Dar uma volta no quarteirão",
+   "emoji": "🚶"
+  }
+ ]
+}

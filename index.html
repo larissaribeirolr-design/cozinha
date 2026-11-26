@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Cozinha">
 <link rel="apple-touch-icon" href="icone.png">
 <title>Painel da Cozinha</title>
@@ -13,141 +13,132 @@
   * { box-sizing: border-box; -webkit-box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   body {
-    background: #15110f; color: #f5eee6;
+    background: #efebe5; color: #1d1b19;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     -webkit-user-select: none; -webkit-tap-highlight-color: rgba(0,0,0,0);
     overflow: hidden;
   }
-  .wrap { display: -webkit-flex; display: flex; height: 100%; padding: 26px 26px 22px; }
+  .wrap { display: -webkit-flex; display: flex; height: 100%; padding: 22px 22px 20px; }
   .col { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; }
-  .col-esq { -webkit-flex: 1.15; flex: 1.15; padding-right: 24px; overflow: hidden; }
-  .col-dir { -webkit-flex: 1; flex: 1; }
+  .col-esq { width: 566px; padding-right: 16px; }
+  .col-dir { -webkit-flex: 1; flex: 1; min-width: 0; }
 
-  /* relógio */
-  .hora { font-size: 112px; font-weight: 200; letter-spacing: -3px; line-height: 1; }
-  .hora .seg { font-size: 38px; color: #8d7f72; letter-spacing: 0; margin-left: 6px; }
-  .data { font-size: 26px; font-weight: 300; margin-top: 6px; color: #e3a96b; }
-  .oi { font-size: 19px; color: #b9aea3; margin-top: 6px; }
+  .card { background: #fff; border-radius: 26px; padding: 14px 18px; margin-bottom: 12px;
+          box-shadow: 0 6px 20px rgba(60,40,20,.06); }
+  .titulo { font-size: 15px; font-weight: bold; color: #1d1b19; margin-bottom: 8px; }
 
-  /* clima */
-  .clima { margin-top: 16px; }
-  .clima-agora { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
-  .clima-icone { font-size: 58px; margin-right: 14px; display: inline-block; -webkit-animation: flutua 4s ease-in-out infinite; }
-  .clima-temp { font-size: 64px; font-weight: 200; margin-right: 16px; }
-  .clima-desc { font-size: 19px; color: #d8cec4; }
-  .clima-extra { font-size: 15px; color: #8d7f72; margin-top: 3px; }
-  .clima-dica { font-size: 16px; color: #e3a96b; margin-top: 3px; }
-  .horas { display: -webkit-flex; display: flex; margin-top: 12px; }
-  .h { -webkit-flex: 1; flex: 1; text-align: center; padding: 7px 0; border-radius: 14px; background: #211b18; margin-right: 7px; }
-  .h:last-child { margin-right: 0; }
-  .h .hh { font-size: 13px; color: #8d7f72; }
-  .h .hi { font-size: 21px; margin: 2px 0; }
-  .h .ht { font-size: 17px; }
-  .h .hc { font-size: 12px; color: #74aee0; }
+  /* ===== herói com a Lari ===== */
+  .hero { position: relative; height: 438px; margin-top: 30px; border-radius: 32px; padding: 30px 30px 0;
+          background: #e6e8dd;
+          background: -webkit-linear-gradient(-30deg, #e3e7dc 0%, #ece2d3 45%, #f6d6b8 80%, #e9cfe0 100%);
+          box-shadow: 0 8px 26px rgba(60,40,20,.08); }
+  .hero-oi { font-size: 54px; font-weight: bold; letter-spacing: -2px; line-height: 1.02; width: 280px; }
+  .hero-data { font-size: 18px; color: #5f5850; margin-top: 10px; }
+  .hero-frase { font-size: 17px; line-height: 1.35; margin-top: 12px; width: 300px; color: #3a352f; }
+  .hero-frase.niver { background: #1d1b19; color: #fff; border-radius: 16px; padding: 8px 12px; }
+  .avatar { position: absolute; right: -4px; top: -34px; width: 256px; height: 315px;
+            -webkit-animation: respira 4.5s ease-in-out infinite; -webkit-transform-origin: 50% 100%; }
+  .avatar.pula { -webkit-animation: pulinho .9s ease-out 1; }
+  .stats { position: absolute; left: 12px; right: 12px; bottom: 12px; background: #fff; border-radius: 24px;
+           padding: 14px 20px 12px; display: -webkit-flex; display: flex; box-shadow: 0 4px 16px rgba(60,40,20,.06); }
+  .st { -webkit-flex: 1; flex: 1; }
+  .st + .st { padding-left: 16px; }
+  .st-rot { font-size: 15px; font-weight: 500; white-space: nowrap; overflow: hidden; }
+  .st-num { font-size: 50px; font-weight: bold; letter-spacing: -2px; line-height: 1.1; white-space: nowrap; }
+  .st-num small { font-size: 17px; letter-spacing: 0; font-weight: bold; vertical-align: 24px; margin-left: 4px; }
+  .rosa { color: #e2566b; } .azul { color: #4d8fd6; }
+  .st-sub { font-size: 13px; color: #8b847c; white-space: nowrap; overflow: hidden; }
 
-  /* cards */
-  .card { background: #211b18; border-radius: 20px; padding: 14px 18px; margin-bottom: 14px; }
-  .titulo { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #8d7f72; margin-bottom: 8px; }
+  /* ===== tarefa sorteada ===== */
+  .tarefa { -webkit-flex: 1; flex: 1; margin-top: 12px; margin-bottom: 0; padding: 16px 20px; }
+  .tf-topo { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
+  .tf-topo .titulo { -webkit-flex: 1; flex: 1; margin-bottom: 0; }
+  .dado { font-size: 26px; display: inline-block; }
+  .dado.rola { -webkit-animation: rola .7s ease-out 1; }
+  .tf-txt { font-size: 24px; font-weight: bold; letter-spacing: -.5px; line-height: 1.2; margin: 10px 0 10px; }
+  .tf-txt .emo { margin-right: 8px; }
+  .tf-msg { font-size: 15px; color: #8b847c; margin: -4px 0 12px; }
+  .pill { display: inline-block; border-radius: 14px; font-size: 16px; font-weight: bold; padding: 12px 18px; margin-right: 8px;
+          background: #f1ede8; color: #1d1b19; }
+  .pill.preta { background: #1d1b19; color: #fff; }
+  .pill.verdinha { background: #2f9b6a; color: #fff; }
+  .pill:active { opacity: .7; }
 
-  /* gracinha do dia */
-  .alegria { margin-top: 14px; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center;
-             border: 2px solid #3a2f29; }
-  .mascote { font-size: 58px; margin-right: 14px; display: inline-block; -webkit-animation: pula 2.6s ease-in-out infinite; }
-  .frase { font-size: 19px; line-height: 1.35; }
-  .frase-sub { font-size: 13px; color: #8d7f72; margin-top: 4px; }
-  .niver { background: #3a2230; border-color: #b45b8c; }
-  .niver .mascote { -webkit-animation: festa 1.2s ease-in-out infinite; }
-
-  /* surpresinha */
-  .surpresa { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center;
-              background: #2a2030; border: 2px dashed #8a5fb0; }
-  .presente { font-size: 46px; margin-right: 14px; display: inline-block; -webkit-animation: chacoalha 3.5s ease-in-out infinite; }
-  .surpresa.aberta { border-style: solid; }
-  .surpresa.aberta .presente { -webkit-animation: none; }
-  .s-tipo { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #c9a4ec; margin-bottom: 3px; }
-  .s-txt { font-size: 18px; line-height: 1.3; }
-  .s-resp { font-size: 17px; color: #e3a96b; margin-top: 4px; }
-  .s-dica { font-size: 12px; color: #8d7f72; margin-top: 4px; }
-  body.noite .surpresa { background: #0d0b0a; border-color: #2a2030; }
-  body.noite .presente { -webkit-animation: none; }
-  .neve { position: fixed; top: -30px; font-size: 16px; z-index: 4; pointer-events: none; opacity: .55;
-          -webkit-animation: cai 16s linear infinite; }
-  body.sextou .mascote { -webkit-animation: festa .9s ease-in-out infinite; }
-
-  /* avisos */
-  .aviso { padding: 7px 0; border-top: 1px solid #2f2723; display: -webkit-flex; display: flex; }
-  .aviso:first-child { border-top: none; }
-  .aviso .ponto { width: 9px; height: 9px; border-radius: 5px; background: #e3a96b; margin: 7px 10px 0 0;
-                  -webkit-flex-shrink: 0; flex-shrink: 0; -webkit-animation: pisca 2s ease-in-out infinite; }
-  .aviso .at { font-size: 17px; line-height: 1.3; }
-  .aviso .aq { font-size: 12px; color: #8d7f72; margin-top: 1px; }
-
-  /* timer */
-  .timer { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
-  .t-icone { font-size: 30px; margin-right: 10px; }
-  .t-tempo { font-size: 40px; font-weight: 200; -webkit-flex: 1; flex: 1; }
-  .btn { display: inline-block; background: #2f2723; color: #f5eee6; border-radius: 12px;
-         font-size: 17px; padding: 11px 8px; margin-left: 5px; min-width: 42px; text-align: center; }
-  .btn:active { background: #4a3f38; }
-  .btn.play { background: #e3a96b; color: #15110f; font-weight: bold; }
-  .timer.rodando .t-tempo { color: #e3a96b; }
+  /* ===== timer ===== */
+  .timer { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 10px 14px; }
+  .t-icone { font-size: 24px; margin-right: 8px; }
+  .t-tempo { font-size: 34px; font-weight: bold; letter-spacing: -1px; -webkit-flex: 1; flex: 1; }
+  .btn { display: inline-block; background: #f1ede8; color: #1d1b19; border-radius: 12px;
+         font-size: 15px; font-weight: bold; padding: 10px 7px; margin-left: 5px; min-width: 38px; text-align: center; }
+  .btn:active { opacity: .7; }
+  .btn.play { background: #1d1b19; color: #fff; }
+  .timer.rodando .t-tempo { color: #e2566b; }
   .timer.rodando .t-icone { -webkit-animation: balanca 1s ease-in-out infinite; }
 
-  /* k-pop */
-  .kpop-topo { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; margin-bottom: 8px; }
+  /* ===== horas ===== */
+  .horas { display: -webkit-flex; display: flex; padding: 10px 10px; }
+  .h { -webkit-flex: 1; flex: 1; text-align: center; }
+  .h .hh { font-size: 12px; color: #8b847c; }
+  .h .hi { font-size: 20px; margin: 2px 0; }
+  .h .ht { font-size: 16px; font-weight: bold; }
+  .h .hc { font-size: 11px; color: #4d8fd6; }
+
+  /* ===== k-pop ===== */
+  .kpop-topo { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; margin-bottom: 4px; }
   .kpop-topo .titulo { margin-bottom: 0; -webkit-flex: 1; flex: 1; }
   .coracao { font-size: 18px; display: inline-block; -webkit-animation: bate 1.4s ease-in-out infinite; }
-  .ev { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 5px 0; }
-  .ev-quando { font-size: 13px; font-weight: bold; color: #15110f; background: #e3a96b; border-radius: 9px;
-               padding: 3px 8px; margin-right: 10px; min-width: 74px; text-align: center; -webkit-flex-shrink: 0; flex-shrink: 0; }
-  .ev-quando.hoje { background: #ff7aa8; -webkit-animation: pisca 1.5s ease-in-out infinite; }
-  .ev-txt { font-size: 16px; line-height: 1.25; }
-  .sep { height: 1px; background: #2f2723; margin: 8px 0 6px; }
-  .nt { padding: 5px 0; font-size: 16px; line-height: 1.3; }
-  .tag { display: inline-block; font-size: 11px; font-weight: bold; letter-spacing: 1px; border-radius: 6px;
-         padding: 2px 6px; margin-right: 6px; color: #15110f; vertical-align: 2px; }
-  .tag-ateez { background: #f08a4b; } .tag-skz { background: #ef5a5f; } .tag-bts { background: #a982e6; }
-  .kpop-atual { font-size: 11px; color: #5e554d; margin-top: 6px; text-align: right; }
+  .ev { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 4px 0; }
+  .ev-quando { font-size: 12px; font-weight: bold; color: #fff; background: #1d1b19; border-radius: 9px;
+               padding: 3px 7px; margin-right: 8px; min-width: 66px; text-align: center; -webkit-flex-shrink: 0; flex-shrink: 0; }
+  .ev-quando.hoje { background: #ff6f9a; -webkit-animation: pisca 1.5s ease-in-out infinite; }
+  .ev-txt { font-size: 14px; line-height: 1.25; }
+  .sep { height: 1px; background: #eee8e1; margin: 6px 0 4px; }
+  .nt { padding: 4px 0; font-size: 14px; line-height: 1.3; }
+  .tag { display: inline-block; font-size: 10px; font-weight: bold; letter-spacing: 1px; border-radius: 6px;
+         padding: 2px 5px; margin-right: 5px; color: #fff; vertical-align: 1px; }
+  .tag-ateez { background: #f08a4b; } .tag-skz { background: #e2566b; } .tag-bts { background: #8f6ad6; }
+  .kpop-atual { font-size: 10px; color: #b3aca4; margin-top: 2px; text-align: right; }
 
-  /* lista */
+  /* ===== avisos ===== */
+  .avisos { background: #1d1b19; color: #fff; }
+  .avisos .titulo { color: #fff; }
+  .aviso { padding: 5px 0; display: -webkit-flex; display: flex; }
+  .aviso .ponto { width: 8px; height: 8px; border-radius: 4px; background: #ffb86b; margin: 6px 9px 0 0;
+                  -webkit-flex-shrink: 0; flex-shrink: 0; -webkit-animation: pisca 2s ease-in-out infinite; }
+  .aviso .at { font-size: 15px; line-height: 1.3; }
+  .aviso .aq { font-size: 11px; color: #a49d95; margin-top: 1px; }
+
+  /* ===== lista ===== */
   .lista-card { -webkit-flex: 1; flex: 1; display: -webkit-flex; display: flex;
-                -webkit-flex-direction: column; flex-direction: column; margin-bottom: 0; min-height: 150px; }
-  .add { display: -webkit-flex; display: flex; margin-bottom: 6px; }
-  .add input { -webkit-flex: 1; flex: 1; font-size: 18px; padding: 9px 12px; border-radius: 12px;
-               border: none; background: #2f2723; color: #f5eee6; -webkit-appearance: none; outline: none; }
-  .add .btn { margin-left: 8px; }
+                -webkit-flex-direction: column; flex-direction: column; margin-bottom: 0; min-height: 120px; }
+  .add { display: -webkit-flex; display: flex; margin-bottom: 4px; }
+  .add input { -webkit-flex: 1; flex: 1; min-width: 0; font-size: 16px; padding: 9px 12px; border-radius: 12px;
+               border: none; background: #f1ede8; color: #1d1b19; -webkit-appearance: none; outline: none; }
   .itens { -webkit-flex: 1; flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-  .item { font-size: 19px; padding: 8px 4px; border-bottom: 1px solid #2f2723; }
-  .item.feito { color: #5e554d; text-decoration: line-through; }
-  .vazio { color: #5e554d; font-size: 16px; padding: 6px 4px; }
-  .limpar { font-size: 13px; color: #8d7f72; text-align: right; padding-top: 6px; }
+  .item { font-size: 17px; padding: 7px 2px; border-bottom: 1px solid #f1ede8; }
+  .item.feito { color: #b3aca4; text-decoration: line-through; }
+  .vazio { color: #b3aca4; font-size: 14px; padding: 6px 2px; }
+  .limpar { font-size: 12px; color: #8b847c; text-align: right; padding-top: 4px; }
 
-  /* noite */
-  body.noite { background: #000; color: #8a7f74; }
-  body.noite .card, body.noite .h { background: #0d0b0a; border-color: #1c1714; }
-  body.noite .data, body.noite .clima-dica { color: #7a5c3d; }
-  body.noite .mascote, body.noite .clima-icone { -webkit-animation: none; }
-
-  /* telas cheias */
+  /* ===== noite, apagado, alarme ===== */
+  #noite { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; opacity: .55;
+           z-index: 8; pointer-events: none; }
   #apagado { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: #000; z-index: 9; }
   #alarme { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: #c4503a; color: #fff; text-align: center; z-index: 10; padding-top: 200px; }
+            background: #e2566b; color: #fff; text-align: center; z-index: 10; padding-top: 190px; }
   #alarme .a0 { font-size: 90px; display: inline-block; -webkit-animation: balanca .5s ease-in-out infinite; }
-  #alarme .a1 { font-size: 60px; font-weight: 300; margin-top: 10px; }
-  #alarme .a2 { font-size: 22px; margin-top: 16px; opacity: .85; }
+  #alarme .a1 { font-size: 58px; font-weight: bold; letter-spacing: -1px; margin-top: 10px; }
+  #alarme .a2 { font-size: 22px; margin-top: 14px; opacity: .85; }
 
-  /* confete dos aniversários */
-  .confete { position: fixed; top: -30px; font-size: 22px; z-index: 5; pointer-events: none;
-             -webkit-animation: cai 9s linear infinite; }
+  .confete { position: fixed; top: -30px; font-size: 22px; z-index: 6; pointer-events: none; -webkit-animation: cai 9s linear infinite; }
+  .neve { position: fixed; top: -30px; font-size: 16px; z-index: 5; pointer-events: none; opacity: .6; -webkit-animation: cai 16s linear infinite; }
 
-  @-webkit-keyframes flutua { 0%,100% { -webkit-transform: translateY(0); } 50% { -webkit-transform: translateY(-6px); } }
-  @-webkit-keyframes pula { 0%,100% { -webkit-transform: translateY(0) rotate(0); } 20% { -webkit-transform: translateY(-12px) rotate(-6deg); }
-                            40% { -webkit-transform: translateY(0) rotate(0); } 55% { -webkit-transform: translateY(-5px) rotate(4deg); } 70% { -webkit-transform: translateY(0); } }
-  @-webkit-keyframes festa { 0%,100% { -webkit-transform: scale(1) rotate(-8deg); } 50% { -webkit-transform: scale(1.15) rotate(8deg); } }
+  @-webkit-keyframes respira { 0%,100% { -webkit-transform: translateY(0) rotate(0); } 50% { -webkit-transform: translateY(-6px) rotate(-1.5deg); } }
+  @-webkit-keyframes pulinho { 0% { -webkit-transform: translateY(0) scale(1); } 25% { -webkit-transform: translateY(-26px) scale(1.04) rotate(-4deg); }
+                               50% { -webkit-transform: translateY(0) scale(.98); } 70% { -webkit-transform: translateY(-9px) rotate(3deg); } 100% { -webkit-transform: translateY(0); } }
+  @-webkit-keyframes rola { 0% { -webkit-transform: rotate(0) scale(1); } 60% { -webkit-transform: rotate(540deg) scale(1.3); } 100% { -webkit-transform: rotate(720deg) scale(1); } }
   @-webkit-keyframes bate { 0%,100% { -webkit-transform: scale(1); } 15% { -webkit-transform: scale(1.25); } 30% { -webkit-transform: scale(1); } 45% { -webkit-transform: scale(1.18); } }
   @-webkit-keyframes balanca { 0%,100% { -webkit-transform: rotate(-12deg); } 50% { -webkit-transform: rotate(12deg); } }
-  @-webkit-keyframes chacoalha { 0%,70%,100% { -webkit-transform: rotate(0) scale(1); } 74% { -webkit-transform: rotate(-14deg) scale(1.08); }
-                                78% { -webkit-transform: rotate(12deg) scale(1.08); } 82% { -webkit-transform: rotate(-10deg); } 86% { -webkit-transform: rotate(8deg); } 90% { -webkit-transform: rotate(0); } }
   @-webkit-keyframes pisca { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
   @-webkit-keyframes cai { 0% { -webkit-transform: translateY(0) rotate(0); } 100% { -webkit-transform: translateY(820px) rotate(360deg); } }
 </style>
@@ -155,56 +146,45 @@
 <body>
 <div class="wrap">
   <div class="col col-esq">
-    <div class="hora" id="hora">--:--</div>
-    <div class="data" id="data"></div>
-    <div class="oi" id="oi"></div>
-
-    <div class="clima">
-      <div class="clima-agora">
-        <div class="clima-icone" id="cIcone">⛅️</div>
-        <div class="clima-temp" id="cTemp">--°</div>
-        <div>
-          <div class="clima-desc" id="cDesc">Carregando o clima…</div>
-          <div class="clima-extra" id="cExtra"></div>
-          <div class="clima-dica" id="cDica"></div>
+    <div class="hero">
+      <div class="hero-oi" id="oi">Bom dia, Lari!</div>
+      <div class="hero-data" id="data"></div>
+      <div class="hero-frase" id="frase"></div>
+      <img class="avatar" id="avatar" src="lari.png" alt="">
+      <div class="stats">
+        <div class="st">
+          <div class="st-rot">Agora</div>
+          <div class="st-num" id="hora">--:--</div>
+          <div class="st-sub" id="extraHora"></div>
+        </div>
+        <div class="st">
+          <div class="st-rot" id="cDesc">Clima</div>
+          <div class="st-num"><span id="cTemp">--°</span><small id="cIcone"></small></div>
+          <div class="st-sub" id="cExtra"></div>
+        </div>
+        <div class="st">
+          <div class="st-rot">Chuva</div>
+          <div class="st-num"><span id="cChuva">--</span><small class="azul">%</small></div>
+          <div class="st-sub" id="cDica"></div>
         </div>
       </div>
-      <div class="horas" id="horas"></div>
     </div>
 
-    <div class="card alegria" id="alegria">
-      <div class="mascote" id="mascote">🐸</div>
-      <div>
-        <div class="frase" id="frase"></div>
-        <div class="frase-sub" id="fraseSub"></div>
-      </div>
-    </div>
-
-    <div class="card surpresa" id="surpresa">
-      <div class="presente" id="presente">🎁</div>
-      <div>
-        <div class="s-tipo" id="sTipo">Surpresinha do dia</div>
-        <div class="s-txt" id="sTxt">Toque pra abrir! 💝</div>
-        <div class="s-resp" id="sResp"></div>
-        <div class="s-dica" id="sDica"></div>
-      </div>
-    </div>
-
-    <div class="card" id="avisosCard" style="display:none">
-      <div class="titulo">Avisos</div>
-      <div id="avisos"></div>
+    <div class="card tarefa">
+      <div class="tf-topo"><div class="titulo">Tarefinha do dia</div><div class="dado" id="dado">🎲</div></div>
+      <div id="tfCorpo"></div>
     </div>
   </div>
 
   <div class="col col-dir">
-    <div class="card">
-      <div class="timer" id="timer">
-        <div class="t-icone">⏲</div>
-        <div class="t-tempo" id="tTempo">00:00</div>
-        <div class="btn" data-a="1">+1</div><div class="btn" data-a="5">+5</div><div class="btn" data-a="10">+10</div>
-        <div class="btn play" id="tPlay" data-a="play">▶︎</div><div class="btn" data-a="zero">✕</div>
-      </div>
+    <div class="card timer" id="timer">
+      <div class="t-icone">⏲</div>
+      <div class="t-tempo" id="tTempo">00:00</div>
+      <div class="btn" data-a="1">+1</div><div class="btn" data-a="5">+5</div><div class="btn" data-a="10">+10</div>
+      <div class="btn play" id="tPlay" data-a="play">▶︎</div><div class="btn" data-a="zero">✕</div>
     </div>
+
+    <div class="card horas" id="horas"></div>
 
     <div class="card">
       <div class="kpop-topo"><div class="titulo">K-pop</div><div class="coracao">💜</div></div>
@@ -212,6 +192,11 @@
       <div class="sep" id="kSep"></div>
       <div id="noticias"></div>
       <div class="kpop-atual" id="kAtual"></div>
+    </div>
+
+    <div class="card avisos" id="avisosCard" style="display:none">
+      <div class="titulo">Avisos</div>
+      <div id="avisos"></div>
     </div>
 
     <div class="card lista-card">
@@ -228,6 +213,7 @@
 
 <div id="confetes"></div>
 <div id="neves"></div>
+<div id="noite"></div>
 <div id="apagado"></div>
 <div id="alarme"><div class="a0">⏰</div><div class="a1">O timer acabou!</div><div class="a2">Toque para parar</div></div>
 
@@ -235,14 +221,12 @@
 /* ======== CONFIGURAÇÃO ======== */
 var CONFIG = {
   nome: "Lari",
-  cidade: "Belo Horizonte",
   latitude: -19.92,
   longitude: -43.94,
   noiteDe: 22, noiteAte: 6,     // tela mais escura
   desligaDe: 1, desligaAte: 7   // tela preta (um toque acende por 1 minuto)
 };
 
-/* Aniversários fixos (mês-dia) */
 var ANIVERSARIOS = [
   ["02-18","J-Hope","bts"],["03-09","Suga","bts"],["09-01","Jungkook","bts"],["09-12","RM","bts"],
   ["10-13","Jimin","bts"],["12-04","Jin","bts"],["12-30","V","bts"],
@@ -254,57 +238,26 @@ var ANIVERSARIOS = [
 var DEBUTS = [["06-13","BTS","bts",2013],["03-25","Stray Kids","skz",2018],["10-24","ATEEZ","ateez",2018]];
 var GRUPOS = { bts: "BTS", skz: "SKZ", ateez: "ATEEZ" };
 
-/* Frases reserva (o Claude manda uma nova todo dia; estas entram se faltar) */
 var FRASES = [
   "Hoje é um ótimo dia pra ser a protagonista. 🌟",
   "Água, comidinha boa e um K-pop no talo. Receita de felicidade. 🎶",
   "Você não está atrasada, está no seu tempo. 🐢",
-  "Se a vida der limão, faz uma limonada e coloca um comeback pra tocar. 🍋",
   "Lembrete oficial: você é incrível. Assinado: a cozinha. 💛",
   "Pequenos passos ainda são passos. 👣",
   "O café não resolve tudo, mas ajuda bastante. ☕️",
   "Respira fundo. Você dá conta. 🌈",
   "Hoje vale dançar enquanto a água ferve. 💃",
-  "Bom humor é o melhor tempero. 🍅",
   "Pausa pro lanchinho é autocuidado, sim. 🍪",
-  "Você + uma playlist boa = imbatível. 🎧",
-  "Já agradeceu a si mesma hoje? Tá esperando o quê? 🌻",
   "Plot twist: o dia vai ser bom. 🎬",
-  "Nem toda receita sai perfeita, e tudo bem. 🍳",
   "Hidrata, alonga e segue brilhando. ✨",
-  "O universo tá torcendo por você (e a gente também). 🌙",
   "Coragem! Até o pão de queijo precisa do forno pra crescer. 🧀",
-  "Hoje é dia de fazer algo só porque você gosta. 🎨",
-  "Sorriso no rosto e lista de compras em dia. 🛒",
-  "Sabe aquela coisa difícil? Você já passou por piores. 💪",
   "Se ninguém te disse hoje: você tá mandando bem. 👏",
   "Devagar também é velocidade. 🐌",
-  "Desliga o modo crítica e liga o modo carinho. 💗",
   "A melhor hora pra recomeçar é agora. 🌅",
-  "Um dia de cada vez, uma música de cada vez. 🎵",
-  "Dica do dia: menos pressa, mais presença. 🍃",
-  "Você merece o mesmo cuidado que dá pros outros. ☕️",
   "Seja a energia de um fancam em 4K. 📸",
   "Hoje tem tudo pra ser leve. 🎈"
 ];
-var SURPRESAS = [
-  { tipo: "Quiz K-pop", texto: "Qual é o nome do fandom do ATEEZ?", resposta: "ATINY! ⚓️" },
-  { tipo: "Desafio", texto: "Dance um refrão inteiro enquanto a água do café esquenta. Ninguém tá vendo. 💃", resposta: "" },
-  { tipo: "Ukulele", texto: "Acorde de Dó (C): só o dedo anelar na 3ª casa da corda de baixo (Lá). Fácil, né? 🎶", resposta: "" },
-  { tipo: "Curiosidade", texto: "BTS vem de 'Bangtan Sonyeondan'. Sabe o que significa?", resposta: "Algo como 'escoteiros à prova de balas'. 🛡" },
-  { tipo: "Piada", texto: "O que o pão de queijo disse pro café?", resposta: "'Sem você, meu dia não tem graça.' 🧀☕️" },
-  { tipo: "Receitinha", texto: "Pipoca de panela + canela + um fio de mel no final. Lanche de cinema em casa. 🍿", resposta: "" },
-  { tipo: "Quiz K-pop", texto: "Como se chama o fandom do Stray Kids?", resposta: "STAY! 🐺" },
-  { tipo: "Missão fofa", texto: "Mande uma mensagem carinhosa pra alguém que você não fala faz tempo. 💌", resposta: "" },
-  { tipo: "Curiosidade", texto: "ATEEZ é a abreviação de quê?", resposta: "A TEEnager Z. ⚓️" },
-  { tipo: "Piada", texto: "Por que a geladeira é a mais calma da casa?", resposta: "Porque ela nunca perde a frieza. ❄️" },
-  { tipo: "Desafio", texto: "Beba um copo d'água agora e se dê um 'muito bem!' em voz alta. 💧", resposta: "" },
-  { tipo: "Ukulele", texto: "Desafio de 5 minutos: alternar Dó (C) e Lá menor (Am) no ritmo de uma música do BTS. 🎵", resposta: "" },
-  { tipo: "Receitinha", texto: "Banana amassada + ovo + aveia = panquequinha de frigideira em 5 minutos. 🍳", resposta: "" },
-  { tipo: "Missão fofa", texto: "Escolha a música do dia e deixe tocando enquanto cozinha. 🎧", resposta: "" },
-  { tipo: "Piada", texto: "O que o tomate foi fazer no banco?", resposta: "Tirar extrato. 🍅" }
-];
-var MASCOTES = ["🐸","🐧","🐱","🐶","🐰","🐼","🐹","🐨","🐢","🐙","🐳","🐝","🐞","🐥","🦄","🐷","🐻","🐯","🐵","🐬"];
+var TAREFAS_RESERVA = [{ tarefa: "Beber um copão de água", emoji: "💧" }, { tarefa: "Arrumar uma gaveta", emoji: "🗂" }];
 
 /* JavaScript ES5 puro (sem let/const/arrow/fetch) para rodar no iOS 9 */
 var DIAS = ["domingo","segunda-feira","terça-feira","quarta-feira","quinta-feira","sexta-feira","sábado"];
@@ -316,6 +269,8 @@ function esc(t) { return String(t == null ? "" : t).replace(/&/g,"&amp;").replac
 function hojeISO(d) { d = d || new Date(); return d.getFullYear() + "-" + dois(d.getMonth() + 1) + "-" + dois(d.getDate()); }
 function diaDoAno(d) { var ini = new Date(d.getFullYear(), 0, 1); return Math.floor((d - ini) / 86400000); }
 function dataDe(iso) { var p = iso.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+function guardar(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function ler(k, padrao) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : padrao; } catch (e) { return padrao; } }
 function toque(el, fn) {
   var mexeu = false;
   el.addEventListener("touchstart", function () { mexeu = false; }, false);
@@ -338,25 +293,23 @@ function pegarJSON(url, ok, erro) {
   try { xhr.send(); } catch (e) { falha(); }
 }
 
-/* ======== RELÓGIO ======== */
+/* ======== RELÓGIO E SAUDAÇÃO ======== */
 var acordadoAte = 0, ultimoDia = "";
 function relogio() {
-  var d = new Date(), h = d.getHours();
-  $("hora").innerHTML = dois(h) + ":" + dois(d.getMinutes()) + '<span class="seg">' + dois(d.getSeconds()) + "</span>";
-  var dia = DIAS[d.getDay()];
+  var d = new Date(), h = d.getHours(), ds = d.getDay();
+  $("hora").innerHTML = dois(h) + ":" + dois(d.getMinutes());
+  var dia = DIAS[ds];
   $("data").innerHTML = dia.charAt(0).toUpperCase() + dia.slice(1) + ", " + d.getDate() + " de " + MESES[d.getMonth()];
   var oi = h < 5 ? "Boa madrugada" : h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite";
-  var emo = h < 5 ? "🌙" : h < 12 ? "☀️" : h < 18 ? "🌤" : "🌙";
-  var ds = d.getDay(), extra = "";
-  if (ds === 5) extra = " Sextou! 🎉"; else if (ds === 1 && h < 12) extra = " Bora com tudo nessa segunda! 💪";
-  else if (ds === 0 || ds === 6) extra = " Fim de semana! 🛋";
-  $("oi").innerHTML = oi + ", " + CONFIG.nome + "! " + emo + extra;
+  if (ds === 5 && h >= 12) oi = "Sextou";
+  $("oi").innerHTML = oi + ", " + CONFIG.nome + "!";
+  $("extraHora").innerHTML = ds === 5 ? "Sextou! 🎉" : (ds === 0 || ds === 6) ? "Fim de semana 🛋" : ds === 1 ? "Bora, segunda! 💪" : ds === 4 ? "Amanhã é sexta! 🙌" : "Faltam " + (5 - ds) + " dias pra sexta";
 
-  document.body.className = ((h >= CONFIG.noiteDe || h < CONFIG.noiteAte) ? "noite" : "") + (ds === 5 ? " sextou" : "");
+  $("noite").style.display = (h >= CONFIG.noiteDe || h < CONFIG.noiteAte) ? "block" : "none";
   var desligado = (h >= CONFIG.desligaDe && h < CONFIG.desligaAte);
   $("apagado").style.display = (desligado && !timer.rodando && !timer.fim && Date.now() > acordadoAte) ? "block" : "none";
 
-  if (hojeISO(d) !== ultimoDia) { ultimoDia = hojeISO(d); desenharAlegria(); desenharKpop(); desenharSurpresa(); desenharEstacao(); }
+  if (hojeISO(d) !== ultimoDia) { ultimoDia = hojeISO(d); desenharFrase(); desenharKpop(); desenharEstacao(); desenharTarefa(); }
 }
 
 /* ======== CLIMA ======== */
@@ -371,7 +324,7 @@ function climaInfo(cod) {
   if (cod >= 71 && cod <= 77) return ["❄️", "Neve"];
   if (cod >= 80 && cod <= 82) return ["🌧", "Pancadas de chuva"];
   if (cod >= 95) return ["⛈", "Trovoadas"];
-  return ["🌡", ""];
+  return ["🌡", "Clima"];
 }
 function urlOpenMeteo() {
   return "https://api.open-meteo.com/v1/forecast?latitude=" + CONFIG.latitude + "&longitude=" + CONFIG.longitude +
@@ -381,11 +334,8 @@ function urlOpenMeteo() {
     "&timezone=America%2FSao_Paulo&forecast_days=2";
 }
 function atualizarClima() {
-  // 1º: arquivo no próprio site (atualizado de hora em hora pelo GitHub). 2º: direto na Open-Meteo.
   pegarJSON("clima.json", mostrarClima, function () {
-    pegarJSON(urlOpenMeteo(), mostrarClima, function () {
-      if ($("cTemp").innerHTML === "--°") $("cDesc").innerHTML = "Clima indisponível agora";
-    });
+    pegarJSON(urlOpenMeteo(), mostrarClima, function () { $("cDesc").innerHTML = "Clima indisponível"; });
   });
 }
 function mostrarClima(j) {
@@ -395,14 +345,13 @@ function mostrarClima(j) {
   $("cDesc").innerHTML = info[1];
   var max = Math.round(dd.temperature_2m_max[0]), min = Math.round(dd.temperature_2m_min[0]);
   var chuva = dd.precipitation_probability_max[0] || 0;
-  $("cExtra").innerHTML = "Máx " + max + "° · Mín " + min + "° · Chuva " + chuva + "%";
-  var dica = chuva >= 60 ? "Leva o guarda-chuva! ☔️" : chuva >= 35 ? "Pode pingar, fica de olho. 🌂" :
-             max >= 31 ? "Calorão! Dia de picolé. 🍦" : min <= 13 ? "Friozinho: casaquinho e chá. ☕️" :
-             info[0] === "☀️" ? "Sol lindo lá fora! 😎" : "";
-  $("cDica").innerHTML = dica;
+  $("cExtra").innerHTML = '<span class="rosa">▲' + max + '°</span>  <span class="azul">▼' + min + "°</span>";
+  $("cChuva").innerHTML = chuva;
+  $("cDica").innerHTML = chuva >= 60 ? "Leva guarda-chuva ☔️" : chuva >= 35 ? "Pode pingar 🌂" :
+             max >= 31 ? "Dia de picolé 🍦" : min <= 13 ? "Casaquinho e chá ☕️" : "Tempo firme 😎";
 
   var agora = new Date(), html = "", n = 0, hr = j.hourly, i;
-  for (i = 0; i < hr.time.length && n < 5; i++) {
+  for (i = 0; i < hr.time.length && n < 6; i++) {
     var p = hr.time[i].split("T"), dp = p[0].split("-"), hp = +p[1].split(":")[0];
     var t = new Date(+dp[0], +dp[1] - 1, +dp[2], hp, 0, 0);
     if (t.getTime() <= agora.getTime() || hp % 3 !== 0) continue;
@@ -412,107 +361,51 @@ function mostrarClima(j) {
     n++;
   }
   $("horas").innerHTML = html;
+  $("horas").style.display = html ? "" : "none";
 }
 
-/* ======== DADOS DO DIA (dia.json, atualizado pelo Claude toda manhã) ======== */
+/* ======== FRASE DO DIA E FESTAS ======== */
 var DIA = null;
-function atualizarDia() { pegarJSON("dia.json", function (j) { DIA = j; desenharAlegria(); desenharKpop(); desenharSurpresa(); }); }
-
-/* ======== GRACINHA DO DIA ======== */
+function atualizarDia() { pegarJSON("dia.json", function (j) { DIA = j; desenharFrase(); desenharKpop(); }); }
 function aniversariantesHoje() {
   var d = new Date(), md = dois(d.getMonth() + 1) + "-" + dois(d.getDate()), r = [], i;
   for (i = 0; i < ANIVERSARIOS.length; i++) if (ANIVERSARIOS[i][0] === md) r.push(ANIVERSARIOS[i][1] + " (" + GRUPOS[ANIVERSARIOS[i][2]] + ")");
   for (i = 0; i < DEBUTS.length; i++) if (DEBUTS[i][0] === md) r.push((d.getFullYear() - DEBUTS[i][3]) + " anos de debut do " + DEBUTS[i][1]);
   return r;
 }
-function desenharAlegria() {
-  var d = new Date(), n = diaDoAno(d);
-  var frase = FRASES[n % FRASES.length], mascote = MASCOTES[n % MASCOTES.length];
-  if (DIA && DIA.data === hojeISO(d)) {
-    if (DIA.frase) frase = DIA.frase;
-    if (DIA.mascote) mascote = DIA.mascote;
-  }
-  var niver = aniversariantesHoje(), card = $("alegria");
+function desenharFrase() {
+  var d = new Date(), frase = FRASES[diaDoAno(d) % FRASES.length];
+  if (DIA && DIA.data === hojeISO(d) && DIA.frase) frase = DIA.frase;
+  var niver = aniversariantesHoje();
   if (niver.length) {
-    $("mascote").innerHTML = "🎂";
-    $("frase").innerHTML = "Hoje é dia de festa: " + esc(niver.join(" e ")) + "! 🎉";
-    $("fraseSub").innerHTML = esc(frase);
-    card.className = "card alegria niver";
-    soltarConfete(true);
+    $("frase").innerHTML = "🎂 Hoje é dia de festa: " + esc(niver.join(" e ")) + "!";
+    $("frase").className = "hero-frase niver";
+    chuvaDe(["🎉","✨","💜","🎈","⭐️","🎊"], 10, true);
   } else {
-    $("mascote").innerHTML = mascote;
     $("frase").innerHTML = esc(frase);
-    $("fraseSub").innerHTML = "Frase do dia";
-    card.className = "card alegria";
-    soltarConfete(false);
+    $("frase").className = "hero-frase";
+    $("confetes").innerHTML = "";
   }
 }
-function soltarConfete(sim) {
-  var box = $("confetes"), i, pecas = ["🎉","✨","💜","🎈","⭐️","🎊"];
+function chuvaDe(pecas, qtd, infinito) {
+  var box = $("confetes"), i;
   box.innerHTML = "";
-  if (!sim) return;
-  for (i = 0; i < 10; i++) {
+  for (i = 0; i < qtd; i++) {
     var c = document.createElement("div");
     c.className = "confete";
     c.innerHTML = pecas[i % pecas.length];
-    c.style.left = (5 + i * 9.5) + "%";
-    c.style.webkitAnimationDelay = (i * 0.9) + "s";
-    c.style.webkitAnimationDuration = (8 + (i % 4)) + "s";
+    c.style.left = (4 + i * (92 / qtd)) + "%";
+    c.style.webkitAnimationDelay = (infinito ? i * 0.9 : i * 0.2) + "s";
+    c.style.webkitAnimationDuration = infinito ? (8 + (i % 4)) + "s" : "3.5s";
+    if (!infinito) c.style.webkitAnimationIterationCount = "1";
     box.appendChild(c);
   }
+  if (!infinito) setTimeout(function () { desenharFrase(); }, 6000);
 }
-
-/* ======== SURPRESINHA DO DIA ======== */
-var estadoSurpresa = 0, surpresaAtual = null;
-function desenharSurpresa() {
-  var d = new Date(), s = SURPRESAS[diaDoAno(d) % SURPRESAS.length];
-  if (DIA && DIA.data === hojeISO(d) && DIA.surpresa && DIA.surpresa.texto) s = DIA.surpresa;
-  if (surpresaAtual && surpresaAtual.texto === s.texto) return;
-  surpresaAtual = s; estadoSurpresa = 0;
-  $("surpresa").className = "card surpresa";
-  $("presente").innerHTML = "🎁";
-  $("sTipo").innerHTML = "Surpresinha do dia";
-  $("sTxt").innerHTML = "Toque pra abrir! 💝";
-  $("sResp").innerHTML = ""; $("sDica").innerHTML = "";
-}
-function abrirSurpresa() {
-  var s = surpresaAtual;
-  if (!s) return;
-  if (estadoSurpresa === 0) {
-    estadoSurpresa = 1;
-    $("surpresa").className = "card surpresa aberta";
-    $("presente").innerHTML = "🎉";
-    $("sTipo").innerHTML = esc(s.tipo || "Surpresinha");
-    $("sTxt").innerHTML = esc(s.texto);
-    $("sDica").innerHTML = s.resposta ? "Toque de novo pra ver a resposta" : "";
-    estourarConfete();
-  } else if (estadoSurpresa === 1 && s.resposta) {
-    estadoSurpresa = 2;
-    $("sResp").innerHTML = esc(s.resposta);
-    $("sDica").innerHTML = "";
-  }
-}
-function estourarConfete() {
-  var box = $("confetes"), i, pecas = ["🎉","✨","💜","⭐️","🎊","💛"];
-  if (box.children.length) return;
-  for (i = 0; i < 8; i++) {
-    var c = document.createElement("div");
-    c.className = "confete";
-    c.innerHTML = pecas[i % pecas.length];
-    c.style.left = (4 + i * 12) + "%";
-    c.style.webkitAnimationDelay = (i * 0.25) + "s";
-    c.style.webkitAnimationDuration = "4s";
-    c.style.webkitAnimationIterationCount = "1";
-    box.appendChild(c);
-  }
-  setTimeout(function () { if (!aniversariantesHoje().length) box.innerHTML = ""; }, 7000);
-}
-
-/* ======== ESTAÇÕES ======== */
 function desenharEstacao() {
   var d = new Date(), box = $("neves"), i;
   box.innerHTML = "";
-  if (d.getMonth() !== 11) return;  // dezembro: neve de mentirinha ❄️
+  if (d.getMonth() !== 11) return;
   for (i = 0; i < 6; i++) {
     var n = document.createElement("div");
     n.className = "neve"; n.innerHTML = "❄️";
@@ -522,11 +415,78 @@ function desenharEstacao() {
   }
 }
 
+/* ======== TAREFINHA SORTEADA (lista vem da planilha do Google) ======== */
+var TAREFAS = [];
+var tf = ler("tarefaDoDia", null);
+function atualizarTarefas() {
+  pegarJSON("tarefas.json", function (j) { TAREFAS = j.tarefas || []; desenharTarefa(); });
+}
+function sortear() {
+  var lista = TAREFAS.length ? TAREFAS : TAREFAS_RESERVA, evitar = (tf && tf.dia === hojeISO() && tf.vistas) || [];
+  var opcoes = [], i;
+  for (i = 0; i < lista.length; i++) if (evitar.indexOf(lista[i].tarefa) < 0) opcoes.push(lista[i]);
+  if (!opcoes.length) { opcoes = lista; evitar = []; }
+  var t = opcoes[Math.floor(Math.random() * opcoes.length)];
+  evitar.push(t.tarefa);
+  tf = { dia: hojeISO(), estado: "sorteada", tarefa: t.tarefa, emoji: t.emoji || "✨", vistas: evitar };
+  guardar("tarefaDoDia", tf);
+  var dado = $("dado"); dado.className = "dado"; void dado.offsetWidth; dado.className = "dado rola";
+  desenharTarefa();
+}
+function mudar(estado) { tf.estado = estado; guardar("tarefaDoDia", tf); desenharTarefa(); }
+function botao(txt, classe, fn) {
+  var b = document.createElement("div");
+  b.className = "pill " + (classe || ""); b.innerHTML = txt; toque(b, fn);
+  return b;
+}
+function desenharTarefa() {
+  var box = $("tfCorpo");
+  if (!box) return;
+  box.innerHTML = "";
+  if (!tf || tf.dia !== hojeISO()) tf = { dia: hojeISO(), estado: "inicio", vistas: [] };
+  var txt = document.createElement("div"); txt.className = "tf-txt";
+  var msg = document.createElement("div"); msg.className = "tf-msg";
+  var linha = document.createElement("div");
+  var e = tf.estado, nome = '<span class="emo">' + esc(tf.emoji) + "</span>" + esc(tf.tarefa);
+  if (e === "inicio") {
+    txt.innerHTML = "Que tal uma tarefinha hoje?";
+    msg.innerHTML = "Eu sorteio, você decide. Sem pressão. 💛";
+    linha.appendChild(botao("Sortear 🎲", "preta", sortear));
+  } else if (e === "sorteada") {
+    txt.innerHTML = nome;
+    msg.innerHTML = "Vai encarar?";
+    linha.appendChild(botao("Bora! ✓", "preta", function () { mudar("aceita"); }));
+    linha.appendChild(botao("Outra 🎲", "", sortear));
+    linha.appendChild(botao("Hoje não", "", function () { mudar("folga"); }));
+  } else if (e === "aceita") {
+    txt.innerHTML = nome;
+    msg.innerHTML = "Combinado! Tô torcendo por você. 📣";
+    linha.appendChild(botao("Feito! 🎉", "verdinha", function () {
+      mudar("feita"); chuvaDe(["🎉","✨","💛","⭐️","🎊","👏"], 9, false); pularAvatar();
+    }));
+    linha.appendChild(botao("Trocar 🎲", "", sortear));
+  } else if (e === "feita") {
+    txt.innerHTML = "Arrasou! " + esc(tf.tarefa) + " ✓";
+    msg.innerHTML = "Tarefa concluída. Merece um cafezinho. ☕️";
+    linha.appendChild(botao("Mais uma? 🎲", "", sortear));
+  } else {
+    txt.innerHTML = "Tudo bem! Descansar também conta. 🛋";
+    msg.innerHTML = "Se mudar de ideia, é só sortear de novo.";
+    linha.appendChild(botao("Sortear 🎲", "", sortear));
+  }
+  box.appendChild(txt); box.appendChild(msg); box.appendChild(linha);
+}
+
+/* ======== AVATAR ======== */
+function pularAvatar() {
+  var a = $("avatar"); a.className = "avatar"; void a.offsetWidth; a.className = "avatar pula";
+  setTimeout(function () { a.className = "avatar"; }, 950);
+}
+
 /* ======== K-POP ======== */
 function quandoFalta(dias) { return dias === 0 ? "hoje!" : dias === 1 ? "amanhã" : "em " + dias + " dias"; }
 function desenharKpop() {
   var hoje = dataDe(hojeISO()), lista = [], i, ano = hoje.getFullYear();
-  // aniversários e debuts nos próximos 21 dias
   function addFixo(md, txt, tipo) {
     var dt = dataDe(ano + "-" + md);
     if (dt < hoje) dt = dataDe((ano + 1) + "-" + md);
@@ -536,7 +496,6 @@ function desenharKpop() {
   for (i = 0; i < ANIVERSARIOS.length; i++) addFixo(ANIVERSARIOS[i][0], "Aniversário do " + ANIVERSARIOS[i][1] + " 🎂", ANIVERSARIOS[i][2]);
   for (i = 0; i < DEBUTS.length; i++) addFixo(DEBUTS[i][0], "Aniversário de debut do " + DEBUTS[i][1] + " 🎉", DEBUTS[i][2]);
   addFixo("12-25", "Natal! 🎄", ""); addFixo("01-01", "Ano-Novo! 🎆", "");
-  // eventos enviados pelo Claude (comebacks, shows, lançamentos)
   var evs = (DIA && DIA.eventos) || [];
   for (i = 0; i < evs.length; i++) {
     if (!evs[i].data) continue;
@@ -551,30 +510,20 @@ function desenharKpop() {
       '<div class="ev-txt">' + (GRUPOS[e.tipo] ? '<span class="tag tag-' + e.tipo + '">' + GRUPOS[e.tipo] + "</span>" : "") + esc(e.txt) + "</div></div>";
   }
   $("eventos").innerHTML = html;
-
   var nts = (DIA && DIA.noticias) || [];
-  if (nts.length) {
-    html = "";
-    for (i = 0; i < nts.length && i < 3; i++) {
-      var g = nts[i].grupo;
-      html += '<div class="nt">' + (GRUPOS[g] ? '<span class="tag tag-' + g + '">' + GRUPOS[g] + "</span>" : "") + esc(nts[i].texto) + "</div>";
-    }
-    $("noticias").innerHTML = html;
-  } else {
-    $("noticias").innerHTML = "";
-    if (!lista.length) $("eventos").innerHTML = '<div class="vazio">Nenhum aniversário nas próximas semanas.</div>';
+  html = "";
+  for (i = 0; i < nts.length && i < 3; i++) {
+    var g = nts[i].grupo;
+    html += '<div class="nt">' + (GRUPOS[g] ? '<span class="tag tag-' + g + '">' + GRUPOS[g] + "</span>" : "") + esc(nts[i].texto) + "</div>";
   }
+  $("noticias").innerHTML = html;
   $("kSep").style.display = (lista.length && nts.length) ? "block" : "none";
-  if (DIA && DIA.data && nts.length) {
-    var dd = DIA.data.split("-");
-    $("kAtual").innerHTML = "Notícias de " + dd[2] + "/" + dd[1];
-  }
+  $("kAtual").innerHTML = "";
+  if (nts.length && DIA.noticiasData) { var nd = DIA.noticiasData.split("-"); $("kAtual").innerHTML = "Notícias de " + nd[2] + "/" + nd[1]; }
 }
 
-/* ======== AVISOS (avisos.json) ======== */
-var vistos = {};
-try { vistos = JSON.parse(localStorage.getItem("avisosVistos") || "{}"); } catch (e) { vistos = {}; }
-var ultimosAvisos = [];
+/* ======== AVISOS ======== */
+var vistos = ler("avisosVistos", {}), ultimosAvisos = [];
 function quandoTxt(iso) {
   if (!iso) return "";
   var p = iso.split("T"), dp = p[0].split("-"), hp = (p[1] || "00:00").split(":");
@@ -595,12 +544,8 @@ function desenharAvisos() {
       var d = document.createElement("div");
       d.className = "aviso";
       d.innerHTML = '<div class="ponto"></div><div><div class="at">' + esc(av.texto) + '</div><div class="aq">' +
-        esc(quandoTxt(av.quando)) + " · toque para marcar como visto</div></div>";
-      toque(d, function () {
-        vistos[av.id] = 1;
-        try { localStorage.setItem("avisosVistos", JSON.stringify(vistos)); } catch (e) {}
-        desenharAvisos();
-      });
+        esc(quandoTxt(av.quando)) + " · toque pra marcar como visto</div></div>";
+      toque(d, function () { vistos[av.id] = 1; guardar("avisosVistos", vistos); desenharAvisos(); });
       box.appendChild(d);
     })(a);
     n++;
@@ -652,7 +597,7 @@ function desenharTimer() {
   var ms = timer.rodando ? Math.max(0, timer.alvo - Date.now()) : timer.resta;
   var s = Math.ceil(ms / 1000), m = Math.floor(s / 60);
   $("tTempo").innerHTML = m >= 60 ? Math.floor(m / 60) + ":" + dois(m % 60) + ":" + dois(s % 60) : dois(m) + ":" + dois(s % 60);
-  $("timer").className = "timer" + (timer.rodando ? " rodando" : "");
+  $("timer").className = "card timer" + (timer.rodando ? " rodando" : "");
   $("tPlay").innerHTML = timer.rodando ? "❚❚" : "▶︎";
 }
 function tickTimer() {
@@ -670,9 +615,7 @@ function pararAlarme() {
 }
 
 /* ======== LISTA DE COMPRAS ======== */
-var lista = [];
-try { lista = JSON.parse(localStorage.getItem("listaCompras") || "[]"); } catch (e) { lista = []; }
-function salvarLista() { try { localStorage.setItem("listaCompras", JSON.stringify(lista)); } catch (e) {} }
+var lista = ler("listaCompras", []);
 function desenharLista() {
   var box = $("itens"), i;
   box.innerHTML = "";
@@ -682,7 +625,7 @@ function desenharLista() {
       var d = document.createElement("div");
       d.className = "item" + (lista[idx].feito ? " feito" : "");
       d.appendChild(document.createTextNode(lista[idx].txt));
-      toque(d, function () { lista[idx].feito = !lista[idx].feito; salvarLista(); desenharLista(); });
+      toque(d, function () { lista[idx].feito = !lista[idx].feito; guardar("listaCompras", lista); desenharLista(); });
       box.appendChild(d);
     })(i);
   }
@@ -691,7 +634,7 @@ function adicionarItem() {
   var inp = $("novoItem"), v = inp.value.replace(/^\s+|\s+$/g, "");
   if (!v) return;
   lista.push({ txt: v, feito: false });
-  inp.value = ""; salvarLista(); desenharLista();
+  inp.value = ""; guardar("listaCompras", lista); desenharLista();
 }
 
 /* ======== INÍCIO ======== */
@@ -704,16 +647,11 @@ $("novoItem").addEventListener("keyup", function (e) { if (e.keyCode === 13) { a
 toque($("btnLimpar"), function () {
   var nova = [], i;
   for (i = 0; i < lista.length; i++) if (!lista[i].feito) nova.push(lista[i]);
-  lista = nova; salvarLista(); desenharLista();
+  lista = nova; guardar("listaCompras", lista); desenharLista();
 });
 toque($("alarme"), pararAlarme);
-toque($("surpresa"), abrirSurpresa);
 toque($("apagado"), function () { acordadoAte = Date.now() + 60000; relogio(); });
-toque($("mascote"), function () {
-  // toque no bichinho = ele dá um pulinho extra
-  var m = $("mascote"); m.style.webkitAnimation = "festa .5s ease-in-out 3";
-  setTimeout(function () { m.style.webkitAnimation = ""; }, 1600);
-});
+toque($("avatar"), pularAvatar);
 document.addEventListener("touchstart", liberarSom, false);
 
 desenharLista(); desenharTimer();
@@ -721,9 +659,9 @@ relogio(); setInterval(relogio, 1000);
 setInterval(tickTimer, 250);
 atualizarClima(); setInterval(atualizarClima, 15 * 60 * 1000);
 atualizarDia(); setInterval(atualizarDia, 30 * 60 * 1000);
+atualizarTarefas(); setInterval(atualizarTarefas, 30 * 60 * 1000);
 atualizarAvisos(); setInterval(atualizarAvisos, 5 * 60 * 1000);
 
-// recarrega às 4h para o iPad antigo não acumular memória (e pegar versões novas do painel)
 setInterval(function () {
   var d = new Date();
   if (d.getHours() === 4 && d.getMinutes() === 0 && !timer.rodando) location.reload();

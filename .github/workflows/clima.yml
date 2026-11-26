@@ -1,23 +1,40 @@
-name: Atualizar clima
+name: Atualizar clima e tarefas
 on:
   schedule:
-    - cron: "23 * * * *"
+    - cron: "23,53 * * * *"
   workflow_dispatch:
 permissions:
   contents: write
 jobs:
-  clima:
+  atualizar:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Baixar previsão (Open-Meteo)
+        continue-on-error: true
         run: |
           curl -sf "https://api.open-meteo.com/v1/forecast?latitude=-19.92&longitude=-43.94&current=temperature_2m,apparent_temperature,weather_code&hourly=temperature_2m,weather_code,precipitation_probability&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=America%2FSao_Paulo&forecast_days=2" -o novo.json
           python3 -c "import json; json.load(open('novo.json'))['current']"
           mv novo.json clima.json
+      - name: Baixar tarefas da planilha do Google
+        continue-on-error: true
+        run: |
+          curl -sfL "https://docs.google.com/spreadsheets/d/1W71K2HiMqFceBZaqZbpuhMncbLa4pTohGxW4CoaTU08/export?format=csv" -o tarefas.csv
+          python3 - <<'PY'
+          import csv, json
+          linhas = list(csv.reader(open('tarefas.csv', encoding='utf-8')))
+          tarefas = []
+          for i, l in enumerate(linhas):
+              if i == 0 or not l or not l[0].strip():
+                  continue
+              tarefas.append({"tarefa": l[0].strip(), "emoji": (l[1].strip() if len(l) > 1 else "")})
+          if tarefas:
+              json.dump({"tarefas": tarefas}, open('tarefas.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+          PY
+          rm -f tarefas.csv
       - name: Salvar
         run: |
-          git config user.name "clima-bot"
-          git config user.email "clima-bot@users.noreply.github.com"
-          git add clima.json
-          git diff --cached --quiet || (git commit -m "Clima atualizado" && git push)
+          git config user.name "painel-bot"
+          git config user.email "painel-bot@users.noreply.github.com"
+          git add clima.json tarefas.json
+          git diff --cached --quiet || (git commit -m "Clima e tarefas atualizados" && git push)
