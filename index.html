@@ -50,6 +50,9 @@
   .h-hora { font-size: 116px; font-weight: 200; font-family: "AvenirNext-UltraLight", "Avenir Next", "Helvetica Neue", sans-serif; letter-spacing: -3px; line-height: .95; }
   .h-oi { font-size: 22px; font-weight: 500; margin-top: 6px; }
   .hero-txt { bottom: 18px; }
+  .h-dica { display: inline-block; margin-top: 8px; font-size: 16px; font-weight: 600; color: #121520; text-shadow: none;
+            background: rgba(255,255,255,.85); border-radius: 18px; padding: 6px 14px; }
+  .h-dica:empty { display: none; }
 
   /* ===== frase do dia ===== */
   .esq-baixo { -webkit-flex: 1.75; flex: 1.75; min-width: 0; }
@@ -162,6 +165,7 @@
       <div class="hero-txt">
         <div class="h-hora" id="hora">--:--</div>
         <div class="h-oi" id="oi">Bom dia, Lari</div>
+        <div class="h-dica" id="dica"></div>
       </div>
     </div>
 
@@ -382,6 +386,7 @@ function mostrarClima(j) {
   $("chChuva").innerHTML = (chuva >= 40 ? "☔️ " : "💧 ") + chuva + "%";
   $("chMax").innerHTML = "▲" + max + "° ▼" + min + "°";
   $("arco").setAttribute("stroke-dasharray", Math.round(440 * chuva / 100) + " 440");
+  $("dica").innerHTML = dicaDoTempo(j, temp);
 
   var agora = new Date(), html = '<div class="hx agora">Agora<b>' + temp + "°</b></div>", n = 0, hr = j.hourly, i;
   for (i = 0; i < hr.time.length && n < 3; i++) {
@@ -392,6 +397,35 @@ function mostrarClima(j) {
     n++;
   }
   $("horas").innerHTML = html;
+}
+
+function dicaDoTempo(j, tempAgora) {
+  var agora = new Date(), h = agora.getHours(), hr = j.hourly, dd = j.daily, i;
+  var hojeS = hojeISO(agora), amanha = new Date(agora.getTime() + 86400000), amanhaS = hojeISO(amanha);
+  var chuvaResto = 0, minNoite = 99, maxResto = -99, dicas = [];
+  for (i = 0; i < hr.time.length; i++) {
+    var p = hr.time[i].split("T"), hh = +p[1].split(":")[0];
+    if (p[0] !== hojeS || hh <= h) continue;
+    chuvaResto = Math.max(chuvaResto, hr.precipitation_probability[i] || 0);
+    maxResto = Math.max(maxResto, hr.temperature_2m[i]);
+    if (hh >= 18) minNoite = Math.min(minNoite, hr.temperature_2m[i]);
+  }
+  if (h < 18) {
+    if (chuvaResto >= 60) dicas.push("Vai chover, hein! Leva o guarda-chuva ☔️");
+    else if (chuvaResto >= 35) dicas.push("Pode pingar mais tarde, fica de olho 🌂");
+    if (minNoite < 99 && (tempAgora - minNoite >= 5 || minNoite <= 17)) dicas.push("Vai esfriar à noite, leva uma blusinha 👚");
+    else if (maxResto >= 30) dicas.push("Calorão vindo aí, bebe água 💧");
+    if (!dicas.length && tempAgora <= 15) dicas.push("Friozinho! Casaquinho e café quente ☕️");
+    if (!dicas.length && j.current.weather_code <= 1) dicas.push("Dia lindo, aproveita um solzinho 😎");
+  } else {
+    if (dd.time && dd.time.length > 1) {
+      if ((dd.precipitation_probability_max[1] || 0) >= 60) dicas.push("Amanhã vai chover, separa o guarda-chuva ☔️");
+      if (dd.temperature_2m_min[1] <= 15) dicas.push("Amanhã cedo vai estar friozinho, separa uma blusinha 👚");
+      else if (dd.temperature_2m_max[1] >= 31) dicas.push("Amanhã vai ser calorão 🍦");
+    }
+    if (!dicas.length && tempAgora <= 17) dicas.push("Noite fresquinha, bom pra um chá ☕️");
+  }
+  return dicas.slice(0, 2).join(" · ");
 }
 
 /* ======== FRASE DO DIA, FESTAS E ESTAÇÃO ======== */
@@ -408,8 +442,8 @@ function desenharFrase() {
   if (DIA && DIA.data === hojeISO(d) && DIA.frase) frase = DIA.frase;
   var niver = aniversariantesHoje();
   if (niver.length) {
-    $("frase").innerHTML = "🎂 Hoje é aniversário do " + esc(niver.join(" e ")) + "! 🎉";
-    $("fraseCard").className = "card frase-card niver"; $("fraseRot").innerHTML = "Dia de festa";
+    $("frase").innerHTML = esc(frase);
+    $("fraseCard").className = "card frase-card niver"; $("fraseRot").innerHTML = "🎂 Hoje é aniversário do " + esc(niver.join(" e ")) + "!";
     chuvaDe(["🎉","✨","💜","🎈","⭐️","🎊"], 10, true);
   } else {
     $("frase").innerHTML = esc(frase);
