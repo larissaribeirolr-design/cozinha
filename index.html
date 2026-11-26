@@ -24,13 +24,13 @@
   .col-dir { -webkit-flex: 1; flex: 1; }
 
   /* relógio */
-  .hora { font-size: 124px; font-weight: 200; letter-spacing: -3px; line-height: 1; }
+  .hora { font-size: 112px; font-weight: 200; letter-spacing: -3px; line-height: 1; }
   .hora .seg { font-size: 38px; color: #8d7f72; letter-spacing: 0; margin-left: 6px; }
   .data { font-size: 26px; font-weight: 300; margin-top: 6px; color: #e3a96b; }
   .oi { font-size: 19px; color: #b9aea3; margin-top: 6px; }
 
   /* clima */
-  .clima { margin-top: 20px; }
+  .clima { margin-top: 16px; }
   .clima-agora { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
   .clima-icone { font-size: 58px; margin-right: 14px; display: inline-block; -webkit-animation: flutua 4s ease-in-out infinite; }
   .clima-temp { font-size: 64px; font-weight: 200; margin-right: 16px; }
@@ -50,13 +50,29 @@
   .titulo { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #8d7f72; margin-bottom: 8px; }
 
   /* gracinha do dia */
-  .alegria { margin-top: 16px; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center;
+  .alegria { margin-top: 14px; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center;
              border: 2px solid #3a2f29; }
   .mascote { font-size: 58px; margin-right: 14px; display: inline-block; -webkit-animation: pula 2.6s ease-in-out infinite; }
   .frase { font-size: 19px; line-height: 1.35; }
   .frase-sub { font-size: 13px; color: #8d7f72; margin-top: 4px; }
   .niver { background: #3a2230; border-color: #b45b8c; }
   .niver .mascote { -webkit-animation: festa 1.2s ease-in-out infinite; }
+
+  /* surpresinha */
+  .surpresa { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center;
+              background: #2a2030; border: 2px dashed #8a5fb0; }
+  .presente { font-size: 46px; margin-right: 14px; display: inline-block; -webkit-animation: chacoalha 3.5s ease-in-out infinite; }
+  .surpresa.aberta { border-style: solid; }
+  .surpresa.aberta .presente { -webkit-animation: none; }
+  .s-tipo { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #c9a4ec; margin-bottom: 3px; }
+  .s-txt { font-size: 18px; line-height: 1.3; }
+  .s-resp { font-size: 17px; color: #e3a96b; margin-top: 4px; }
+  .s-dica { font-size: 12px; color: #8d7f72; margin-top: 4px; }
+  body.noite .surpresa { background: #0d0b0a; border-color: #2a2030; }
+  body.noite .presente { -webkit-animation: none; }
+  .neve { position: fixed; top: -30px; font-size: 16px; z-index: 4; pointer-events: none; opacity: .55;
+          -webkit-animation: cai 16s linear infinite; }
+  body.sextou .mascote { -webkit-animation: festa .9s ease-in-out infinite; }
 
   /* avisos */
   .aviso { padding: 7px 0; border-top: 1px solid #2f2723; display: -webkit-flex; display: flex; }
@@ -130,6 +146,8 @@
   @-webkit-keyframes festa { 0%,100% { -webkit-transform: scale(1) rotate(-8deg); } 50% { -webkit-transform: scale(1.15) rotate(8deg); } }
   @-webkit-keyframes bate { 0%,100% { -webkit-transform: scale(1); } 15% { -webkit-transform: scale(1.25); } 30% { -webkit-transform: scale(1); } 45% { -webkit-transform: scale(1.18); } }
   @-webkit-keyframes balanca { 0%,100% { -webkit-transform: rotate(-12deg); } 50% { -webkit-transform: rotate(12deg); } }
+  @-webkit-keyframes chacoalha { 0%,70%,100% { -webkit-transform: rotate(0) scale(1); } 74% { -webkit-transform: rotate(-14deg) scale(1.08); }
+                                78% { -webkit-transform: rotate(12deg) scale(1.08); } 82% { -webkit-transform: rotate(-10deg); } 86% { -webkit-transform: rotate(8deg); } 90% { -webkit-transform: rotate(0); } }
   @-webkit-keyframes pisca { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
   @-webkit-keyframes cai { 0% { -webkit-transform: translateY(0) rotate(0); } 100% { -webkit-transform: translateY(820px) rotate(360deg); } }
 </style>
@@ -159,6 +177,16 @@
       <div>
         <div class="frase" id="frase"></div>
         <div class="frase-sub" id="fraseSub"></div>
+      </div>
+    </div>
+
+    <div class="card surpresa" id="surpresa">
+      <div class="presente" id="presente">🎁</div>
+      <div>
+        <div class="s-tipo" id="sTipo">Surpresinha do dia</div>
+        <div class="s-txt" id="sTxt">Toque pra abrir! 💝</div>
+        <div class="s-resp" id="sResp"></div>
+        <div class="s-dica" id="sDica"></div>
       </div>
     </div>
 
@@ -199,6 +227,7 @@
 </div>
 
 <div id="confetes"></div>
+<div id="neves"></div>
 <div id="apagado"></div>
 <div id="alarme"><div class="a0">⏰</div><div class="a1">O timer acabou!</div><div class="a2">Toque para parar</div></div>
 
@@ -258,6 +287,23 @@ var FRASES = [
   "Seja a energia de um fancam em 4K. 📸",
   "Hoje tem tudo pra ser leve. 🎈"
 ];
+var SURPRESAS = [
+  { tipo: "Quiz K-pop", texto: "Qual é o nome do fandom do ATEEZ?", resposta: "ATINY! ⚓️" },
+  { tipo: "Desafio", texto: "Dance um refrão inteiro enquanto a água do café esquenta. Ninguém tá vendo. 💃", resposta: "" },
+  { tipo: "Ukulele", texto: "Acorde de Dó (C): só o dedo anelar na 3ª casa da corda de baixo (Lá). Fácil, né? 🎶", resposta: "" },
+  { tipo: "Curiosidade", texto: "BTS vem de 'Bangtan Sonyeondan'. Sabe o que significa?", resposta: "Algo como 'escoteiros à prova de balas'. 🛡" },
+  { tipo: "Piada", texto: "O que o pão de queijo disse pro café?", resposta: "'Sem você, meu dia não tem graça.' 🧀☕️" },
+  { tipo: "Receitinha", texto: "Pipoca de panela + canela + um fio de mel no final. Lanche de cinema em casa. 🍿", resposta: "" },
+  { tipo: "Quiz K-pop", texto: "Como se chama o fandom do Stray Kids?", resposta: "STAY! 🐺" },
+  { tipo: "Missão fofa", texto: "Mande uma mensagem carinhosa pra alguém que você não fala faz tempo. 💌", resposta: "" },
+  { tipo: "Curiosidade", texto: "ATEEZ é a abreviação de quê?", resposta: "A TEEnager Z. ⚓️" },
+  { tipo: "Piada", texto: "Por que a geladeira é a mais calma da casa?", resposta: "Porque ela nunca perde a frieza. ❄️" },
+  { tipo: "Desafio", texto: "Beba um copo d'água agora e se dê um 'muito bem!' em voz alta. 💧", resposta: "" },
+  { tipo: "Ukulele", texto: "Desafio de 5 minutos: alternar Dó (C) e Lá menor (Am) no ritmo de uma música do BTS. 🎵", resposta: "" },
+  { tipo: "Receitinha", texto: "Banana amassada + ovo + aveia = panquequinha de frigideira em 5 minutos. 🍳", resposta: "" },
+  { tipo: "Missão fofa", texto: "Escolha a música do dia e deixe tocando enquanto cozinha. 🎧", resposta: "" },
+  { tipo: "Piada", texto: "O que o tomate foi fazer no banco?", resposta: "Tirar extrato. 🍅" }
+];
 var MASCOTES = ["🐸","🐧","🐱","🐶","🐰","🐼","🐹","🐨","🐢","🐙","🐳","🐝","🐞","🐥","🦄","🐷","🐻","🐯","🐵","🐬"];
 
 /* JavaScript ES5 puro (sem let/const/arrow/fetch) para rodar no iOS 9 */
@@ -301,13 +347,16 @@ function relogio() {
   $("data").innerHTML = dia.charAt(0).toUpperCase() + dia.slice(1) + ", " + d.getDate() + " de " + MESES[d.getMonth()];
   var oi = h < 5 ? "Boa madrugada" : h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite";
   var emo = h < 5 ? "🌙" : h < 12 ? "☀️" : h < 18 ? "🌤" : "🌙";
-  $("oi").innerHTML = oi + ", " + CONFIG.nome + "! " + emo;
+  var ds = d.getDay(), extra = "";
+  if (ds === 5) extra = " Sextou! 🎉"; else if (ds === 1 && h < 12) extra = " Bora com tudo nessa segunda! 💪";
+  else if (ds === 0 || ds === 6) extra = " Fim de semana! 🛋";
+  $("oi").innerHTML = oi + ", " + CONFIG.nome + "! " + emo + extra;
 
-  document.body.className = (h >= CONFIG.noiteDe || h < CONFIG.noiteAte) ? "noite" : "";
+  document.body.className = ((h >= CONFIG.noiteDe || h < CONFIG.noiteAte) ? "noite" : "") + (ds === 5 ? " sextou" : "");
   var desligado = (h >= CONFIG.desligaDe && h < CONFIG.desligaAte);
   $("apagado").style.display = (desligado && !timer.rodando && !timer.fim && Date.now() > acordadoAte) ? "block" : "none";
 
-  if (hojeISO(d) !== ultimoDia) { ultimoDia = hojeISO(d); desenharAlegria(); desenharKpop(); }
+  if (hojeISO(d) !== ultimoDia) { ultimoDia = hojeISO(d); desenharAlegria(); desenharKpop(); desenharSurpresa(); desenharEstacao(); }
 }
 
 /* ======== CLIMA ======== */
@@ -367,7 +416,7 @@ function mostrarClima(j) {
 
 /* ======== DADOS DO DIA (dia.json, atualizado pelo Claude toda manhã) ======== */
 var DIA = null;
-function atualizarDia() { pegarJSON("dia.json", function (j) { DIA = j; desenharAlegria(); desenharKpop(); }); }
+function atualizarDia() { pegarJSON("dia.json", function (j) { DIA = j; desenharAlegria(); desenharKpop(); desenharSurpresa(); }); }
 
 /* ======== GRACINHA DO DIA ======== */
 function aniversariantesHoje() {
@@ -413,6 +462,66 @@ function soltarConfete(sim) {
   }
 }
 
+/* ======== SURPRESINHA DO DIA ======== */
+var estadoSurpresa = 0, surpresaAtual = null;
+function desenharSurpresa() {
+  var d = new Date(), s = SURPRESAS[diaDoAno(d) % SURPRESAS.length];
+  if (DIA && DIA.data === hojeISO(d) && DIA.surpresa && DIA.surpresa.texto) s = DIA.surpresa;
+  if (surpresaAtual && surpresaAtual.texto === s.texto) return;
+  surpresaAtual = s; estadoSurpresa = 0;
+  $("surpresa").className = "card surpresa";
+  $("presente").innerHTML = "🎁";
+  $("sTipo").innerHTML = "Surpresinha do dia";
+  $("sTxt").innerHTML = "Toque pra abrir! 💝";
+  $("sResp").innerHTML = ""; $("sDica").innerHTML = "";
+}
+function abrirSurpresa() {
+  var s = surpresaAtual;
+  if (!s) return;
+  if (estadoSurpresa === 0) {
+    estadoSurpresa = 1;
+    $("surpresa").className = "card surpresa aberta";
+    $("presente").innerHTML = "🎉";
+    $("sTipo").innerHTML = esc(s.tipo || "Surpresinha");
+    $("sTxt").innerHTML = esc(s.texto);
+    $("sDica").innerHTML = s.resposta ? "Toque de novo pra ver a resposta" : "";
+    estourarConfete();
+  } else if (estadoSurpresa === 1 && s.resposta) {
+    estadoSurpresa = 2;
+    $("sResp").innerHTML = esc(s.resposta);
+    $("sDica").innerHTML = "";
+  }
+}
+function estourarConfete() {
+  var box = $("confetes"), i, pecas = ["🎉","✨","💜","⭐️","🎊","💛"];
+  if (box.children.length) return;
+  for (i = 0; i < 8; i++) {
+    var c = document.createElement("div");
+    c.className = "confete";
+    c.innerHTML = pecas[i % pecas.length];
+    c.style.left = (4 + i * 12) + "%";
+    c.style.webkitAnimationDelay = (i * 0.25) + "s";
+    c.style.webkitAnimationDuration = "4s";
+    c.style.webkitAnimationIterationCount = "1";
+    box.appendChild(c);
+  }
+  setTimeout(function () { if (!aniversariantesHoje().length) box.innerHTML = ""; }, 7000);
+}
+
+/* ======== ESTAÇÕES ======== */
+function desenharEstacao() {
+  var d = new Date(), box = $("neves"), i;
+  box.innerHTML = "";
+  if (d.getMonth() !== 11) return;  // dezembro: neve de mentirinha ❄️
+  for (i = 0; i < 6; i++) {
+    var n = document.createElement("div");
+    n.className = "neve"; n.innerHTML = "❄️";
+    n.style.left = (8 + i * 16) + "%";
+    n.style.webkitAnimationDelay = (i * 2.6) + "s";
+    box.appendChild(n);
+  }
+}
+
 /* ======== K-POP ======== */
 function quandoFalta(dias) { return dias === 0 ? "hoje!" : dias === 1 ? "amanhã" : "em " + dias + " dias"; }
 function desenharKpop() {
@@ -426,6 +535,7 @@ function desenharKpop() {
   }
   for (i = 0; i < ANIVERSARIOS.length; i++) addFixo(ANIVERSARIOS[i][0], "Aniversário do " + ANIVERSARIOS[i][1] + " 🎂", ANIVERSARIOS[i][2]);
   for (i = 0; i < DEBUTS.length; i++) addFixo(DEBUTS[i][0], "Aniversário de debut do " + DEBUTS[i][1] + " 🎉", DEBUTS[i][2]);
+  addFixo("12-25", "Natal! 🎄", ""); addFixo("01-01", "Ano-Novo! 🎆", "");
   // eventos enviados pelo Claude (comebacks, shows, lançamentos)
   var evs = (DIA && DIA.eventos) || [];
   for (i = 0; i < evs.length; i++) {
@@ -597,6 +707,7 @@ toque($("btnLimpar"), function () {
   lista = nova; salvarLista(); desenharLista();
 });
 toque($("alarme"), pararAlarme);
+toque($("surpresa"), abrirSurpresa);
 toque($("apagado"), function () { acordadoAte = Date.now() + 60000; relogio(); });
 toque($("mascote"), function () {
   // toque no bichinho = ele dá um pulinho extra
