@@ -111,18 +111,23 @@
   .pill .pl { display: inline-block; font-size: 14px; font-weight: 600; vertical-align: middle; }
   .pill.escura { background: #0f1424; color: #fff; }
 
-  /* ===== timer ===== */
-  .timer { -webkit-flex: .68; flex: .68; background: #aab0bd; color: #fff; }
-  .bola { width: 112px; height: 112px; border-radius: 56px; margin: 16px auto 0; text-align: center; line-height: 112px;
+  /* ===== pomodoro ===== */
+  .timer { -webkit-flex: .68; flex: .68; background: #d8675c; color: #fff; -webkit-transition: background .6s ease; }
+  .timer.pausa { background: #6fa58a; }
+  .timer.longa { background: #6b8fc4; }
+  .pontos { margin-top: 5px; }
+  .pt { display: inline-block; width: 9px; height: 9px; border-radius: 5px; background: rgba(255,255,255,.35); margin-right: 5px; }
+  .pt.ok { background: #fff; }
+  .bola { width: 112px; height: 112px; border-radius: 56px; margin: 10px auto 0; text-align: center; line-height: 112px;
           font-size: 28px; font-weight: 600; color: #121520; letter-spacing: -.5px;
           background: #fbfaf7; background: -webkit-radial-gradient(40% 35%, circle, #ffffff 0%, #f4f1ea 60%, #dcd8d0 100%);
-          box-shadow: 0 0 30px rgba(255,255,255,.6); }
-  .timer.rodando .bola { color: #e5484d; }
+          box-shadow: 0 0 30px rgba(255,255,255,.45); }
+  .timer.parado .bola { color: #8a8d96; }
   .timer.fim .bola { -webkit-animation: pulsa .6s ease-in-out infinite; }
   .ctrl { position: absolute; left: 12px; right: 12px; bottom: 14px; background: #fff; border-radius: 26px; padding: 4px; color: #121520; }
-  .cb { -webkit-flex: 1; flex: 1; text-align: center; font-size: 13px; font-weight: 600; padding: 10px 0; border-radius: 20px; }
+  .cb { -webkit-flex: 1; flex: 1; text-align: center; font-size: 15px; font-weight: 600; padding: 10px 0; border-radius: 20px; }
   .cb:active { background: #eee; }
-  .cb.play { background: #0f1424; color: #fff; -webkit-flex: 1.1; flex: 1.1; }
+  .cb.play { background: #0f1424; color: #fff; -webkit-flex: 1.3; flex: 1.3; }
 
   /* ===== clima ===== */
   .clima { -webkit-flex: .92; flex: .92; }
@@ -212,11 +217,13 @@
     </div>
 
     <div class="card timer gap branco" id="timer">
-      <div class="t1">Timer</div><div class="t2">Da cozinha</div>
-      <div class="bola" id="tTempo">00:00</div>
+      <div class="flex centro"><div class="t1 cresce">Pomodoro</div><div class="t2" id="tFase">Foco</div></div>
+      <div class="pontos" id="tPontos"></div>
+      <div class="bola" id="tTempo">25:00</div>
       <div class="ctrl flex">
-        <div class="cb" data-a="1">+1</div><div class="cb" data-a="5">+5</div><div class="cb" data-a="10">+10</div>
-        <div class="cb play" id="tPlay" data-a="play">▶︎</div><div class="cb" data-a="zero">✕</div>
+        <div class="cb" data-a="zero">↺</div>
+        <div class="cb play" id="tPlay" data-a="play">▶︎</div>
+        <div class="cb" data-a="pular">⏭</div>
       </div>
     </div>
 
@@ -239,7 +246,7 @@
 <div id="neves"></div>
 <div id="noite"></div>
 <div id="apagado"></div>
-<div id="alarme"><div class="a0">⏰</div><div class="a1">O timer acabou!</div><div class="a2">Toque para parar</div></div>
+<div id="alarme"><div class="a0" id="alE">🍅</div><div class="a1" id="alT">Hora da pausa!</div><div class="a2" id="alS">Toque para começar</div></div>
 
 <script>
 /* ======== CONFIGURAÇÃO ======== */
@@ -667,30 +674,48 @@ function bip() {
   }
 }
 
-/* ======== TIMER ======== */
-var timer = { resta: 0, rodando: false, alvo: 0, fim: false };
+/* ======== POMODORO ======== */
+var FASES = {
+  foco:  { min: 25, nome: "Foco" },
+  pausa: { min: 5,  nome: "Pausa curta" },
+  longa: { min: 15, nome: "Pausa longa" }
+};
+var timer = { fase: "foco", feitos: 0, resta: 25 * 60000, rodando: false, alvo: 0, fim: false };
+function proximaFase() {
+  if (timer.fase === "foco") { timer.feitos++; timer.fase = timer.feitos % 4 === 0 ? "longa" : "pausa"; }
+  else { if (timer.fase === "longa") timer.feitos = 0; timer.fase = "foco"; }
+  timer.resta = FASES[timer.fase].min * 60000; timer.rodando = false;
+}
 function acaoTimer(a) {
   if (a === "play") {
     if (timer.rodando) { timer.resta = Math.max(0, timer.alvo - Date.now()); timer.rodando = false; }
-    else if (timer.resta > 0) { timer.alvo = Date.now() + timer.resta; timer.rodando = true; }
+    else { timer.alvo = Date.now() + timer.resta; timer.rodando = true; }
+  } else if (a === "pular") {
+    proximaFase();
   } else if (a === "zero") {
-    timer.rodando = false; timer.resta = 0; timer.fim = false;
-  } else {
-    var mais = parseInt(a, 10) * 60000;
-    if (timer.rodando) timer.alvo += mais; else timer.resta += mais;
+    timer.fase = "foco"; timer.feitos = 0; timer.resta = FASES.foco.min * 60000; timer.rodando = false; timer.fim = false;
   }
   desenharTimer();
 }
 function desenharTimer() {
   var ms = timer.rodando ? Math.max(0, timer.alvo - Date.now()) : timer.resta;
-  var s = Math.ceil(ms / 1000), m = Math.floor(s / 60);
-  $("tTempo").innerHTML = m >= 60 ? Math.floor(m / 60) + ":" + dois(m % 60) + ":" + dois(s % 60) : dois(m) + ":" + dois(s % 60);
-  $("timer").className = "card timer gap branco" + (timer.rodando ? " rodando" : "") + (timer.fim ? " fim" : "");
+  var s = Math.ceil(ms / 1000), m = Math.floor(s / 60), i, html = "";
+  $("tTempo").innerHTML = dois(m) + ":" + dois(s % 60);
+  $("tFase").innerHTML = FASES[timer.fase].nome;
+  for (i = 0; i < 4; i++) html += '<span class="pt' + (i < timer.feitos ? " ok" : "") + '"></span>';
+  $("tPontos").innerHTML = html;
+  $("timer").className = "card timer gap branco " + timer.fase + (timer.rodando ? "" : " parado") + (timer.fim ? " fim" : "");
   $("tPlay").innerHTML = timer.rodando ? "❚❚" : "▶︎";
 }
 function tickTimer() {
   if (timer.rodando && Date.now() >= timer.alvo) {
-    timer.rodando = false; timer.resta = 0; timer.fim = true;
+    var era = timer.fase;
+    proximaFase(); timer.fim = true;
+    if (era === "foco") {
+      $("alE").innerHTML = timer.fase === "longa" ? "🛋" : "☕️";
+      $("alT").innerHTML = timer.fase === "longa" ? "Mandou bem! Pausa longa" : "Hora da pausa!";
+    } else { $("alE").innerHTML = "🍅"; $("alT").innerHTML = "Bora focar de novo!"; }
+    $("alS").innerHTML = timer.fase === "foco" ? "Toque pra começar mais 25 minutinhos" : "Toque pra começar a " + FASES[timer.fase].nome.toLowerCase();
     $("alarme").style.display = "block";
     bip(); if (!bipando) bipando = setInterval(bip, 1400);
   }
@@ -699,7 +724,8 @@ function tickTimer() {
 function pararAlarme() {
   $("alarme").style.display = "none";
   if (bipando) { clearInterval(bipando); bipando = null; }
-  timer.fim = false; desenharTimer();
+  timer.fim = false; timer.alvo = Date.now() + timer.resta; timer.rodando = true;
+  desenharTimer();
 }
 
 /* ======== INÍCIO ======== */
@@ -717,6 +743,7 @@ toque($("btnLimpar"), function () {
 });
 toque($("dado"), sortear);
 toque($("hero"), proximaFoto);
+toque($("tTempo"), function () { liberarSom(); acaoTimer("play"); });
 toque($("alarme"), pararAlarme);
 toque($("apagado"), function () { acordadoAte = Date.now() + 60000; relogio(); });
 document.addEventListener("touchstart", liberarSom, false);
