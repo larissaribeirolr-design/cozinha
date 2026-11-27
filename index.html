@@ -50,9 +50,16 @@
   .h-hora { font-size: 116px; font-weight: 200; font-family: "AvenirNext-UltraLight", "Avenir Next", "Helvetica Neue", sans-serif; letter-spacing: -3px; line-height: .95; }
   .h-oi { font-size: 22px; font-weight: 500; margin-top: 6px; }
   .hero-txt { bottom: 18px; }
-  .h-dica { display: inline-block; margin-top: 8px; font-size: 16px; font-weight: 600; color: #121520; text-shadow: none;
-            background: rgba(255,255,255,.85); border-radius: 18px; padding: 6px 14px; }
+  .h-dica { margin-top: 10px; white-space: normal; text-shadow: none; }
   .h-dica:empty { display: none; }
+  .dp { display: inline-block; white-space: nowrap; background: rgba(255,255,255,.9); color: #121520; border-radius: 22px;
+        padding: 4px 14px 4px 4px; margin: 0 8px 6px 0; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
+  .dp .de { display: inline-block; width: 30px; height: 30px; border-radius: 15px; background: #efeff2; text-align: center;
+            line-height: 30px; font-size: 16px; margin-right: 8px; vertical-align: middle; }
+  .dp .dt { display: inline-block; font-size: 15px; font-weight: 600; vertical-align: middle; letter-spacing: -.1px; }
+  .dp.chuva .de { background: #dfe9fb; }
+  .dp.frio .de { background: #efe4f7; }
+  .dp.calor .de { background: #fdeccd; }
 
   /* ===== frase do dia ===== */
   .esq-baixo { -webkit-flex: 1.75; flex: 1.75; min-width: 0; }
@@ -386,7 +393,7 @@ function mostrarClima(j) {
   $("chChuva").innerHTML = (chuva >= 40 ? "☔️ " : "💧 ") + chuva + "%";
   $("chMax").innerHTML = "▲" + max + "° ▼" + min + "°";
   $("arco").setAttribute("stroke-dasharray", Math.round(440 * chuva / 100) + " 440");
-  $("dica").innerHTML = dicaDoTempo(j, temp);
+  CLIMA = j; desenharDica();
 
   var agora = new Date(), html = '<div class="hx agora">Agora<b>' + temp + "°</b></div>", n = 0, hr = j.hourly, i;
   for (i = 0; i < hr.time.length && n < 3; i++) {
@@ -399,10 +406,18 @@ function mostrarClima(j) {
   $("horas").innerHTML = html;
 }
 
-function dicaDoTempo(j, tempAgora) {
-  var agora = new Date(), h = agora.getHours(), hr = j.hourly, dd = j.daily, i;
-  var hojeS = hojeISO(agora), amanha = new Date(agora.getTime() + 86400000), amanhaS = hojeISO(amanha);
-  var chuvaResto = 0, minNoite = 99, maxResto = -99, dicas = [];
+var CLIMA = null;
+function chovendo(cod) { return (cod >= 51 && cod <= 67) || (cod >= 80 && cod <= 82) || cod >= 95; }
+function desenharDica() {
+  if (!CLIMA) return;
+  var lista = dicasDoTempo(CLIMA, Math.round(CLIMA.current.temperature_2m)), html = "", i;
+  for (i = 0; i < lista.length; i++)
+    html += '<div class="dp ' + lista[i][2] + '"><span class="de">' + lista[i][0] + '</span><span class="dt">' + esc(lista[i][1]) + "</span></div>";
+  $("dica").innerHTML = html;
+}
+function dicasDoTempo(j, tempAgora) {
+  var agora = new Date(), h = agora.getHours(), hr = j.hourly, dd = j.daily, i, cod = j.current.weather_code;
+  var hojeS = hojeISO(agora), chuvaResto = 0, minNoite = 99, maxResto = -99, d = [];
   for (i = 0; i < hr.time.length; i++) {
     var p = hr.time[i].split("T"), hh = +p[1].split(":")[0];
     if (p[0] !== hojeS || hh <= h) continue;
@@ -411,21 +426,23 @@ function dicaDoTempo(j, tempAgora) {
     if (hh >= 18) minNoite = Math.min(minNoite, hr.temperature_2m[i]);
   }
   if (h < 18) {
-    if (chuvaResto >= 60) dicas.push("Vai chover, hein! Leva o guarda-chuva ☔️");
-    else if (chuvaResto >= 35) dicas.push("Pode pingar mais tarde, fica de olho 🌂");
-    if (minNoite < 99 && (tempAgora - minNoite >= 5 || minNoite <= 17)) dicas.push("Vai esfriar à noite, leva uma blusinha 👚");
-    else if (maxResto >= 30) dicas.push("Calorão vindo aí, bebe água 💧");
-    if (!dicas.length && tempAgora <= 15) dicas.push("Friozinho! Casaquinho e café quente ☕️");
-    if (!dicas.length && j.current.weather_code <= 1) dicas.push("Dia lindo, aproveita um solzinho 😎");
+    if (chovendo(cod)) d.push(["☔️", "Tá chovendo, leva o guarda-chuva", "chuva"]);
+    else if (chuvaResto >= 60) d.push(["☔️", "Chuva mais tarde, leva o guarda-chuva", "chuva"]);
+    else if (chuvaResto >= 35) d.push(["🌂", "Pode pingar mais tarde", "chuva"]);
+    if (minNoite < 99 && (tempAgora - minNoite >= 5 || minNoite <= 17)) d.push(["👚", "Esfria à noite, leva uma blusinha", "frio"]);
+    else if (maxResto >= 30) d.push(["💧", "Calorão, bebe bastante água", "calor"]);
+    if (!d.length && tempAgora <= 15) d.push(["☕️", "Friozinho: casaquinho e café", "frio"]);
+    if (!d.length && cod <= 1) d.push(["😎", "Dia lindo, aproveita o solzinho", "calor"]);
   } else {
+    if (chovendo(cod)) d.push(["☔️", "Chovendo lá fora, noite de cobertinha", "chuva"]);
     if (dd.time && dd.time.length > 1) {
-      if ((dd.precipitation_probability_max[1] || 0) >= 60) dicas.push("Amanhã vai chover, separa o guarda-chuva ☔️");
-      if (dd.temperature_2m_min[1] <= 15) dicas.push("Amanhã cedo vai estar friozinho, separa uma blusinha 👚");
-      else if (dd.temperature_2m_max[1] >= 31) dicas.push("Amanhã vai ser calorão 🍦");
+      if ((dd.precipitation_probability_max[1] || 0) >= 60) d.push(["☔️", "Amanhã chove, separa o guarda-chuva", "chuva"]);
+      if (dd.temperature_2m_min[1] <= 15) d.push(["👚", "Amanhã cedo faz frio, separa a blusinha", "frio"]);
+      else if (dd.temperature_2m_max[1] >= 31) d.push(["🍦", "Amanhã vai ser calorão", "calor"]);
     }
-    if (!dicas.length && tempAgora <= 17) dicas.push("Noite fresquinha, bom pra um chá ☕️");
+    if (!d.length && tempAgora <= 17) d.push(["🍵", "Noite fresquinha, pede um chá", "frio"]);
   }
-  return dicas.slice(0, 2).join(" · ");
+  return d.slice(0, 2);
 }
 
 /* ======== FRASE DO DIA, FESTAS E ESTAÇÃO ======== */
@@ -710,7 +727,7 @@ setInterval(tickTimer, 250);
 setInterval(function () { if (FOTOS.length > 1 && Date.now() - ultimaTroca > CONFIG.trocaFoto * 1000) proximaFoto(); }, 5000);
 setInterval(function () { if (listaAberta && document.activeElement !== $("novoItem")) { listaAberta = false; desenharBotaoLista(); } }, 180000);
 atualizarFotos(); setInterval(atualizarFotos, 60 * 60 * 1000);
-atualizarClima(); setInterval(atualizarClima, 15 * 60 * 1000);
+atualizarClima(); setInterval(atualizarClima, 15 * 60 * 1000); setInterval(desenharDica, 60 * 1000);
 atualizarDia(); setInterval(atualizarDia, 30 * 60 * 1000);
 atualizarTarefas(); setInterval(atualizarTarefas, 30 * 60 * 1000);
 atualizarAvisos(); setInterval(atualizarAvisos, 5 * 60 * 1000);
